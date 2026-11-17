@@ -128,14 +128,14 @@ function exIndia(){ return {business:"GreenBowl (healthy lunch bowls delivered t
   behs:[{name:"Daily orderer",how:"Orders lunch on an app most workdays.",share:25},{name:"Health-first",how:"Counts protein, avoids oily food.",share:20},{name:"Deal hunter",how:"Waits for coupons and app offers.",share:20},{name:"Reads every review",how:"Checks ratings before trying a new place.",share:15},{name:"Home food loyalist",how:"Prefers home food; orders only when stuck.",share:20}],
   objections:"₹249 is more than my usual lunch\nWill it reach my office on time?\nHealthy food usually tastes bland\nPortion might be too small\nI already get a canteen lunch",
   habits:"you work in an office in Baner or Hinjewadi\nyou have back-to-back meetings at lunch time\nyou go to the gym in the evening",
-  dims:[{name:"diet",values:"vegetarian 40, eats non-veg 60"},{name:"lunch today",values:"orders on Swiggy/Zomato 50, brings food from home 30, office canteen 20"}],biases:BIASES.slice(),facts:[],reviews:[]}; }
+  dims:[{name:"diet",values:"vegetarian 40, eats non-veg 60"},{name:"office area",values:"Baner 35, Hinjewadi 40, Kharadi 25"}],biases:BIASES.slice(),facts:[],reviews:[]}; }
 
 function exWorld(){ return {business:"FocusFlow (a $8/month focus and study app)",target:"Students and knowledge workers, 18 to 45, who struggle to focus on a laptop",price:8,pcur:"$",
   pitch:"FocusFlow: an app that blocks distracting sites and apps on your laptop and phone while you work or study.\nTimed focus sessions, a weekly report of where your time went, and study rooms with friends.\n$8 a month or $60 a year. 7-day free trial. Cancel any time in two clicks.\nWorks on Windows, Mac, Android and iPhone.",
-  markets:[{name:"India",region:"IN",count:40,where:"Indian metro cities",languages:"English 60, Hinglish 40",segments:[{name:"Student",share:50,lo:0,hi:300000,alo:18,ahi:25},{name:"Young professional",share:50,lo:500000,hi:2000000,alo:23,ahi:45}]},
-    {name:"USA",region:"US",count:30,where:"the United States",languages:"",segments:[{name:"Student",share:40,lo:0,hi:25000,alo:18,ahi:25},{name:"Young professional",share:60,lo:50000,hi:140000,alo:23,ahi:45}]},
-    {name:"Europe",region:"EU",count:20,where:"Germany, France or Spain",languages:"English 40, German 30, Spanish 30",segments:[{name:"Student",share:40,lo:0,hi:15000,alo:18,ahi:25},{name:"Young professional",share:60,lo:35000,hi:90000,alo:23,ahi:45}]},
-    {name:"China",region:"CN",count:10,where:"a tier-1 Chinese city",languages:"Mandarin Chinese 100",segments:[{name:"Student",share:50,lo:0,hi:30000,alo:18,ahi:25},{name:"Young professional",share:50,lo:90000,hi:300000,alo:23,ahi:45}]}],
+  markets:[{name:"India",region:"IN",count:40,where:"Indian metro cities",languages:"English 60, Hinglish 40",segments:[{name:"Student",share:50,lo:60000,hi:300000,alo:18,ahi:25},{name:"Young professional",share:50,lo:500000,hi:2000000,alo:23,ahi:45}]},
+    {name:"USA",region:"US",count:30,where:"the United States",languages:"",segments:[{name:"Student",share:40,lo:6000,hi:25000,alo:18,ahi:25},{name:"Young professional",share:60,lo:50000,hi:140000,alo:23,ahi:45}]},
+    {name:"Europe",region:"EU",count:20,where:"Germany, France or Spain",languages:"English 30, German 25, French 25, Spanish 20",segments:[{name:"Student",share:40,lo:4000,hi:15000,alo:18,ahi:25},{name:"Young professional",share:60,lo:35000,hi:90000,alo:23,ahi:45}]},
+    {name:"China",region:"CN",count:10,where:"a tier-1 Chinese city",languages:"Mandarin Chinese 100",segments:[{name:"Student",share:50,lo:6000,hi:30000,alo:18,ahi:25},{name:"Young professional",share:50,lo:90000,hi:300000,alo:23,ahi:45}]}],
   genders:[{name:"female",share:50},{name:"male",share:48},{name:"non-binary",share:2}],ages:[{name:"18-24",lo:18,hi:24,share:45},{name:"25-34",lo:25,hi:34,share:40},{name:"35-45",lo:35,hi:45,share:15}],
   behs:[{name:"Free-tier forever",how:"Uses free apps and almost never pays for software.",share:30},{name:"Tries everything",how:"Downloads new apps often, cancels fast.",share:20},{name:"Reads every review",how:"Compares apps on reviews and YouTube first.",share:20},{name:"Pays for tools",how:"Already pays for apps that save time.",share:30}],
   objections:"$8 a month adds up\nFree apps do the same thing\nI will stop using it after a week\nAnother subscription to remember to cancel",
@@ -173,12 +173,20 @@ function build(){
   return c;
 }
 
+function blockers(){
+  const b = [];
+  if (!S.pitch.trim()) b.push("Write the pitch (step 1).");
+  if (S.objections.split("\n").filter(x => x.trim()).length < 3) b.push("Add at least 3 doubts (step 6).");
+  const names = S.markets.map(m => (m.name||"").trim().toLowerCase()).filter(Boolean);
+  if (new Set(names).size !== names.length) b.push("Two markets have the same name. Give each its own name.");
+  S.markets.forEach(m => m.segments.forEach(s => { if (s.name && (s.lo === "" || s.hi === "")) b.push(`${m.name}: set an income range for "${s.name}" (0 to 0 is fine for no income).`); }));
+  return [...new Set(b)];
+}
 function warnings(c){
   const w = [], sum = l => Math.round(l.reduce((a,b) => a + (+b.share||0), 0));
-  if (!S.pitch.trim()) w.push("Write the pitch (step 1).");
-  if (c.objections.length < 3) w.push("Add at least 3 doubts (step 6).");
+
   S.markets.forEach(m => { if (sum(m.segments) !== 100 && m.segments.length) w.push(`${m.name || "A market"}: segment shares add to ${sum(m.segments)}%, not 100% (they will be scaled).`);
-    m.segments.forEach(s => { if (s.name && (s.lo === "" || s.hi === "")) w.push(`${m.name}: set an income range for "${s.name}".`); }); });
+  });
   [...S.facts, ...S.reviews].forEach(x => { if (x.text && !/^https?:\/\//.test(x.source||"")) w.push("A fact or review has no source link."); });
   return [...new Set(w)];
 }
@@ -215,7 +223,9 @@ function refresh(){
   $("mkSummary").innerHTML = S.markets.filter(m => m.name).map(m => `<span class="pill" style="margin:2px">${esc(REGIONS[m.region][0].split(" ")[0])} ${esc(m.name)}: ${esc(m.count)}</span>`).join("");
   const sum = l => Math.round(l.reduce((a,b) => a + (+b.share||0), 0));
   [["gSum",S.genders],["aSum",S.ages],["bSum",S.behs]].forEach(([id,l]) => { const t = sum(l); $(id).textContent = "total " + t + "%"; $(id).className = "pill " + (t === 100 || !l.length ? "ok" : "bad"); });
-  const w = warnings(c); $("warns").innerHTML = w.map(x => "⚠️ " + esc(x)).join("<br>");
+  const bl = blockers(), w = warnings(c);
+  $("warns").innerHTML = bl.map(x => "⛔ " + esc(x)).concat(w.map(x => "⚠️ " + esc(x))).join("<br>");
+  ["dlCustomer","dlPitch","copy"].forEach(id => { $(id).disabled = bl.length > 0; $(id).style.opacity = bl.length ? .45 : 1; $(id).title = bl.length ? "Fix the red items first" : ""; });
   $("out").textContent = JSON.stringify(c, null, 2);
   try { localStorage.setItem("founderPanel", JSON.stringify(S)); } catch (e) {}
 }
@@ -227,7 +237,7 @@ document.addEventListener("change", e => { const p = e.target.dataset.p; if (p &
 document.addEventListener("click", e => { const t = e.target;
   if (t.dataset.del) { delPath(t.dataset.del); rowsHTML(); }
   if (t.dataset.addseg) { S.markets[+t.dataset.addseg].segments.push({name:"",share:0,lo:"",hi:"",alo:"",ahi:""}); rowsHTML(); } });
-const adders = {addMarket:() => S.markets.push({name:"New market",region:"US",count:20,where:"",languages:"",segments:[{name:"Everyone",share:100,lo:"",hi:""}]}),
+const adders = {addMarket:() => S.markets.push({name:"New market " + (S.markets.length + 1),region:"US",count:20,where:"",languages:"",segments:[{name:"Everyone",share:100,lo:"",hi:"",alo:"",ahi:""}]}),
   addGender:() => S.genders.push({name:"",share:0}), addAge:() => S.ages.push({name:"",lo:18,hi:30,share:0}), addBeh:() => S.behs.push({name:"",how:"",share:0}),
   addDim:() => S.dims.push({name:"",values:""}), addFact:() => S.facts.push({text:"",source:""}), addRev:() => S.reviews.push({about:"",stars:"",text:"",source:""}),
   allAges:() => S.ages = [{name:"18-24",lo:18,hi:24,share:15},{name:"25-34",lo:25,hi:34,share:22},{name:"35-44",lo:35,hi:44,share:20},{name:"45-54",lo:45,hi:54,share:17},{name:"55-64",lo:55,hi:64,share:15},{name:"65-75",lo:65,hi:75,share:11}]};

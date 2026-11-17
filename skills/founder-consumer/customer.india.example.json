@@ -108,19 +108,19 @@
       ]
     },
     {
-      "name": "lunch today",
+      "name": "office area",
       "values": [
         {
-          "name": "orders on Swiggy/Zomato",
-          "share": 0.5
+          "name": "Baner",
+          "share": 0.35
         },
         {
-          "name": "brings food from home",
-          "share": 0.3
+          "name": "Hinjewadi",
+          "share": 0.4
         },
         {
-          "name": "office canteen",
-          "share": 0.2
+          "name": "Kharadi",
+          "share": 0.25
         }
       ]
     }

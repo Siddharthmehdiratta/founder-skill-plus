@@ -579,3 +579,69 @@ class SizeWithCounts(unittest.TestCase):
             self.assertEqual(len(cards), want)
             india = sum(1 for c in cards if c["market"] == "India")
             self.assertAlmostEqual(india / float(want), 0.4, delta=0.05)
+
+
+class ReviewFixes2(unittest.TestCase):
+    """Second pre-publish review: each finding pinned by a test."""
+    def world(self):
+        with open(example("founder-consumer", "customer.world.example.json"), encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_price_formats(self):
+        for txt, want in (("Rs. 199", 199.0), ("1.299,00 \u20ac", 1299.0), ("\u20b92,50,000", 250000.0),
+                          ("$9.99/mo", 9.99), ("6,50", 6.5), ("1,299", 1299.0), ("1.299.000", 1299000.0), ("abc", None)):
+            self.assertEqual(panel._price_num(txt), want, txt)
+
+    def test_only_works_inside_markets(self):
+        c = panel.pick_segments(self.world(), "student")
+        cards = panel.deal(c, seed=1)
+        self.assertEqual({x["segment"] for x in cards}, {"Student"})
+        self.assertEqual(len(cards), 100)
+        with self.assertRaises(panel.PanelError):
+            panel.pick_segments(self.world(), "Astronaut")
+
+    def test_duplicate_market_names_are_refused(self):
+        c = self.world()
+        c["markets"][1]["name"] = "india"
+        with self.assertRaises(panel.PanelError):
+            panel.deal(c)
+
+    def test_market_count_wins_over_segment_counts(self):
+        c = self.world()
+        for m in c["markets"]:
+            for sg in m["segments"]:
+                sg.pop("share", None)
+                sg["count"] = 5
+        cards = panel.deal(c, seed=1)
+        self.assertEqual(sum(1 for x in cards if x["market"] == "India"), 40)
+
+    def test_money_is_in_the_price_currency(self):
+        c = dict(customer(), region="IN", price=249, price_currency="\u20b9")
+        d = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, d)
+        cp = os.path.join(d, "c.json")
+        with open(cp, "w", encoding="utf-8") as fh:
+            json.dump(dict(c, markets=[{"name": "Pune", "region": "IN", "count": 4}, {"name": "NYC", "region": "US", "count": 2}]), fh)
+        panel.init(d, cp, example("founder-consumer", "pitch.example.md"), seed=1)
+        for x in panel.load_state(d)[1]:
+            with open(os.path.join(d, "answers", x["id"] + ".json"), "w") as fh:
+                json.dump({"id": x["id"], "intent": 5, "buys": True, "reason_code": "need", "reason": "y", "purchases_first_month": 1}, fh)
+        res = panel.tally(d)
+        md = panel.results_md(res)
+        self.assertIn("at \u20b9249", md)
+        self.assertNotIn("at $249", md)
+
+    def test_no_income_reads_naturally(self):
+        c = customer()
+        c["segments"] = [{"name": "Student", "count": 2, "income": [0, 0]}]
+        d = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, d)
+        cp = os.path.join(d, "c.json")
+        with open(cp, "w") as fh:
+            json.dump(c, fh)
+        panel.init(d, cp, example("founder-consumer", "pitch.example.md"), seed=1)
+        panel.write_briefs(d)
+        with open(os.path.join(d, "briefs", "P001.md"), encoding="utf-8") as fh:
+            b = fh.read()
+        self.assertIn("no income of your own", b)
+        self.assertNotIn("$0 a year", b)

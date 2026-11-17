@@ -25,7 +25,7 @@
           "name": "Student",
           "share": 0.5,
           "income": [
-            0,
+            60000,
             300000
           ],
           "age": [
@@ -57,7 +57,7 @@
           "name": "Student",
           "share": 0.4,
           "income": [
-            0,
+            6000,
             25000
           ],
           "age": [
@@ -87,15 +87,19 @@
       "languages": [
         {
           "name": "English",
-          "share": 0.4
+          "share": 0.3
         },
         {
           "name": "German",
-          "share": 0.3
+          "share": 0.25
+        },
+        {
+          "name": "French",
+          "share": 0.25
         },
         {
           "name": "Spanish",
-          "share": 0.3
+          "share": 0.2
         }
       ],
       "segments": [
@@ -103,7 +107,7 @@
           "name": "Student",
           "share": 0.4,
           "income": [
-            0,
+            4000,
             15000
           ],
           "age": [
@@ -136,7 +140,7 @@
           "name": "Student",
           "share": 0.5,
           "income": [
-            0,
+            6000,
             30000
           ],
           "age": [

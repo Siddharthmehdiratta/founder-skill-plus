@@ -279,6 +279,10 @@ def validate_customer(c):
         if not isinstance(mk, dict) or "name" not in mk:
             raise PanelError("every market needs a name (and a region, and a share or count)")
     if c.get("markets"):
+        names = [mk["name"].strip().lower() for mk in c["markets"]]
+        dup = sorted({x for x in names if names.count(x) > 1})
+        if dup:
+            raise PanelError("two markets are both called %s: give every market its own name" % ", ".join(map(repr, dup)))
         has = [("count" in mk) for mk in c["markets"]]
         if any(has) and not all(has):
             raise PanelError("give every market a 'count', or none of them (then 'share' is used)")
@@ -308,20 +312,37 @@ SIZES = {"small": 20, "medium": 100, "large": 250}
 
 
 def pick_segments(customer, only):
-    """Keep only the named segments (categories), e.g. only="Category A,Category B". Case-insensitive."""
+    """Keep only the named segments (categories), e.g. only="Category A,Category B". Case-insensitive, and
+    "Category A" matches "Category A: HNI buyers". With markets, it applies inside every market."""
     if not only:
         return customer
     want = [x.strip().lower() for x in only.split(",") if x.strip()]
+
     def matches(w, seg):
         name = seg["name"].lower()
-        return name == w or name.split(":")[0].strip() == w  # "Category A" matches "Category A: HNI buyers"
+        return name == w or name.split(":")[0].strip() == w
 
-    picked, missing = [], []
-    for w in want:
-        hits = [seg for seg in customer["segments"] if matches(w, seg)]
-        if not hits:
-            missing.append(w)
-        picked += [h for h in hits if h not in picked]
+    def pick(segs):
+        return [sg for sg in segs if any(matches(w, sg) for w in want)]
+
+    if customer.get("markets"):
+        c = json.loads(json.dumps(customer))
+        found, kept = set(), []
+        for mk in c["markets"]:
+            segs = mk.get("segments") or c.get("segments") or []
+            got = pick(segs)
+            found |= {w for w in want for sg in got if matches(w, sg)}
+            if got:
+                mk["segments"] = got
+                kept.append(mk)
+        missing = [w for w in want if w not in found]
+        if missing or not kept:
+            names = sorted({sg["name"] for mk in customer["markets"] for sg in (mk.get("segments") or customer.get("segments") or [])})
+            raise PanelError("no segment called %s in any market. Segments: %s" % (", ".join(repr(m) for m in missing or want), ", ".join(names)))
+        c["markets"] = kept
+        return c
+    picked = pick(customer["segments"])
+    missing = [w for w in want if not any(matches(w, sg) for sg in customer["segments"])]
     if missing:
         raise PanelError("no segment called %s. Segments: %s" % (", ".join(repr(m) for m in missing),
                                                                 ", ".join(seg["name"] for seg in customer["segments"])))
@@ -370,6 +391,10 @@ def deal(customer, n=100, seed=7):
             if cnt <= 0:
                 continue
             sub = market_customer(customer, mk["name"])
+            segs = sub.get("segments") or []
+            if segs and all("count" in x for x in segs):  # the market's headcount wins; its segments keep their mix
+                tot = float(sum(int(x["count"]) for x in segs)) or 1.0
+                sub["segments"] = [dict({k2: v for k2, v in x.items() if k2 != "count"}, share=int(x["count"]) / tot) for x in segs]
             for c in _deal_one(sub, cnt, seed * 1000 + k):
                 c["market"] = mk["name"]
                 cards.append(c)
@@ -551,7 +576,7 @@ def load_state(d):
 BRIEF = """You are a simulated buyer on a consumer panel. A founder wants to know, before spending any money, whether real people like you would buy. Your answer is only useful if it is honest: most people do not buy most things, and a polite yes is worse than a clear no.
 
 === WHO YOU ARE ===
-{name}, {age}{gender_part}. {segment}. You earn about {cur}{income_txt} a year{where_line}.
+{name}, {age}{gender_part}. {segment}. {income_line}.{where_line}
 How you buy: {behaviour}. {behaviour_how}
 {habit_line}{traits_line}{bias_line}{objection_line}
 You are one of these people: {target}.
@@ -607,8 +632,9 @@ def write_briefs(d, wave=WAVE):
                              language_line=_language_line(c.get("language", "")),
                              reason_en_line=("\n  \"reason_en\": \"the same reason translated into English\","
                                              if _foreign(c.get("language", "")) else ""),
-                             market_block=_market_block(cust, c), income_txt=_money(c["income"], cust),
-                             where_line=(", in %s" % cust["where"]) if cust.get("where") else "",
+                             market_block=_market_block(cust, c), income_line=("You earn about %s%s a year" % (_currency(cust), _money(c["income"], cust))) if c["income"] > 0
+                             else "You have no income of your own (you live on family support, savings or a stipend)",
+                             where_line=(" You live in %s." % cust["where"]) if cust.get("where") else "",
                              objection_line=('The first thing that comes to mind when you hear an offer like this: "%s"' % c["objection"])
                              if c.get("objection") else "Nobody has told you what to doubt. React the way you really would.",
                              reasons=" / ".join(REASONS), **c)
@@ -768,10 +794,29 @@ def _wilson(k, n, z=1.645):
 
 
 def _price_num(v):
-    """6.5, "6.50", "₹2,50,000" and "$6.50" all work."""
-    if isinstance(v, str):
-        v = re.sub(r"[^0-9.]", "", v)
-    return _num(v) if v not in (None, "") else None
+    """6.5, "6.50", "₹2,50,000", "$9.99/mo", "Rs. 199" and "1.299,00 €" all work."""
+    if not isinstance(v, str):
+        return _num(v)
+    t = re.sub(r"^[^0-9]*", "", v.strip())      # drop "Rs. ", "$", "₹" in front
+    t = re.match(r"[0-9.,]*", t).group(0).rstrip(".,")
+    if not t:
+        return None
+    if "," in t and "." in t:                   # the later separator is the decimal point
+        dec = "," if t.rfind(",") > t.rfind(".") else "."
+        t = t.replace("." if dec == "," else ",", "").replace(",", ".")
+    elif "," in t:                              # 2,50,000 / 1,299 are thousands; 6,50 is a decimal
+        t = t.replace(",", "") if len(t.rsplit(",", 1)[1]) == 3 else t.replace(",", ".")
+    elif t.count(".") > 1:                      # 1.299.000
+        t = t.replace(".", "")
+    return _num(t)
+
+def _format_for(customer):
+    """How to group digits for money in the price currency (lakhs if that currency is the rupee)."""
+    pc = (customer.get("price_currency") or _currency(customer)).strip()
+    for code, reg in REGIONS.items():
+        if reg["currency"].strip() == pc:
+            return {"region": code}
+    return {k: customer[k] for k in ("region", "locale") if k in customer}
 
 
 def _price_text(price, res):
@@ -877,7 +922,7 @@ def tally(d):
         "buy_rate": len(yes) / len(rows), "buy_rate_interval_90": [lo, hi],
         "price": price, "revenue_first_month_per_100_reached": revenue_per_100,
         "price_currency": (state["customer"].get("price_currency") or _currency(state["customer"])).strip(),
-        "customer_for_format": {k: state["customer"][k] for k in ("region", "locale") if k in state["customer"]},
+        "customer_for_format": _format_for(state["customer"]),
         "intent_counts": intent_counts, "intent_answers": len(rated), "intent_weights": weights, "realistic_rate": realistic, "currency": cur,
         "unprompted": [(r["id"], r["unprompted_doubt"]) for r in rows if (r.get("unprompted_doubt") or "").strip()],
         "by_market": group("market") if any(r.get("market") for r in rows) else [],
@@ -966,7 +1011,7 @@ def results_md(res):
         L.append("")
         L.append("**Money:** at %s%s, every 100 people of this type who see the offer would bring in about **%s%s in the"
                  " first month** (realistic buyers x purchases per buyer x price). Treat it as a ceiling to test, not a forecast."
-                 % (res.get("currency", "$"), _price_text(res["price"], res), res.get("currency", "$"),
+                 % (res.get("price_currency", "$"), _price_text(res["price"], res), res.get("price_currency", "$"),
                     _money(res["revenue_first_month_per_100_reached"], res.get("customer_for_format") or {})))
     tables = [("By segment", res["by_segment"]), ("By buying behaviour", res["by_behaviour"]), ("By income", res["by_income"])]
     if res.get("by_market"):
@@ -1200,7 +1245,7 @@ function show(id){
 function plan(){
   const P = R.practical; let h = '<div class="box"><h2>Fix these first</h2>';
   if (!P.fix_first.length) h += "<p>No one passed. Run a bigger panel before trusting that.</p>";
-  P.fix_first.forEach((s,i) => { h += `<div class="step"><div class="num">${i+1}</div><div><b>${esc(s.reason)}</b> · ${s.buyers} buyers (${pct(s.share)})<br>${esc(s.do)}</div></div>`; });
+  P.fix_first.forEach((s,i) => { h += `<div class="step"><div class="num">${i+1}</div><div><b>${esc(s.reason)}</b> · ${s.buyers} buyer${s.buyers==1?"":"s"} (${pct(s.share)})<br>${esc(s.do)}</div></div>`; });
   h += "</div>";
   if (!P.best_group) h += '<div class="box"><h2>Who to sell to first</h2><p>No group said yes yet. Fix the top reasons above, change the pitch, and run the panel again (compare both versions with <b>panel.py compare</b>).</p></div>';
   if (P.best_group) h += `<div class="box"><h2>Who to sell to first</h2><p><b>${esc(P.best_group.group)}</b>: ${pct(P.best_group.rate)} of ${P.best_group.buyers} buyers said yes. Start your marketing here.</p></div>`;
@@ -1241,13 +1286,13 @@ function buyers(){
   const val = (b,k) => k.startsWith("trait:") ? (b.traits||{})[k.slice(6)] : b[k];
   let h = '<div class="box"><div class="filters">';
   dims.forEach(([k,t]) => {
-    const opts = [...new Set(B.map(b => val(b,k)).filter(x => x !== undefined && x !== ""))].sort();
+    const opts = [...new Set(B.map(b => val(b,k) == null || val(b,k) === "" ? "(not set)" : String(val(b,k))))].sort();
     if (opts.length < 2) return;
     h += `<select data-k="${esc(k)}"><option value="">${esc(t)}: all</option>` + opts.map(o => `<option ${filter[k]==o?"selected":""}>${esc(o)}</option>`).join("") + "</select>";
   });
   h += `<select data-k="buys_txt"><option value="">Answer: all</option><option ${filter.buys_txt=="buys"?"selected":""}>buys</option><option ${filter.buys_txt=="passes"?"selected":""}>passes</option></select>`;
   h += `<input id="q" placeholder="Search words" value="${esc(filter.q||"")}"><button class="sm" id="clr">Clear</button></div>`;
-  const shown = B.filter(b => Object.entries(filter).every(([k,v]) => !v || (k === "q" ? JSON.stringify(b).toLowerCase().includes(v.toLowerCase()) : k === "buys_txt" ? (v === "buys") === b.buys : String(val(b,k)) === v)));
+  const shown = B.filter(b => Object.entries(filter).every(([k,v]) => !v || (k === "q" ? JSON.stringify(b).toLowerCase().includes(v.toLowerCase()) : k === "buys_txt" ? (v === "buys") === b.buys : String(val(b,k) == null || val(b,k) === "" ? "(not set)" : val(b,k)) === v)));
   const yes = shown.filter(b => b.buys).length;
   h += `<p><b>${shown.length}</b> buyers shown · <b>${shown.length ? Math.round(yes/shown.length*100) : 0}%</b> buy</p>`;
   h += shown.map(b => `<details class="buyer"><summary><b>${esc(b.name)}</b> <span class="thin">${esc(b.id)}</span><span class="tag ${b.buys?"yes":"no"}">${b.buys?"buys":"passes"}${b.intent?" · "+b.intent+"/5":""}</span>${b.market?`<span class="tag">${esc(b.market)}</span>`:""}<span class="tag">${esc(b.age)}${b.gender?", "+esc(b.gender):""}</span><span class="tag">${esc(b.segment)}</span><span class="tag">${esc(b.income_txt)}</span></summary>
@@ -1269,7 +1314,7 @@ function faq(){
 }
 
 function verdict(p){
-  if (R.price == null || p.currency !== (R.price_currency || R.currency)) return "";
+  if (R.price == null || p.currency !== R.price_currency) return "";
   const v = +R.price, f = x => p.currency + Math.round(x).toLocaleString();
   let msg, col;
   if (p.too_expensive != null && v >= p.too_expensive) { msg = `Your price ${esc(R.price_txt)} is at or above where most buyers say "too expensive" (${f(p.too_expensive)}). Test a lower entry price.`; col = "#fee2e2"; }
@@ -1307,10 +1352,10 @@ def results_html(res):
     data = dict(res)
     data["money"] = None
     if res.get("revenue_first_month_per_100_reached") is not None:
-        data["money"] = "%s%s" % (res.get("currency", "$"), _money(res["revenue_first_month_per_100_reached"],
+        data["money"] = "%s%s" % (res.get("price_currency", "$"), _money(res["revenue_first_month_per_100_reached"],
                                                                    res.get("customer_for_format") or {}))
     if res.get("price") is not None:
-        data["price_txt"] = "%s%s" % (res.get("currency", "$"), _price_text(res["price"], res))
+        data["price_txt"] = "%s%s" % (res.get("price_currency", "$"), _price_text(res["price"], res))
     blob = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
     return (REPORT.replace("__TITLE__", _esc(res["business"])).replace("__SEED__", _esc(res["seed"]))
             .replace("__DATA__", blob))

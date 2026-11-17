@@ -4,13 +4,13 @@
 
 ### 👉 [Open the panel builder](https://siddharthmehdiratta.github.io/founder-skill-plus/) · [See an example report](https://siddharthmehdiratta.github.io/founder-skill-plus/example-report.html)
 
-A fork of [Jakeschincariol/founder-skill](https://github.com/Jakeschincariol/founder-skill) (MIT) with a rebuilt consumer panel. The other ten skills (board, CFO, marketing, launch...) are the original's; the original README is below the line.
+A fork of [Jakeschincariol/founder-skill](https://github.com/Jakeschincariol/founder-skill) (MIT) with a rebuilt consumer panel. The other ten skills (board, CFO, marketing, launch...) are the original's; the original README is below the line. **Its install steps install the original edition, without these upgrades: use the ones above.**
 
 ## How it works (4 steps)
 
 1. **Build your panel** in the [builder](https://siddharthmehdiratta.github.io/founder-skill-plus/): markets, headcounts, gender, age groups, segments and incomes, buying habits, doubts, your own groups. Download `customer.json` and `pitch.md`.
 2. **Install the skill**: paste `https://github.com/Siddharthmehdiratta/founder-skill-plus` into Claude and say `install skill`. Or in Claude Code: `/plugin marketplace add Siddharthmehdiratta/founder-skill-plus` then `/plugin install founder-skill@founder-skill`.
-3. **Run it**: put both files in a `founder/` folder and type `/founder-consumer`. Start with `--size small` (20 buyers); each buyer is one AI agent.
+3. **Run it**: put both files in a `founder/` folder and type `/founder-consumer --size small` (20 buyers; each buyer is one AI agent, so start small). Installed as a plugin, the command is `/founder-skill:founder-consumer`.
 4. **Read the report**: open `founder/panel/results.html`.
 
 ## What you get
@@ -26,7 +26,7 @@ A fork of [Jakeschincariol/founder-skill](https://github.com/Jakeschincariol/fou
 
 ## Built to behave like real people
 
-- **Real places, real money.** 10 regions (India, US, UK, Europe, China, Japan, UAE, Singapore, Australia, Brazil): local currency, local names, India's lakh format. Buyers from India, the US, UK, Europe, China and Japan also see official facts about how people there pay and save, from the RBI, US Federal Reserve, ECB, Eurostat, UK Finance, China's statistics bureau and Japan's METI, with links.
+- **Real places, real money.** 10 regions (India, US, UK, Europe, China, Japan, UAE, Singapore, Australia, Brazil): local currency, local names, India's lakh format. Buyers from India, the US, UK, Europe, China and Japan also see facts about how people there pay and save: official figures from the RBI, US Federal Reserve, BEA, ECB, Eurostat, UK Finance, China's statistics bureau and Japan's METI, each linked to the release or a news report of it (checked November 2026).
 - **Real ways of deciding.** Every buyer gets one well-studied bias: loss aversion, anchoring, social proof, status quo, present bias, price means quality, mental budget, free is powerful, authority or choice overload.
 - **Real shopper checks.** Every buyer weighs total cost, payment method, delivery, refunds and cancelling, support, who is behind it, data and time to start, and asks about what your pitch leaves out.
 - **Real ages and incomes.** Segments carry their own income and age ranges, so students are young and executives are older.
@@ -39,7 +39,7 @@ A fork of [Jakeschincariol/founder-skill](https://github.com/Jakeschincariol/fou
 
 These are simulated buyers, not customers. They are good at surfacing objections, questions and wording, and at comparing two pitches. They are not a sales forecast. Confirm the big calls with real people (a waitlist, a pre-sale, a price on a page) before you spend. Never present panel answers as customer reviews.
 
-Examples: `customer.india.example.json` + `pitch.india.example.md` (a lunch delivery service in Pune with Category A/B/C) and `customer.world.example.json` + `pitch.world.example.md` (a focus app sold to buyers in India, the US, Europe and China). Tests: `python3 -m unittest discover -s tests` (64 tests, all passing). Python 3.8+, nothing to install.
+Examples: `customer.india.example.json` + `pitch.india.example.md` (a lunch delivery service in Pune with Category A/B/C) and `customer.world.example.json` + `pitch.world.example.md` (a focus app sold to buyers in India, the US, Europe and China). Tests: `python3 -m unittest discover -s tests` (70 tests, all passing). Python 3.8+, nothing to install.
 
 Plus edition by Siddharth Mehdiratta. MIT.
 
