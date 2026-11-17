@@ -31,6 +31,13 @@ python3 "${CLAUDE_SKILL_DIR}/panel.py" <command>
 Below, `PANEL` means exactly that. If the path is not expanded, use the base
 directory Claude Code printed for this skill. State lives in `founder/panel/`.
 
+## Step 0 (easiest): the panel builder
+
+Open https://siddharthmehdiratta.github.io/founder-skill-plus/ in a browser. Pick
+markets, headcounts, genders, age groups, incomes, habits, biases and your own
+groups from forms, then download `customer.json` and `pitch.md` into `founder/`.
+If the user has those files, skip to step 3.
+
 ## Step 1: the target customer
 
 Write `founder/customer.json` (shape: `customer.example.json` in this folder):
@@ -51,10 +58,28 @@ panel wrong.
 
 ### Plus fields (founder-skill-plus)
 
+- Segment ages: give a segment `"age": [youngest, oldest]` so ages match real
+  life (students young, senior managers older). It wins over `age_groups` for
+  that segment's buyers.
 - Categories with exact headcounts: give every segment a `count` instead of a
   `share`, e.g. Category A 50, Category B 30, Category C 20. The panel is then
-  exactly that big (the counts win over `--n` and `--size`), and results come
-  out category by category. `--only` picks which categories to run.
+  exactly that big, and results come
+  out category by category. `--only` picks which categories to run. Pass `--size`
+  or `--n` to run a smaller or bigger panel with the same mix: the headcounts
+  are scaled to that size.
+- `markets`: buyers from several places in one panel, e.g. 40 India, 30 USA,
+  20 Europe, 10 China: `[{"name": "India", "region": "IN", "count": 40,
+  "segments": [...], "languages": [...]}, ...]`. Each market can override any
+  field (segments and incomes in its own currency, languages, where, behaviours,
+  market facts). Give `price_currency` so every buyer answers prices in one
+  currency. Results get a table per market, and income bands per market.
+- `biases`: each buyer gets one well-studied way of deciding (loss aversion,
+  anchoring, social proof, status quo, present bias, price means quality, mental
+  budget, free is powerful, authority, choice overload), spread evenly. `true`
+  (default) uses all; a list uses only those; `false` turns them off.
+- Region facts: for IN, US, UK, EU, CN and JP, every buyer from that region is
+  shown 2 to 3 official, sourced facts about how people there pay and save
+  (e.g. UPI's share of payments in India). `"region_facts": false` turns them off.
 - `region`: one of `IN US UK EU CN JP AE SG AU BR`. Sets the currency, number
   format (India uses lakhs: ₹13,21,000) and local first names matched to gender.
   `"locale": "IN"` still works. Your own `currency` or `names` override it.
@@ -79,9 +104,9 @@ panel wrong.
   not) turns into a real sale. Defaults 0.75 / 0.25 / 0.10 / 0 / 0 are a common
   starting rule, not a fact. Replace them once you have real sales to compare.
 
-See `customer.india.example.json` with `pitch.india.example.md` (India,
-Hinglish answers) and
-`customer.world.example.json` (United States, genders, age groups, dimensions).
+See `customer.india.example.json` + `pitch.india.example.md` (India, Category A/B/C,
+three languages) and `customer.world.example.json` + `pitch.world.example.md` (four
+markets in one panel).
 
 ## Step 1b: real market facts and reviews (recommended)
 
@@ -180,6 +205,8 @@ browser). Give the user:
 4. What would flip a no: the most repeated answers.
 4b. Doubts nobody planted: the repeat ones go into `customer.json` objections
     for the next run.
+4c. The questions buyers need answered before paying, by topic: these are the
+    FAQ, the page copy and the checkout fixes.
 5. One sentence on what to change before spending money, and which skill does it
    (pricing, offer, marketing).
 

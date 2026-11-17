@@ -1,43 +1,172 @@
 {
-  "business": "Moss Matcha Bar, US version (an example: a walk-in matcha cafe)",
-  "target": "Coffee drinkers in Austin, Texas, 18 to 65, who buy a drink out at least twice a week",
-  "where": "Austin, Texas",
-  "region": "US",
-  "price": 6.5,
-  "segments": [
+  "_note": "EXAMPLE ONLY: a made-up app sold in several markets. Each market has its own region (currency, names, official payment and saving facts), headcount, incomes and languages. Replace the numbers with your own.",
+  "business": "FocusFlow (an example: a $8/month focus and study app)",
+  "target": "Students and knowledge workers, 18 to 45, who struggle to focus on a laptop",
+  "price": 8,
+  "price_currency": "$",
+  "markets": [
     {
-      "name": "Student / early career",
-      "share": 0.35,
-      "income": [
-        20000,
-        60000
+      "name": "India",
+      "region": "IN",
+      "count": 40,
+      "where": "Indian metro cities",
+      "languages": [
+        {
+          "name": "English",
+          "share": 0.6
+        },
+        {
+          "name": "Hinglish (Hindi mixed with English)",
+          "share": 0.4
+        }
+      ],
+      "segments": [
+        {
+          "name": "Student",
+          "share": 0.5,
+          "income": [
+            0,
+            300000
+          ],
+          "age": [
+            18,
+            25
+          ]
+        },
+        {
+          "name": "Young professional",
+          "share": 0.5,
+          "income": [
+            500000,
+            2000000
+          ],
+          "age": [
+            23,
+            45
+          ]
+        }
       ]
     },
     {
-      "name": "Professional",
-      "share": 0.45,
-      "income": [
-        60000,
-        150000
+      "name": "USA",
+      "region": "US",
+      "count": 30,
+      "where": "the United States",
+      "segments": [
+        {
+          "name": "Student",
+          "share": 0.4,
+          "income": [
+            0,
+            25000
+          ],
+          "age": [
+            18,
+            25
+          ]
+        },
+        {
+          "name": "Young professional",
+          "share": 0.6,
+          "income": [
+            50000,
+            140000
+          ],
+          "age": [
+            23,
+            45
+          ]
+        }
       ]
     },
     {
-      "name": "High earner",
-      "share": 0.2,
-      "income": [
-        150000,
-        300000
+      "name": "Europe",
+      "region": "EU",
+      "count": 20,
+      "where": "Germany, France or Spain",
+      "languages": [
+        {
+          "name": "English",
+          "share": 0.4
+        },
+        {
+          "name": "German",
+          "share": 0.3
+        },
+        {
+          "name": "Spanish",
+          "share": 0.3
+        }
+      ],
+      "segments": [
+        {
+          "name": "Student",
+          "share": 0.4,
+          "income": [
+            0,
+            15000
+          ],
+          "age": [
+            18,
+            25
+          ]
+        },
+        {
+          "name": "Young professional",
+          "share": 0.6,
+          "income": [
+            35000,
+            90000
+          ],
+          "age": [
+            23,
+            45
+          ]
+        }
+      ]
+    },
+    {
+      "name": "China",
+      "region": "CN",
+      "count": 10,
+      "where": "a tier-1 Chinese city",
+      "language": "Mandarin Chinese",
+      "segments": [
+        {
+          "name": "Student",
+          "share": 0.5,
+          "income": [
+            0,
+            30000
+          ],
+          "age": [
+            18,
+            25
+          ]
+        },
+        {
+          "name": "Young professional",
+          "share": 0.5,
+          "income": [
+            90000,
+            300000
+          ],
+          "age": [
+            23,
+            45
+          ]
+        }
       ]
     }
   ],
   "genders": [
     {
       "name": "female",
-      "share": 0.55
+      "share": 0.5
     },
     {
       "name": "male",
-      "share": 0.43
+      "share": 0.48
     },
     {
       "name": "non-binary",
@@ -51,7 +180,7 @@
         18,
         24
       ],
-      "share": 0.2
+      "share": 0.45
     },
     {
       "name": "25-34",
@@ -59,88 +188,48 @@
         25,
         34
       ],
-      "share": 0.3
+      "share": 0.4
     },
     {
-      "name": "35-49",
+      "name": "35-45",
       "range": [
         35,
-        49
+        45
       ],
-      "share": 0.3
-    },
-    {
-      "name": "50-65",
-      "range": [
-        50,
-        65
-      ],
-      "share": 0.2
-    }
-  ],
-  "dimensions": [
-    {
-      "name": "commute",
-      "values": [
-        {
-          "name": "drives",
-          "share": 0.7
-        },
-        {
-          "name": "walks or bikes",
-          "share": 0.15
-        },
-        {
-          "name": "works from home",
-          "share": 0.15
-        }
-      ]
+      "share": 0.15
     }
   ],
   "behaviours": [
     {
-      "name": "Daily regular",
-      "share": 0.25,
-      "how": "Same drink, same place, most mornings."
+      "name": "Free-tier forever",
+      "share": 0.3,
+      "how": "Uses free apps and almost never pays for software."
     },
     {
-      "name": "Health-first",
+      "name": "Tries everything",
       "share": 0.2,
-      "how": "Reads labels, cuts sugar."
+      "how": "Downloads new productivity apps often, cancels fast."
     },
     {
-      "name": "Trend chaser",
-      "share": 0.15,
-      "how": "Tries whatever is new and posts it."
-    },
-    {
-      "name": "Deal hunter",
+      "name": "Reads every review",
       "share": 0.2,
-      "how": "Uses app rewards and waits for offers."
+      "how": "Compares apps on reviews and YouTube before paying."
     },
     {
-      "name": "Drive-through only",
-      "share": 0.2,
-      "how": "Will not park and walk in for a drink."
+      "name": "Pays for tools",
+      "share": 0.3,
+      "how": "Already pays for one or two apps that save time."
     }
   ],
   "objections": [
-    "$6.50 is a lot for a drink",
-    "Starbucks has a drive-through",
-    "Does matcha taste like grass?",
-    "Is it actually healthier?",
-    "Parking is a pain"
+    "$8 a month adds up",
+    "Free apps do the same thing",
+    "I will stop using it after a week",
+    "Another subscription to remember to cancel"
   ],
   "habits": [
-    "you drive past South Congress on the way to work",
-    "you go to the gym after work",
-    "you meet friends for brunch on Sundays"
-  ],
-  "intent_weights": {
-    "5": 0.75,
-    "4": 0.25,
-    "3": 0.1,
-    "2": 0,
-    "1": 0
-  }
+    "you study or work on a laptop most evenings",
+    "your phone distracts you every few minutes",
+    "you have an exam or deadline coming up"
+  ]
 }

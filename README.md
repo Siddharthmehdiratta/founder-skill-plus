@@ -1,67 +1,47 @@
-# The Founder skill (Plus edition)
+# 🧪 Founder Plus: test your business on AI buyers from anywhere in the world
 
-A fork of [Jakeschincariol/founder-skill](https://github.com/Jakeschincariol/founder-skill)
-(MIT) with an upgraded consumer panel. Everything below the line is the original
-README. What the Plus edition adds, all in `skills/founder-consumer/panel.py`:
+**Build a panel of AI buyers** (30 from India, 20 from Europe, 10 from the US, any genders, ages, incomes and habits you choose), show them your pitch, and get back who would buy, who would not, why, what to fix first, and what price to test. Free. Runs in Claude.
 
-1. **Realistic estimate.** Buyers answer on a 1-5 intent scale. The tally weights
-   each answer (default 0.75 / 0.25 / 0.10 / 0 / 0) into a realistic buy rate, next
-   to the raw rate, which is an upper bound. Edit `intent_weights` once you have
-   real sales.
-2. **90% range on the buy rate.** 100 buyers is a small sample; the result says so.
-3. **Doubts nobody planted.** 20% of buyers get no planted objection, and every
-   buyer is asked for a doubt nobody mentioned. The original only ever surfaced the
-   objections the founder listed.
-4. **A/B compare.** `panel.py compare A B` runs two pitches on the same buyers and
-   shows who switched and why. Comparing is what simulated panels are best at.
-5. **Ten regions.** `"region"`: India, US, UK, Europe, China, Japan, UAE,
-   Singapore, Australia, Brazil. Local currency, local names matched to gender,
-   India's lakh format (₹13,21,000).
-6. **Any language.** `"language": "Hindi"` and buyers answer the way they talk,
-   with an English translation of each reason.
-7. **Every buyer group.** `genders`, `age_groups` and free `dimensions` (diet, city
-   tier, ethnicity, home type...), each dealt by real shares and tallied in its own
-   table. Buyers are told to act as one person, never a stereotype.
-8. **Money line.** Give the `price` and the tally adds first-month revenue per 100
-   people reached, from the realistic buyers and how often they buy.
-9. **Pick your panel.** `--size small|medium|large` (20, 100, 250 buyers) or any
-   `--n`. Or set exact headcounts per category (Category A 50, B 30, C 20) and
-   run only the ones you want with `--only "Category A,Category B"`.
-10. **Real market knowledge.** A `market` block with researched facts (how people
-    there pay, shop and compare) and real competitor reviews, each with a source
-    link. Every buyer knows the facts; each reads 0 to 3 reviews, careful shoppers
-    the most, and the results show whether reviews changed who buys. Facts, not
-    stereotypes about how a nationality "thinks".
-11. **Language mix.** `languages` with shares, e.g. India: English, Hinglish, Hindi.
-12. **Visual report.** `tally` also writes `results.html`: headline cards and a bar
-    for every group, the reasons people pass, and the doubts nobody planted.
-13. **Stricter plan verdict.** Profitable now also needs the realistic estimate to
-   clear its own bar (`--min-realistic-rate`, default 10%).
+### 👉 [Open the panel builder](https://siddharthmehdiratta.github.io/founder-skill-plus/) · [See an example report](https://siddharthmehdiratta.github.io/founder-skill-plus/example-report.html)
 
-Examples: `customer.india.example.json` with `pitch.india.example.md` (a sim-rig
-business in India, Hinglish answers) and `customer.world.example.json` (a US café with genders, age groups and
-a custom split).
+A fork of [Jakeschincariol/founder-skill](https://github.com/Jakeschincariol/founder-skill) (MIT) with a rebuilt consumer panel. The other ten skills (board, CFO, marketing, launch...) are the original's; the original README is below the line.
 
-Tests: `python3 -m unittest discover -s tests` (56 tests, all passing).
+## How it works (4 steps)
 
-**Install the Plus edition.** Paste this link into Claude and say `install skill`:
+1. **Build your panel** in the [builder](https://siddharthmehdiratta.github.io/founder-skill-plus/): markets, headcounts, gender, age groups, segments and incomes, buying habits, doubts, your own groups. Download `customer.json` and `pitch.md`.
+2. **Install the skill**: paste `https://github.com/Siddharthmehdiratta/founder-skill-plus` into Claude and say `install skill`. Or in Claude Code: `/plugin marketplace add Siddharthmehdiratta/founder-skill-plus` then `/plugin install founder-skill@founder-skill`.
+3. **Run it**: put both files in a `founder/` folder and type `/founder-consumer`. Start with `--size small` (20 buyers); each buyer is one AI agent.
+4. **Read the report**: open `founder/panel/results.html`.
 
-```
-https://github.com/Siddharthmehdiratta/founder-skill-plus
+## What you get
 
-install skill
-```
+| | |
+|---|---|
+| 🚀 **What to do next** | The top reasons people pass, each with a practical fix, and the group to sell to first |
+| 🎯 **Who buys** | Buy rate by market, segment, income, gender, age, habit, bias, language and your own groups. Click a bar to see those buyers |
+| ❓ **Questions to answer** | The practical questions buyers need answered before paying (fees, refunds, delivery, payment, data, who you are), sorted by topic: your FAQ and checkout fixes |
+| 👥 **Every buyer** | Each buyer's profile, answer, doubts and questions, with filters and search |
+| 💰 **Price** | What buyers call a bargain, expensive and too expensive, and a verdict on your price |
+| 📚 **Facts used** | Every fact buyers were shown, with its source link |
 
-Or in Claude Code:
+## Built to behave like real people
 
-```
-/plugin marketplace add Siddharthmehdiratta/founder-skill-plus
-/plugin install founder-skill@founder-skill
-```
+- **Real places, real money.** 10 regions (India, US, UK, Europe, China, Japan, UAE, Singapore, Australia, Brazil): local currency, local names, India's lakh format. Buyers from India, the US, UK, Europe, China and Japan also see official facts about how people there pay and save, from the RBI, US Federal Reserve, ECB, Eurostat, UK Finance, China's statistics bureau and Japan's METI, with links.
+- **Real ways of deciding.** Every buyer gets one well-studied bias: loss aversion, anchoring, social proof, status quo, present bias, price means quality, mental budget, free is powerful, authority or choice overload.
+- **Real shopper checks.** Every buyer weighs total cost, payment method, delivery, refunds and cancelling, support, who is behind it, data and time to start, and asks about what your pitch leaves out.
+- **Real ages and incomes.** Segments carry their own income and age ranges, so students are young and executives are older.
+- **Real reviews (yours).** Add real competitor reviews with links; each buyer reads a few, and the report shows whether reviews changed who buys.
+- **Any language.** A mix per market, e.g. English, Hinglish and Marathi in Pune, with English translations.
+- **Honest numbers.** A realistic estimate from a 1 to 5 intent scale next to the raw buy rate (an upper bound), a 90% range, and a first-month revenue line.
+- **A/B test pitches** on the same buyers: `panel.py compare A B`.
 
-Or copy the folders: `cp -r skills/founder-* ~/.claude/skills/`
+## Honest limits
 
-The install steps further down are the original's and install the original edition.
+These are simulated buyers, not customers. They are good at surfacing objections, questions and wording, and at comparing two pitches. They are not a sales forecast. Confirm the big calls with real people (a waitlist, a pre-sale, a price on a page) before you spend. Never present panel answers as customer reviews.
+
+Examples: `customer.india.example.json` + `pitch.india.example.md` (a lunch delivery service in Pune with Category A/B/C) and `customer.world.example.json` + `pitch.world.example.md` (a focus app sold to buyers in India, the US, Europe and China). Tests: `python3 -m unittest discover -s tests` (64 tests, all passing). Python 3.8+, nothing to install.
+
+Plus edition by Siddharth Mehdiratta. MIT.
 
 ---
 

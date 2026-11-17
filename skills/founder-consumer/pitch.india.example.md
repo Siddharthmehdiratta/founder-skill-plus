@@ -1,4 +1,4 @@
-Tron Simulator Home Rig: a complete direct-drive racing simulator, delivered and set up in your home.
-Includes aluminium cockpit, racing seat, direct-drive wheelbase and wheel, load-cell pedals, and monitor mount.
-Price: ₹2,50,000 all-in. No-cost EMI available.
-Built and serviced in Pune. Setup and 1-year on-site support included.
+GreenBowl: fresh, high-protein lunch bowls delivered to your office in Pune by 1 pm.
+Veg and non-veg bowls, 30 g protein or more, calories on the label.
+₹249 a bowl, or ₹4,490 for a 20-day monthly plan. Pay by UPI.
+Order by 11 am on WhatsApp or our website. Free delivery in Baner, Hinjewadi and Kharadi.

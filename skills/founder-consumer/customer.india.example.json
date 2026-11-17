@@ -1,9 +1,10 @@
 {
-  "_note": "EXAMPLE ONLY. The language shares, market facts and reviews below are placeholders written for this example, not research. Before a real run, replace them with your own numbers and real facts and reviews, each with a source link (see SKILL.md, step 1b).",
-  "business": "Tron Simulator home rig (an example: a turnkey direct-drive racing simulator, delivered and set up)",
-  "target": "Indian car and racing enthusiasts, 22 to 50, who already game on PC or console and spend on hobbies",
-  "where": "India",
+  "_note": "EXAMPLE ONLY: a made-up lunch delivery business. The segments, shares and incomes are placeholders. Replace them with your own numbers. India's payment and saving facts are added automatically from official sources (turn off with \"region_facts\": false). Add your own competitor reviews in \"market\" (see SKILL.md, step 1b).",
+  "business": "GreenBowl (an example: healthy lunch bowls delivered to offices in Pune)",
+  "target": "Office workers in Pune, 22 to 50, who order lunch at work at least twice a week",
+  "where": "Pune, India",
   "region": "IN",
+  "price": 249,
   "languages": [
     {
       "name": "English",
@@ -14,99 +15,56 @@
       "share": 0.45
     },
     {
-      "name": "Hindi",
+      "name": "Marathi",
       "share": 0.15
     }
   ],
-  "price": 250000,
-  "skeptic_share": 0.2,
-  "intent_weights": {
-    "5": 0.75,
-    "4": 0.25,
-    "3": 0.1,
-    "2": 0,
-    "1": 0
-  },
   "segments": [
     {
-      "name": "Category A: family-business heir / HNI",
-      "share": 0.2,
+      "name": "Category A: senior manager / business owner",
+      "count": 20,
       "income": [
-        6000000,
-        20000000
+        2500000,
+        8000000
+      ],
+      "age": [
+        32,
+        50
       ]
     },
     {
-      "name": "Category B: senior professional / founder",
-      "share": 0.35,
+      "name": "Category B: mid-level professional",
+      "count": 45,
       "income": [
-        1800000,
-        6000000
+        900000,
+        2500000
+      ],
+      "age": [
+        26,
+        45
       ]
     },
     {
-      "name": "Category C: young salaried enthusiast",
-      "share": 0.45,
+      "name": "Category C: early-career employee",
+      "count": 35,
       "income": [
-        800000,
-        1800000
+        350000,
+        900000
+      ],
+      "age": [
+        22,
+        32
       ]
     }
-  ],
-  "behaviours": [
-    {
-      "name": "Already sim racing on a basic wheel",
-      "share": 0.25,
-      "how": "Owns a gear-driven wheel, watches setup videos, wants an upgrade."
-    },
-    {
-      "name": "Car guy, new to sim",
-      "share": 0.2,
-      "how": "Does track days or drives a performance car; sees sim as practice."
-    },
-    {
-      "name": "Researcher",
-      "share": 0.2,
-      "how": "Compares on Reddit and YouTube for weeks before buying anything."
-    },
-    {
-      "name": "Importer",
-      "share": 0.15,
-      "how": "Prefers buying parts from abroad and building it himself."
-    },
-    {
-      "name": "Status buyer",
-      "share": 0.1,
-      "how": "Buys the premium version so it looks good in the house."
-    },
-    {
-      "name": "EMI buyer",
-      "share": 0.1,
-      "how": "Only buys big items on no-cost EMI."
-    }
-  ],
-  "objections": [
-    "I can import the parts and build it cheaper",
-    "Who fixes it if the wheel base fails?",
-    "Will my wife / family let me put this in the house?",
-    "Is a local brand as good as Fanatec or Simucube?",
-    "I don't have space for a full rig",
-    "I'd rather spend this on a real track day"
-  ],
-  "habits": [
-    "you watch F1 every race weekend",
-    "you go to the karting track once a month",
-    "you play on a PS5 most nights",
-    "you follow car accounts on Instagram"
   ],
   "genders": [
     {
       "name": "male",
-      "share": 0.85
+      "share": 0.6
     },
     {
       "name": "female",
-      "share": 0.15
+      "share": 0.4
     }
   ],
   "age_groups": [
@@ -116,7 +74,7 @@
         22,
         29
       ],
-      "share": 0.4
+      "share": 0.45
     },
     {
       "name": "30-39",
@@ -124,7 +82,7 @@
         30,
         39
       ],
-      "share": 0.4
+      "share": 0.35
     },
     {
       "name": "40-50",
@@ -137,76 +95,74 @@
   ],
   "dimensions": [
     {
-      "name": "city tier",
+      "name": "diet",
       "values": [
         {
-          "name": "metro (Mumbai, Bengaluru, Delhi)",
-          "share": 0.6
+          "name": "vegetarian",
+          "share": 0.4
         },
         {
-          "name": "tier 2 (Pune, Ahmedabad, Jaipur)",
-          "share": 0.4
+          "name": "eats non-veg",
+          "share": 0.6
         }
       ]
     },
     {
-      "name": "home",
+      "name": "lunch today",
       "values": [
         {
-          "name": "rented flat",
-          "share": 0.45
+          "name": "orders on Swiggy/Zomato",
+          "share": 0.5
         },
         {
-          "name": "owned flat",
-          "share": 0.4
+          "name": "brings food from home",
+          "share": 0.3
         },
         {
-          "name": "independent house",
-          "share": 0.15
+          "name": "office canteen",
+          "share": 0.2
         }
       ]
     }
   ],
-  "market": {
-    "facts": [
-      {
-        "text": "Big purchases like this are usually paid on no-cost EMI rather than in one go.",
-        "source": ""
-      },
-      {
-        "text": "Most sim racers here started on a gear or belt wheel and upgrade parts one at a time.",
-        "source": ""
-      },
-      {
-        "text": "Imported direct-drive bases are bought through a few Indian resellers, with import duty in the price.",
-        "source": ""
-      }
-    ],
-    "reviews": [
-      {
-        "about": "an imported direct-drive kit from a reseller",
-        "stars": 4,
-        "text": "Great force feedback, but the base took six weeks to arrive and the reseller stopped replying after delivery.",
-        "source": ""
-      },
-      {
-        "about": "a local cockpit maker",
-        "stars": 2,
-        "text": "Rig flexes under hard braking and they never sent the replacement bracket they promised.",
-        "source": ""
-      },
-      {
-        "about": "a sim racing lounge",
-        "stars": 5,
-        "text": "Tried a full direct-drive rig for an hour before buying my own. Best money I spent.",
-        "source": ""
-      },
-      {
-        "about": "a budget wheel and pedal set",
-        "stars": 3,
-        "text": "Fine to start, but you outgrow the pedals in a month.",
-        "source": ""
-      }
-    ]
-  }
+  "behaviours": [
+    {
+      "name": "Daily orderer",
+      "share": 0.25,
+      "how": "Orders lunch on an app most workdays."
+    },
+    {
+      "name": "Health-first",
+      "share": 0.2,
+      "how": "Counts protein, avoids oily food."
+    },
+    {
+      "name": "Deal hunter",
+      "share": 0.2,
+      "how": "Waits for coupons and app offers."
+    },
+    {
+      "name": "Reads every review",
+      "share": 0.15,
+      "how": "Checks ratings and reviews before trying a new place."
+    },
+    {
+      "name": "Home food loyalist",
+      "share": 0.2,
+      "how": "Prefers home-cooked food; orders only when stuck."
+    }
+  ],
+  "objections": [
+    "₹249 is more than my usual lunch",
+    "Will it reach my office on time?",
+    "Healthy food usually tastes bland",
+    "Portion might be too small",
+    "I already get a canteen lunch"
+  ],
+  "habits": [
+    "you work in an office in Baner or Hinjewadi",
+    "you have back-to-back meetings at lunch time",
+    "you go to the gym in the evening",
+    "you split lunch orders with colleagues"
+  ]
 }

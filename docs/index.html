@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Founder Plus · Buyer panel builder</title>
+<meta name="description" content="Build your own panel of AI buyers: pick markets, headcounts, genders, ages, incomes, habits and biases. Free, for the Founder skill in Claude.">
+<style>
+:root{--bg:#f4f1ff;--card:#fff;--ink:#1b1530;--sub:#5f5878;--line:#e7e2f5;--acc:#7c3aed;--acc2:#ec4899}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:linear-gradient(120deg,#4c1d95 0%,#7c3aed 45%,#ec4899 100%);color:#fff;padding:30px 20px 64px;text-align:center}
+header h1{margin:0;font-size:30px;letter-spacing:-.02em}header p{margin:8px auto 0;max-width:640px;color:#f3e8ff}
+main{max-width:1080px;margin:-44px auto 40px;padding:0 16px;display:grid;grid-template-columns:1fr 360px;gap:16px;align-items:start}
+@media(max-width:900px){main{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:0 4px 14px rgba(76,29,149,.07)}
+.card h2{margin:0 0 4px;font-size:18px;display:flex;align-items:center;gap:8px}.card .hint{color:var(--sub);font-size:13px;margin:0 0 12px}
+label{font-size:13px;color:var(--sub);display:block;margin:8px 0 3px}
+input,select,textarea{font:inherit;width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+textarea{min-height:90px;resize:vertical}
+.grid{display:grid;gap:8px;align-items:end}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:2fr 1fr 1fr}
+.line{display:grid;gap:6px;align-items:center;margin:6px 0}
+.line.mk{grid-template-columns:1.3fr 1.6fr 80px 1.6fr 34px}.line.seg{grid-template-columns:2fr 60px 1fr 1fr 58px 58px 34px}
+.line.pair{grid-template-columns:2fr 80px 34px}.line.age{grid-template-columns:1.2fr 70px 70px 80px 34px}
+.line.beh{grid-template-columns:1.2fr 2fr 70px 34px}.line.fact{grid-template-columns:2fr 1.2fr 34px}.line.rev{grid-template-columns:1fr 60px 2fr 1fr 34px}
+@media(max-width:640px){.line{grid-template-columns:1fr 1fr!important}}
+.x{border:0;background:#fee2e2;color:#991b1b;border-radius:8px;height:34px;cursor:pointer;font-weight:700}
+.add{border:1px dashed var(--acc);background:#f5f0ff;color:var(--acc);border-radius:10px;padding:7px 12px;cursor:pointer;font-weight:600;margin-top:6px}
+.btn{border:0;border-radius:12px;padding:11px 16px;font:700 15px system-ui;cursor:pointer;color:#fff;background:linear-gradient(120deg,var(--acc),var(--acc2));width:100%;margin-top:8px}
+.btn.alt{background:#fff;color:var(--acc);border:2px solid var(--acc)}
+.sub{background:#faf7ff;border:1px solid var(--line);border-radius:12px;padding:10px;margin:10px 0}
+.sub h3{margin:0 0 4px;font-size:14px;display:flex;justify-content:space-between;align-items:center}
+.pill{display:inline-block;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700;background:#ede9fe;color:#5b21b6}
+.pill.bad{background:#fee2e2;color:#991b1b}.pill.ok{background:#d1fae5;color:#065f46}
+.side{position:sticky;top:12px}
+.big{font-size:44px;font-weight:800;background:linear-gradient(120deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+.chips{display:flex;flex-wrap:wrap;gap:6px}.chips label{display:flex;gap:6px;align-items:center;margin:0;background:#f5f0ff;border-radius:999px;padding:5px 10px;color:var(--ink);cursor:pointer;font-size:13px}
+.chips input{width:auto}
+pre{background:#1b1530;color:#e9d5ff;border-radius:12px;padding:12px;font-size:12px;max-height:280px;overflow:auto;white-space:pre-wrap}
+.steps li{margin:6px 0}.warn{color:#b45309;font-size:13px}.ex{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;justify-content:center}
+.ex button{border:0;border-radius:999px;padding:8px 14px;background:rgba(255,255,255,.18);color:#fff;font-weight:700;cursor:pointer}
+footer{text-align:center;color:var(--sub);font-size:13px;padding:0 16px 30px}
+</style>
+</head>
+<body>
+<header>
+  <h1>🧪 Build your buyer panel</h1>
+  <p>Pick your markets, how many people from each, their genders, ages, incomes, habits and biases. Everything is custom. Then let the Founder skill in Claude show your idea to every one of them.</p>
+  <div class="ex"><button id="exIndia">🇮🇳 Load India example</button><button id="exWorld">🌍 Load 4-market example</button><button id="exBlank">✨ Start blank</button></div>
+</header>
+<main>
+<div>
+  <div class="card"><h2>1. 💡 Your business</h2><p class="hint">What you sell, to whom, and the exact pitch every buyer sees.</p>
+    <label>Business name and one-line description</label><input id="business" placeholder="GreenBowl: healthy lunch bowls delivered to offices">
+    <label>Who your customer is, in one line</label><input id="target" placeholder="Office workers in Pune, 22 to 50, who order lunch at work">
+    <div class="grid g2"><div><label>Price buyers see (number)</label><input id="price" type="number" step="any" placeholder="249"></div>
+    <div><label>Price currency</label><select id="pcur"></select></div></div>
+    <label>The pitch, exactly as a buyer would see it (3 to 6 plain lines)</label><textarea id="pitch" placeholder="What it is. What is included. The price. Where and how to get it. Any opening offer."></textarea>
+  </div>
+
+  <div class="card"><h2>2. 🌍 Markets and headcount</h2><p class="hint">Add each market (country or region) and how many buyers to take from it. Each market gets its own currency, local names, and official facts about how people there pay and save.</p>
+    <div id="markets"></div><button class="add" id="addMarket">+ Add a market</button>
+  </div>
+
+  <div class="card"><h2>3. 👫 Gender</h2><p class="hint">Percentages across all buyers. Leave empty to not set gender.</p>
+    <div id="genders"></div><button class="add" id="addGender">+ Add</button> <span id="gSum" class="pill"></span>
+  </div>
+
+  <div class="card"><h2>4. 🎂 Age groups</h2><p class="hint">Cover every age that really buys. <button class="add" id="allAges" style="margin:0">Use all adults 18 to 75</button></p>
+    <div id="ages"></div><button class="add" id="addAge">+ Add an age group</button> <span id="aSum" class="pill"></span>
+  </div>
+
+  <div class="card"><h2>5. 🛒 How they buy</h2><p class="hint">Buying habits, with the share of buyers who shop like that.</p>
+    <div id="behs"></div><button class="add" id="addBeh">+ Add a habit</button> <span id="bSum" class="pill"></span>
+  </div>
+
+  <div class="card"><h2>6. 🤔 Doubts and daily life</h2>
+    <label>Doubts real buyers have, one per line (4 to 8)</label><textarea id="objections"></textarea>
+    <label>Everyday details that make a buyer real, one per line (optional)</label><textarea id="habits"></textarea>
+  </div>
+
+  <div class="card"><h2>7. 🧩 Your own groups</h2><p class="hint">Any other split you have real numbers for: city tier, diet, ethnicity, religion, home type, car owned... Buyers are always told to act as one person, never a stereotype.</p>
+    <div id="dims"></div><button class="add" id="addDim">+ Add a group</button>
+  </div>
+
+  <div class="card"><h2>8. 🧠 Biases</h2><p class="hint">Real, well-studied ways people decide. Each buyer gets one, spread evenly.</p><div class="chips" id="biases"></div></div>
+
+  <div class="card"><h2>9. 📰 Real facts and reviews (recommended)</h2><p class="hint">Facts about how people in your market buy, and real reviews of competitors. Every one needs a source link: buyers are told these are real. Never invent one.</p>
+    <h3 style="font-size:14px">Facts</h3><div id="facts"></div><button class="add" id="addFact">+ Add a fact</button>
+    <h3 style="font-size:14px;margin-top:14px">Competitor reviews</h3><div id="reviews"></div><button class="add" id="addRev">+ Add a review</button>
+  </div>
+</div>
+
+<div class="side">
+  <div class="card" style="text-align:center"><div class="hint">Your panel</div><div class="big" id="total">0</div><div class="hint">AI buyers</div><div id="mkSummary" style="margin-top:8px"></div><div id="warns" class="warn"></div></div>
+  <div class="card"><h2>⬇️ Get your files</h2>
+    <button class="btn" id="dlCustomer">Download customer.json</button>
+    <button class="btn alt" id="dlPitch">Download pitch.md</button>
+    <button class="btn alt" id="copy">Copy customer.json</button>
+    <ol class="steps hint" style="margin-top:12px">
+      <li>Install the skill: paste <b>github.com/Siddharthmehdiratta/founder-skill-plus</b> into Claude and say "install skill".</li>
+      <li>Put both files in a <b>founder</b> folder in your project.</li>
+      <li>In Claude, type <b>/founder-consumer</b> and say "use my founder/customer.json and founder/pitch.md". Start with 20 buyers for a cheap first look.</li>
+      <li>Open <b>results.html</b> for the full interactive report.</li>
+    </ol>
+  </div>
+  <div class="card"><h2>👀 Preview</h2><pre id="out"></pre></div>
+</div>
+</main>
+<footer>Simulated buyers are research, not customers. Use them to find objections and pick between pitches, then test with real people. · <a href="https://github.com/Siddharthmehdiratta/founder-skill-plus">GitHub</a> · <a href="example-report.html">See an example report</a></footer>
+
+<script>
+const REGIONS = {IN:["🇮🇳 India","₹"],US:["🇺🇸 United States","$"],UK:["🇬🇧 United Kingdom","£"],EU:["🇪🇺 Europe","€"],CN:["🇨🇳 China","¥"],JP:["🇯🇵 Japan","JP¥"],AE:["🇦🇪 UAE","AED "],SG:["🇸🇬 Singapore","S$"],AU:["🇦🇺 Australia","A$"],BR:["🇧🇷 Brazil","R$"]};
+const FACTS_FOR = ["IN","US","UK","EU","CN","JP"];
+const BIASES = ["loss aversion","anchoring","social proof","status quo","present bias","price means quality","mental budget","free is powerful","authority","choice overload"];
+const $ = id => document.getElementById(id);
+const esc = t => String(t == null ? "" : t).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let S;
+
+function blank(){ return {business:"",target:"",price:"",pcur:"$",pitch:"",markets:[{name:"India",region:"IN",count:50,where:"",languages:"English 60, Hinglish 40",segments:[{name:"Category A",share:30,lo:"",hi:""},{name:"Category B",share:40,lo:"",hi:""},{name:"Category C",share:30,lo:"",hi:""}]}],
+  genders:[{name:"female",share:50},{name:"male",share:50}],ages:[{name:"18-29",lo:18,hi:29,share:40},{name:"30-44",lo:30,hi:44,share:35},{name:"45-65",lo:45,hi:65,share:25}],
+  behs:[{name:"Deal hunter",how:"Waits for offers and coupons.",share:30},{name:"Reads every review",how:"Checks reviews before buying anything new.",share:30},{name:"Loyal to what they use",how:"Sticks with brands they already know.",share:40}],
+  objections:"",habits:"",dims:[],biases:BIASES.slice(),facts:[],reviews:[]}; }
+
+function exIndia(){ return {business:"GreenBowl (healthy lunch bowls delivered to offices in Pune)",target:"Office workers in Pune, 22 to 50, who order lunch at work at least twice a week",price:249,pcur:"₹",
+  pitch:"GreenBowl: fresh, high-protein lunch bowls delivered to your office in Pune by 1 pm.\nVeg and non-veg bowls, 30 g protein or more, calories on the label.\n₹249 a bowl, or ₹4,490 for a 20-day monthly plan. Pay by UPI.\nOrder by 11 am on WhatsApp or our website. Free delivery in Baner, Hinjewadi and Kharadi.",
+  markets:[{name:"Pune",region:"IN",count:100,where:"Pune, India",languages:"English 40, Hinglish 45, Marathi 15",segments:[{name:"Category A: senior manager / owner",share:20,lo:2500000,hi:8000000,alo:32,ahi:50},{name:"Category B: mid-level professional",share:45,lo:900000,hi:2500000,alo:26,ahi:45},{name:"Category C: early-career employee",share:35,lo:350000,hi:900000,alo:22,ahi:32}]}],
+  genders:[{name:"male",share:60},{name:"female",share:40}],ages:[{name:"22-29",lo:22,hi:29,share:45},{name:"30-39",lo:30,hi:39,share:35},{name:"40-50",lo:40,hi:50,share:20}],
+  behs:[{name:"Daily orderer",how:"Orders lunch on an app most workdays.",share:25},{name:"Health-first",how:"Counts protein, avoids oily food.",share:20},{name:"Deal hunter",how:"Waits for coupons and app offers.",share:20},{name:"Reads every review",how:"Checks ratings before trying a new place.",share:15},{name:"Home food loyalist",how:"Prefers home food; orders only when stuck.",share:20}],
+  objections:"₹249 is more than my usual lunch\nWill it reach my office on time?\nHealthy food usually tastes bland\nPortion might be too small\nI already get a canteen lunch",
+  habits:"you work in an office in Baner or Hinjewadi\nyou have back-to-back meetings at lunch time\nyou go to the gym in the evening",
+  dims:[{name:"diet",values:"vegetarian 40, eats non-veg 60"},{name:"lunch today",values:"orders on Swiggy/Zomato 50, brings food from home 30, office canteen 20"}],biases:BIASES.slice(),facts:[],reviews:[]}; }
+
+function exWorld(){ return {business:"FocusFlow (a $8/month focus and study app)",target:"Students and knowledge workers, 18 to 45, who struggle to focus on a laptop",price:8,pcur:"$",
+  pitch:"FocusFlow: an app that blocks distracting sites and apps on your laptop and phone while you work or study.\nTimed focus sessions, a weekly report of where your time went, and study rooms with friends.\n$8 a month or $60 a year. 7-day free trial. Cancel any time in two clicks.\nWorks on Windows, Mac, Android and iPhone.",
+  markets:[{name:"India",region:"IN",count:40,where:"Indian metro cities",languages:"English 60, Hinglish 40",segments:[{name:"Student",share:50,lo:0,hi:300000,alo:18,ahi:25},{name:"Young professional",share:50,lo:500000,hi:2000000,alo:23,ahi:45}]},
+    {name:"USA",region:"US",count:30,where:"the United States",languages:"",segments:[{name:"Student",share:40,lo:0,hi:25000,alo:18,ahi:25},{name:"Young professional",share:60,lo:50000,hi:140000,alo:23,ahi:45}]},
+    {name:"Europe",region:"EU",count:20,where:"Germany, France or Spain",languages:"English 40, German 30, Spanish 30",segments:[{name:"Student",share:40,lo:0,hi:15000,alo:18,ahi:25},{name:"Young professional",share:60,lo:35000,hi:90000,alo:23,ahi:45}]},
+    {name:"China",region:"CN",count:10,where:"a tier-1 Chinese city",languages:"Mandarin Chinese 100",segments:[{name:"Student",share:50,lo:0,hi:30000,alo:18,ahi:25},{name:"Young professional",share:50,lo:90000,hi:300000,alo:23,ahi:45}]}],
+  genders:[{name:"female",share:50},{name:"male",share:48},{name:"non-binary",share:2}],ages:[{name:"18-24",lo:18,hi:24,share:45},{name:"25-34",lo:25,hi:34,share:40},{name:"35-45",lo:35,hi:45,share:15}],
+  behs:[{name:"Free-tier forever",how:"Uses free apps and almost never pays for software.",share:30},{name:"Tries everything",how:"Downloads new apps often, cancels fast.",share:20},{name:"Reads every review",how:"Compares apps on reviews and YouTube first.",share:20},{name:"Pays for tools",how:"Already pays for apps that save time.",share:30}],
+  objections:"$8 a month adds up\nFree apps do the same thing\nI will stop using it after a week\nAnother subscription to remember to cancel",
+  habits:"you study or work on a laptop most evenings\nyour phone distracts you every few minutes\nyou have an exam or deadline coming up",dims:[],biases:BIASES.slice(),facts:[],reviews:[]}; }
+
+function parsePairs(txt){ // "English 60, Hinglish 40" -> [{name, share}]
+  return String(txt||"").split(",").map(x => x.trim()).filter(Boolean).map(x => { const m = x.match(/^(.*?)(?:\s+(\d+(?:\.\d+)?)%?)?$/); return {name:m[1].trim(), share: m[2] ? +m[2] : 1}; });
+}
+const frac = list => { const t = list.reduce((a,b) => a + (+b.share||0), 0) || 1; return list.map(x => Object.assign({}, x, {share: Math.round((+x.share||0)/t*1000)/1000})); };
+
+function build(){
+  const c = {business: S.business || "My business", target: S.target || "My target customer"};
+  if (S.price !== "" && S.price != null) { c.price = +S.price; c.price_currency = S.pcur; }
+  const mks = S.markets.filter(m => m.name && +m.count > 0);
+  const mkObj = m => { const o = {name:m.name, region:m.region, count: Math.round(+m.count)}; if (m.where) o.where = m.where;
+    const L = parsePairs(m.languages); if (L.length) o.languages = frac(L);
+    const segs = m.segments.filter(s => s.name).map(s => { const o = {name:s.name, share:+s.share||0, income:[+s.lo||0, +s.hi||0]};
+      if (s.alo !== "" && s.alo != null && s.ahi !== "" && s.ahi != null) o.age = [Math.min(+s.alo,+s.ahi), Math.max(+s.alo,+s.ahi)]; return o; });
+    if (segs.length) o.segments = frac(segs).map(s => Object.assign(s, {income: s.income[1] < s.income[0] ? [s.income[1], s.income[0]] : s.income}));
+    return o; };
+  if (mks.length === 1) { const o = mkObj(mks[0]); c.region = o.region; if (o.where) c.where = o.where; if (o.languages) c.languages = o.languages;
+    c.segments = (o.segments || [{name:"Everyone", share:1, income:[0,0]}]).map(s => Object.assign({}, s, {count: Math.round(s.share * o.count)}));
+    const diff = o.count - c.segments.reduce((a,s) => a + s.count, 0); c.segments[0].count += diff; c.segments.forEach(s => delete s.share); }
+  else { c.markets = mks.map(mkObj); c.segments = [{name:"Everyone", share:1, income:[0,0]}]; }
+  const G = S.genders.filter(g => g.name && +g.share > 0); if (G.length) c.genders = frac(G);
+  const A = S.ages.filter(a => a.name && +a.share > 0).map(a => ({name:a.name, range:[Math.min(+a.lo,+a.hi), Math.max(+a.lo,+a.hi)], share:+a.share})); if (A.length) c.age_groups = frac(A);
+  c.behaviours = frac(S.behs.filter(b => b.name).map(b => ({name:b.name, how:b.how||"", share:+b.share||1})));
+  c.objections = S.objections.split("\n").map(x => x.trim()).filter(Boolean);
+  const H = S.habits.split("\n").map(x => x.trim()).filter(Boolean); if (H.length) c.habits = H;
+  const D = S.dims.filter(d => d.name && parsePairs(d.values).length).map(d => ({name:d.name, values: frac(parsePairs(d.values))})); if (D.length) c.dimensions = D;
+  c.biases = S.biases.length === BIASES.length ? true : (S.biases.length ? S.biases.slice() : false);
+  const F = S.facts.filter(f => f.text).map(f => ({text:f.text, source:f.source||""}));
+  const RV = S.reviews.filter(r => r.text).map(r => ({about:r.about||"", stars: r.stars === "" ? undefined : +r.stars, text:r.text, source:r.source||""}));
+  if (F.length || RV.length) c.market = {facts:F, reviews:RV};
+  return c;
+}
+
+function warnings(c){
+  const w = [], sum = l => Math.round(l.reduce((a,b) => a + (+b.share||0), 0));
+  if (!S.pitch.trim()) w.push("Write the pitch (step 1).");
+  if (c.objections.length < 3) w.push("Add at least 3 doubts (step 6).");
+  S.markets.forEach(m => { if (sum(m.segments) !== 100 && m.segments.length) w.push(`${m.name || "A market"}: segment shares add to ${sum(m.segments)}%, not 100% (they will be scaled).`);
+    m.segments.forEach(s => { if (s.name && (s.lo === "" || s.hi === "")) w.push(`${m.name}: set an income range for "${s.name}".`); }); });
+  [...S.facts, ...S.reviews].forEach(x => { if (x.text && !/^https?:\/\//.test(x.source||"")) w.push("A fact or review has no source link."); });
+  return [...new Set(w)];
+}
+
+function rowsHTML(){
+  $("markets").innerHTML = S.markets.map((m,i) => `<div class="sub"><div class="line mk">
+      <input data-p="markets.${i}.name" value="${esc(m.name)}" placeholder="Market name">
+      <select data-p="markets.${i}.region">${Object.entries(REGIONS).map(([k,v]) => `<option value="${k}" ${m.region==k?"selected":""}>${v[0]}${FACTS_FOR.includes(k)?" · facts":""}</option>`).join("")}</select>
+      <input type="number" min="0" data-p="markets.${i}.count" value="${esc(m.count)}" title="How many buyers">
+      <input data-p="markets.${i}.where" value="${esc(m.where)}" placeholder="Where exactly (city / area)">
+      <button class="x" data-del="markets.${i}">✕</button></div>
+      <label>Languages buyers answer in, with % (e.g. English 60, Hinglish 40). Empty = English</label><input data-p="markets.${i}.languages" value="${esc(m.languages)}">
+      <h3 style="margin-top:10px">Segments / categories in ${esc(m.name || "this market")} <span class="hint">name · % · yearly income from · to (${esc(REGIONS[m.region][1])}) · age from · to</span></h3>
+      ${m.segments.map((s,j) => `<div class="line seg"><input data-p="markets.${i}.segments.${j}.name" value="${esc(s.name)}" placeholder="Category A"><input type="number" data-p="markets.${i}.segments.${j}.share" value="${esc(s.share)}" title="%"><input type="number" data-p="markets.${i}.segments.${j}.lo" value="${esc(s.lo)}" placeholder="income from"><input type="number" data-p="markets.${i}.segments.${j}.hi" value="${esc(s.hi)}" placeholder="income to"><input type="number" data-p="markets.${i}.segments.${j}.alo" value="${esc(s.alo)}" placeholder="age"><input type="number" data-p="markets.${i}.segments.${j}.ahi" value="${esc(s.ahi)}" placeholder="age"><button class="x" data-del="markets.${i}.segments.${j}">✕</button></div>`).join("")}
+      <button class="add" data-addseg="${i}">+ Add a segment</button></div>`).join("");
+  $("genders").innerHTML = S.genders.map((g,i) => `<div class="line pair"><input data-p="genders.${i}.name" value="${esc(g.name)}"><input type="number" data-p="genders.${i}.share" value="${esc(g.share)}" title="%"><button class="x" data-del="genders.${i}">✕</button></div>`).join("");
+  $("ages").innerHTML = S.ages.map((a,i) => `<div class="line age"><input data-p="ages.${i}.name" value="${esc(a.name)}"><input type="number" data-p="ages.${i}.lo" value="${esc(a.lo)}" title="from"><input type="number" data-p="ages.${i}.hi" value="${esc(a.hi)}" title="to"><input type="number" data-p="ages.${i}.share" value="${esc(a.share)}" title="%"><button class="x" data-del="ages.${i}">✕</button></div>`).join("");
+  $("behs").innerHTML = S.behs.map((b,i) => `<div class="line beh"><input data-p="behs.${i}.name" value="${esc(b.name)}" placeholder="Habit"><input data-p="behs.${i}.how" value="${esc(b.how)}" placeholder="What they do"><input type="number" data-p="behs.${i}.share" value="${esc(b.share)}" title="%"><button class="x" data-del="behs.${i}">✕</button></div>`).join("");
+  $("dims").innerHTML = S.dims.map((d,i) => `<div class="line fact"><input data-p="dims.${i}.name" value="${esc(d.name)}" placeholder="Group, e.g. city tier"><input data-p="dims.${i}.values" value="${esc(d.values)}" placeholder="metro 60, tier 2 40"><button class="x" data-del="dims.${i}">✕</button></div>`).join("");
+  $("facts").innerHTML = S.facts.map((f,i) => `<div class="line fact"><input data-p="facts.${i}.text" value="${esc(f.text)}" placeholder="Fact"><input data-p="facts.${i}.source" value="${esc(f.source)}" placeholder="https:// source"><button class="x" data-del="facts.${i}">✕</button></div>`).join("");
+  $("reviews").innerHTML = S.reviews.map((r,i) => `<div class="line rev"><input data-p="reviews.${i}.about" value="${esc(r.about)}" placeholder="About"><input type="number" min="1" max="5" data-p="reviews.${i}.stars" value="${esc(r.stars)}" placeholder="★"><input data-p="reviews.${i}.text" value="${esc(r.text)}" placeholder="Review text (short)"><input data-p="reviews.${i}.source" value="${esc(r.source)}" placeholder="https:// source"><button class="x" data-del="reviews.${i}">✕</button></div>`).join("");
+  $("biases").innerHTML = BIASES.map(b => `<label><input type="checkbox" data-bias="${esc(b)}" ${S.biases.includes(b)?"checked":""}> ${esc(b)}</label>`).join("");
+  ["business","target","price","pitch","objections","habits"].forEach(k => $(k).value = S[k]);
+  $("pcur").innerHTML = [...new Set(Object.values(REGIONS).map(v => v[1]))].map(c => `<option ${S.pcur==c?"selected":""}>${esc(c)}</option>`).join("");
+  refresh();
+}
+function setPath(path, v){ const ks = path.split("."); let o = S; ks.slice(0,-1).forEach(k => o = o[k]); o[ks[ks.length-1]] = v; }
+function delPath(path){ const ks = path.split("."); let o = S; ks.slice(0,-1).forEach(k => o = o[k]); o.splice(+ks[ks.length-1], 1); }
+
+function refresh(){
+  const c = build();
+  const total = S.markets.filter(m => m.name).reduce((a,m) => a + Math.max(0, Math.round(+m.count||0)), 0);
+  $("total").textContent = total;
+  $("mkSummary").innerHTML = S.markets.filter(m => m.name).map(m => `<span class="pill" style="margin:2px">${esc(REGIONS[m.region][0].split(" ")[0])} ${esc(m.name)}: ${esc(m.count)}</span>`).join("");
+  const sum = l => Math.round(l.reduce((a,b) => a + (+b.share||0), 0));
+  [["gSum",S.genders],["aSum",S.ages],["bSum",S.behs]].forEach(([id,l]) => { const t = sum(l); $(id).textContent = "total " + t + "%"; $(id).className = "pill " + (t === 100 || !l.length ? "ok" : "bad"); });
+  const w = warnings(c); $("warns").innerHTML = w.map(x => "⚠️ " + esc(x)).join("<br>");
+  $("out").textContent = JSON.stringify(c, null, 2);
+  try { localStorage.setItem("founderPanel", JSON.stringify(S)); } catch (e) {}
+}
+
+document.addEventListener("input", e => { const p = e.target.dataset.p; if (p) { setPath(p, e.target.value); refresh(); return; }
+  if (["business","target","price","pitch","objections","habits","pcur"].includes(e.target.id)) { S[e.target.id] = e.target.value; refresh(); } });
+document.addEventListener("change", e => { const p = e.target.dataset.p; if (p && e.target.tagName === "SELECT") { setPath(p, e.target.value); rowsHTML(); }
+  if (e.target.dataset.bias) { const b = e.target.dataset.bias; S.biases = e.target.checked ? [...new Set([...S.biases, b])] : S.biases.filter(x => x !== b); refresh(); } });
+document.addEventListener("click", e => { const t = e.target;
+  if (t.dataset.del) { delPath(t.dataset.del); rowsHTML(); }
+  if (t.dataset.addseg) { S.markets[+t.dataset.addseg].segments.push({name:"",share:0,lo:"",hi:"",alo:"",ahi:""}); rowsHTML(); } });
+const adders = {addMarket:() => S.markets.push({name:"New market",region:"US",count:20,where:"",languages:"",segments:[{name:"Everyone",share:100,lo:"",hi:""}]}),
+  addGender:() => S.genders.push({name:"",share:0}), addAge:() => S.ages.push({name:"",lo:18,hi:30,share:0}), addBeh:() => S.behs.push({name:"",how:"",share:0}),
+  addDim:() => S.dims.push({name:"",values:""}), addFact:() => S.facts.push({text:"",source:""}), addRev:() => S.reviews.push({about:"",stars:"",text:"",source:""}),
+  allAges:() => S.ages = [{name:"18-24",lo:18,hi:24,share:15},{name:"25-34",lo:25,hi:34,share:22},{name:"35-44",lo:35,hi:44,share:20},{name:"45-54",lo:45,hi:54,share:17},{name:"55-64",lo:55,hi:64,share:15},{name:"65-75",lo:65,hi:75,share:11}]};
+Object.entries(adders).forEach(([id,f]) => $(id).onclick = () => { f(); rowsHTML(); });
+$("exIndia").onclick = () => { S = exIndia(); rowsHTML(); };
+$("exWorld").onclick = () => { S = exWorld(); rowsHTML(); };
+$("exBlank").onclick = () => { S = blank(); rowsHTML(); };
+function download(name, text){ const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], {type:"text/plain"})); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); }
+$("dlCustomer").onclick = () => download("customer.json", JSON.stringify(build(), null, 2) + "\n");
+$("dlPitch").onclick = () => download("pitch.md", (S.pitch || "").trim() + "\n");
+$("copy").onclick = async () => { try { await navigator.clipboard.writeText(JSON.stringify(build(), null, 2)); $("copy").textContent = "Copied ✓"; } catch (e) { $("copy").textContent = "Select the preview and copy"; } setTimeout(() => $("copy").textContent = "Copy customer.json", 1800); };
+
+try { S = JSON.parse(localStorage.getItem("founderPanel")) || exIndia(); } catch (e) { S = exIndia(); }
+rowsHTML();
+window.__build = build; window.__load = x => { S = x === "world" ? exWorld() : x === "blank" ? blank() : exIndia(); rowsHTML(); };
+</script>
+</body>
+</html>

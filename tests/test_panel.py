@@ -439,7 +439,7 @@ class MarketAndReport(unittest.TestCase):
     def test_tally_groups_and_html_report(self):
         for i, c in enumerate(self.cards()):
             intent = 5 if c["reviews"] else 2
-            a = {"id": c["id"], "intent": intent, "buys": intent >= 4, "reason_code": "need", "reason": "r <b>",
+            a = {"id": c["id"], "intent": intent, "buys": intent >= 4, "reason_code": "need", "reason": "r </script><b>",
                  "purchases_first_month": 1 if intent >= 4 else 0}
             with open(os.path.join(self.pd, "answers", c["id"] + ".json"), "w") as fh:
                 json.dump(a, fh)
@@ -449,6 +449,133 @@ class MarketAndReport(unittest.TestCase):
         self.assertTrue(res["by_language"])
         html = panel.results_html(res)
         self.assertTrue(html.startswith("<!DOCTYPE html>"))
-        self.assertIn("By reviews read", html)
-        self.assertIn("r &lt;b&gt;", html)
-        self.assertNotIn("r <b>", html)
+        self.assertEqual(html.count("</script>"), 1)  # a buyer's text cannot close the script early
+        self.assertIn('"reviews_read": "3"', html)
+        self.assertIn("What to do next", html)
+        self.assertEqual(res["practical"]["fix_first"][0]["reason"], "need")
+        self.assertTrue(res["practical"]["best_group"])
+
+
+class Markets(unittest.TestCase):
+    """Mixed panels: buyers from several markets, each with its own region, currency, money and facts."""
+    def world(self, **extra):
+        c = customer()
+        c.update({"region": "US", "markets": [
+            {"name": "India", "region": "IN", "count": 30, "segments": [{"name": "Salaried", "share": 1, "income": [600000, 1500000]}]},
+            {"name": "Europe", "region": "EU", "count": 20},
+            {"name": "USA", "region": "US", "count": 10}]})
+        c.update(extra)
+        return c
+
+    def test_counts_regions_and_ids(self):
+        cards = panel.deal(self.world(), seed=2)
+        self.assertEqual(len(cards), 60)
+        self.assertEqual([c["id"] for c in cards][:2], ["P001", "P002"])
+        self.assertEqual(sum(1 for c in cards if c["market"] == "India"), 30)
+        india = [c for c in cards if c["market"] == "India"]
+        self.assertTrue(all(c["region"] == "IN" and c["segment"] == "Salaried" for c in india))
+        self.assertTrue(all(600000 <= c["income"] <= 1500000 for c in india))
+
+    def test_briefs_use_each_markets_currency_and_facts_and_one_price_currency(self):
+        d = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, d)
+        cp = os.path.join(d, "c.json")
+        with open(cp, "w", encoding="utf-8") as fh:
+            json.dump(self.world(), fh)
+        panel.init(d, cp, example("founder-consumer", "pitch.example.md"), seed=2)
+        panel.write_briefs(d)
+        cards = panel.load_state(d)[1]
+        ind = next(c for c in cards if c["market"] == "India")
+        eu = next(c for c in cards if c["market"] == "Europe")
+        with open(os.path.join(d, "briefs", ind["id"] + ".md"), encoding="utf-8") as fh:
+            bi = fh.read()
+        with open(os.path.join(d, "briefs", eu["id"] + ".md"), encoding="utf-8") as fh:
+            be = fh.read()
+        self.assertIn("\u20b9", bi)
+        self.assertIn("UPI", bi)
+        self.assertIn("\u20ac", be)
+        self.assertIn("euro area", be)
+        self.assertIn('"price_currency": "$"', bi)
+        self.assertIn("How you tend to decide:", bi)
+
+    def test_tally_bands_per_market_and_groups(self):
+        d = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, d)
+        cp = os.path.join(d, "c.json")
+        with open(cp, "w", encoding="utf-8") as fh:
+            json.dump(self.world(), fh)
+        panel.init(d, cp, example("founder-consumer", "pitch.example.md"), seed=2)
+        for c in panel.load_state(d)[1]:
+            with open(os.path.join(d, "answers", c["id"] + ".json"), "w") as fh:
+                json.dump({"id": c["id"], "intent": 5 if c["market"] == "India" else 1,
+                           "buys": c["market"] == "India", "reason_code": "price", "reason": "x"}, fh)
+        res = panel.tally(d)
+        mk = dict((k, r) for k, n, r in res["by_market"])
+        self.assertEqual(mk["India"], 1.0)
+        self.assertEqual(mk["Europe"], 0.0)
+        self.assertTrue(all(k.split(":")[0] in ("India", "Europe", "USA") for k, n, r in res["by_income"]))
+        self.assertTrue(res["by_bias"])
+
+    def test_biases_spread_and_can_be_limited_or_off(self):
+        cards = panel.deal(customer(), 20, 1)
+        self.assertEqual(len({c["bias"] for c in cards}), len(panel.BIASES))
+        only = panel.deal(dict(customer(), biases=["anchoring"]), 10, 1)
+        self.assertEqual({c["bias"] for c in only}, {"anchoring"})
+        self.assertEqual({c["bias"] for c in panel.deal(dict(customer(), biases=False), 5, 1)}, {""})
+        with self.assertRaises(panel.PanelError):
+            panel.deal(dict(customer(), biases=["mind reading"]))
+
+    def test_every_region_fact_has_a_source(self):
+        for reg, facts in panel.REGION_FACTS.items():
+            for f in facts:
+                self.assertTrue(f["source"].startswith("https://"), reg)
+
+
+class Realism(unittest.TestCase):
+    def test_segment_age_wins_and_sets_the_age_group(self):
+        c = customer()
+        c["segments"] = [{"name": "Student", "count": 30, "income": [0, 1000], "age": [18, 24]},
+                         {"name": "Executive", "count": 20, "income": [9000, 9999], "age": [40, 55]}]
+        c["age_groups"] = [{"name": "young", "range": [18, 30], "share": 0.5}, {"name": "older", "range": [31, 70], "share": 0.5}]
+        for x in panel.deal(c, seed=3):
+            if x["segment"] == "Student":
+                self.assertTrue(18 <= x["age"] <= 24)
+                self.assertEqual(x["age_group"], "young")
+            else:
+                self.assertTrue(40 <= x["age"] <= 55)
+                self.assertEqual(x["age_group"], "older")
+
+    def test_practical_checks_and_questions_reach_the_report(self):
+        d = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, d)
+        panel.init(d, example("founder-consumer", "customer.example.json"), example("founder-consumer", "pitch.example.md"), n=3, seed=1)
+        panel.write_briefs(d)
+        with open(os.path.join(d, "briefs", "P001.md"), encoding="utf-8") as fh:
+            self.assertIn("refunds, cancelling", fh.read())
+        qs = [["Is there a delivery fee?"], "Can I get a refund?",
+              [{"question": "\u8c01\u5728\u7ecf\u8425\uff1f", "topic": "who is behind it"}, ""]]
+        for i, q in enumerate(qs, 1):
+            with open(os.path.join(d, "answers", "P%03d.json" % i), "w") as fh:
+                json.dump({"id": "P%03d" % i, "intent": 2, "buys": False, "reason_code": "trust", "reason": "x",
+                           "questions_before_buying": q}, fh)
+        res = panel.tally(d)
+        topics = {q["topic"] for q in res["questions"]}
+        self.assertEqual(topics, {"price, fees and discounts", "refunds, cancelling, free trial", "who is behind it"})
+        self.assertIn("Questions buyers need answered", panel.results_md(res))
+        panel.write_briefs(d)  # brief lists the topic names
+        self.assertEqual(len(panel.TOPIC_NAMES), len(panel.QUESTION_TOPICS) + 1)
+
+
+class SizeWithCounts(unittest.TestCase):
+    def test_size_scales_headcounts_and_keeps_the_mix(self):
+        d = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, d)
+        for args, want in (([], 100), (["--size", "small"], 20), (["--n", "50"], 50)):
+            pd = os.path.join(d, "x%d" % want)
+            with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+                panel.main(["--dir", pd, "init", "--customer", example("founder-consumer", "customer.world.example.json"),
+                            "--pitch", example("founder-consumer", "pitch.world.example.md"), "--seed", "1"] + args)
+            cards = panel.load_state(pd)[1]
+            self.assertEqual(len(cards), want)
+            india = sum(1 for c in cards if c["market"] == "India")
+            self.assertAlmostEqual(india / float(want), 0.4, delta=0.05)
