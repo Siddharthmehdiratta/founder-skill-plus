@@ -155,6 +155,17 @@ def _quota(items, n, key="share"):
     return counts
 
 
+def unsourced(c):
+    """Warnings for market facts or reviews without a source link: buyers are told these are real."""
+    m = c.get("market") or {}
+    out = []
+    for kind in ("facts", "reviews"):
+        k = sum(1 for x in m.get(kind) or [] if not str(x.get("source", "")).strip())
+        if k:
+            out.append("%d market %s have no 'source' link. Buyers are told these are real: add links, or remove them." % (k, kind))
+    return out
+
+
 def validate_customer(c):
     for k in ("business", "target", "segments", "behaviours", "objections"):
         if k not in c or c[k] in ("", [], None):
@@ -172,6 +183,18 @@ def validate_customer(c):
     for g in c.get("age_groups") or []:
         if "name" not in g or len(g.get("range") or []) != 2 or g["range"][0] > g["range"][1]:
             raise PanelError("every age group needs a name and a range [youngest, oldest]")
+    for lg in c.get("languages") or []:
+        if "name" not in lg:
+            raise PanelError("every language needs a name and a share")
+    m = c.get("market") or {}
+    if not isinstance(m, dict):
+        raise PanelError("'market' must be an object with 'facts' and/or 'reviews'")
+    for f in m.get("facts") or []:
+        if not (isinstance(f, dict) and str(f.get("text", "")).strip()):
+            raise PanelError("every market fact needs a 'text' (and ideally a 'source' link)")
+    for rv in m.get("reviews") or []:
+        if not (isinstance(rv, dict) and str(rv.get("text", "")).strip()):
+            raise PanelError("every review needs a 'text' (and ideally 'about', 'stars' and a 'source' link)")
     for dim in c.get("dimensions") or []:
         if "name" not in dim or not dim.get("values") or any("name" not in v for v in dim["values"]):
             raise PanelError("every dimension needs a name and values, each with a name and a share")
@@ -273,6 +296,17 @@ def deal(customer, n=100, seed=7):
         used.add(nm)
         return nm
 
+    langs = _spread(customer["languages"], n, rng) if customer.get("languages") else [None] * n
+    reviews = (customer.get("market") or {}).get("reviews") or []
+
+    def reviews_for(b):
+        # Careful shoppers read more reviews; plenty of people read none.
+        if not reviews:
+            return []
+        careful = any(w in (b.get("name", "") + " " + b.get("how", "")).lower() for w in ("review", "research", "compare"))
+        k = min(len(reviews), 3 if careful else rng.choice([0, 0, 1, 2]))
+        return sorted(rng.sample(range(len(reviews)), k))
+
     skeptic = float(customer.get("skeptic_share", SKEPTIC_SHARE))
     open_ids = set(rng.sample(range(n), int(round(n * max(0.0, min(1.0, skeptic))))))
     cards = []
@@ -286,12 +320,14 @@ def deal(customer, n=100, seed=7):
             "gender": genders[i]["name"] if genders[i] else "",
             "age_group": ages[i]["name"] if ages[i] else "",
             "traits": {dn: vals[i]["name"] for dn, vals in dims},
+            "language": langs[i]["name"] if langs[i] else (customer.get("language") or ""),
             "segment": s["name"],
             "income": int(round(rng.uniform(lo, hi), -3)),
             "behaviour": b["name"],
             "behaviour_how": b.get("how", ""),
             "objection": "" if i in open_ids else objections[rng.randrange(len(objections))],
             "habit": habits[rng.randrange(len(habits))] if habits else "",
+            "reviews": reviews_for(b),
         })
     return cards
 
@@ -353,7 +389,7 @@ How you buy: {behaviour}. {behaviour_how}
 You are one of these people: {target}.
 These facts are context about one specific person's life, not a script. Act as this individual would, never as a stereotype of any group.
 === END ===
-
+{market_block}
 === WHAT IS BEING OFFERED (you see it for the first time, the way a passer-by or a scroller would) ===
 {pitch}
 === END ===
@@ -392,9 +428,10 @@ def write_briefs(d, wave=WAVE):
                              cur=_currency(state["customer"]),
                              gender_part=(", %s" % c["gender"]) if c.get("gender") else "",
                              traits_line="".join("Your %s: %s.\n" % (k, v) for k, v in (c.get("traits") or {}).items()),
-                             language_line=_language_line(state["customer"]),
+                             language_line=_language_line(c.get("language", "")),
                              reason_en_line=("\n  \"reason_en\": \"the same reason translated into English\","
-                                             if _foreign(state["customer"]) else ""), income_txt=_money(c["income"], state["customer"]),
+                                             if _foreign(c.get("language", "")) else ""),
+                             market_block=_market_block(state["customer"], c), income_txt=_money(c["income"], state["customer"]),
                              where_line=(", in %s" % state["customer"]["where"]) if state["customer"].get("where") else "",
                              objection_line=('The first thing that comes to mind when you hear an offer like this: "%s"' % c["objection"])
                              if c.get("objection") else "Nobody has told you what to doubt. React the way you really would.",
@@ -484,15 +521,40 @@ def _currency(customer):
     return customer.get("currency") or (reg["currency"] if reg else "$")
 
 
-def _foreign(customer):
-    lang = (customer.get("language") or "").strip()
+def _foreign(lang):
+    lang = (lang or "").strip()
     return bool(lang) and lang.lower() not in ("english", "en")
 
 
-def _language_line(customer):
-    if not _foreign(customer):
+def _market_block(customer, card):
+    """Real, researched market facts every buyer knows, plus the few real reviews this buyer has read."""
+    m = customer.get("market") or {}
+    facts = [f["text"].strip() for f in (m.get("facts") or [])][:8]
+    allrev = m.get("reviews") or []
+    seen = [allrev[i] for i in card.get("reviews") or [] if i < len(allrev)]
+    if not facts and not seen:
         return ""
-    lang = customer["language"].strip()
+    out = ["", "=== WHAT YOU ALREADY KNOW (real facts and real reviews, researched by the founder) ==="]
+    if facts:
+        out.append("How people around you buy things like this:")
+        out += ["- %s" % f for f in facts]
+    if seen:
+        out.append("Reviews you have read of other options:")
+        for rv in seen:
+            stars = rv.get("stars")
+            star_txt = ("%s/5 " % stars) if stars not in (None, "") else ""
+            about = (" about %s" % rv["about"]) if rv.get("about") else ""
+            out.append('- %sreview%s: "%s"' % (star_txt, about, rv["text"].strip()))
+    elif allrev:
+        out.append("You have not read any reviews of other options.")
+    out.append("=== END ===")
+    return "\n".join(out) + "\n"
+
+
+def _language_line(lang):
+    if not _foreign(lang):
+        return ""
+    lang = lang.strip()
     return ("\nYou think and talk in %s. Write reason, objection, unprompted_doubt and would_change_my_mind in %s,"
             " the way you would really say it (mixing in English words is fine if that is how you talk)." % (lang, lang))
 
@@ -543,6 +605,14 @@ def _quote(r):
     """The buyer's reason as written, with the English translation when they answered in another language."""
     en = (r.get("reason_en") or "").strip()
     return r["reason"] + (" [English: %s]" % en if en and en != r["reason"] else "")
+
+
+def _group_reviews(rows):
+    out = {}
+    for r in rows:
+        k = len(r.get("reviews") or [])
+        out.setdefault("read no reviews" if k == 0 else "read %d review%s" % (k, "" if k == 1 else "s"), []).append(r)
+    return sorted(((k, len(v), _rate(v)) for k, v in out.items()), key=lambda t: t[0])
 
 
 def _group_trait(rows, dn):
@@ -623,6 +693,8 @@ def tally(d):
         "by_segment": group("segment"), "by_behaviour": group("behaviour"), "by_income": group("income_band"),
         "by_gender": group("gender") if any(r.get("gender") for r in rows) else [],
         "by_age_group": group("age_group") if any(r.get("age_group") for r in rows) else [],
+        "by_language": group("language") if len({r.get("language", "") for r in rows}) > 1 else [],
+        "by_reviews_read": _group_reviews(rows) if (state["customer"].get("market") or {}).get("reviews") else [],
         "by_trait": {dn: _group_trait(rows, dn) for dn in sorted({k for r in rows for k in (r.get("traits") or {})})},
         "why_not": [(k, len(v), [_quote(r) for r in v[:2]], [r["id"] for r in v[:2]]) for k, v in reasons(no)],
         "why_yes": [(k, len(v), [_quote(r) for r in v[:2]], [r["id"] for r in v[:2]]) for k, v in reasons(yes)],
@@ -672,6 +744,10 @@ def results_md(res):
         tables.append(("By gender", res["by_gender"]))
     if res.get("by_age_group"):
         tables.append(("By age group", res["by_age_group"]))
+    if res.get("by_language"):
+        tables.append(("By language", res["by_language"]))
+    if res.get("by_reviews_read"):
+        tables.append(("By reviews read", res["by_reviews_read"]))
     for dn, rows_ in sorted((res.get("by_trait") or {}).items()):
         tables.append(("By %s" % dn, rows_))
     for title, rows_ in tables:
@@ -742,6 +818,70 @@ def compare(dir_a, dir_b):
     return "\n".join(L) + "\n"
 
 
+def _esc(t):
+    return (str(t).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;"))
+
+
+def results_html(res):
+    """One self-contained page: headline numbers, a bar per group, reasons and doubts. Opens in any browser."""
+    pct = lambda v: "%.0f%%" % (v * 100)
+    lo, hi = res.get("buy_rate_interval_90", [0, 0])
+    cards = [("Raw buy rate", pct(res["buy_rate"]), "upper bound; range %s to %s" % (pct(lo), pct(hi)))]
+    if res.get("realistic_rate") is not None:
+        cards.insert(0, ("Realistic estimate", pct(res["realistic_rate"]), "weighted by stated intent"))
+    if res.get("revenue_first_month_per_100_reached") is not None:
+        cards.append(("First-month revenue", "%s%s" % (res.get("currency", "$"), _money(
+            res["revenue_first_month_per_100_reached"], res.get("customer_for_format") or {})), "per 100 people reached"))
+    cards.append(("Buyers", "%d" % res["answered"], "%d buy, %d pass" % (res["buys"], res["passes"])))
+    tables = [("By segment", res["by_segment"]), ("By buying behaviour", res["by_behaviour"]), ("By income", res["by_income"])]
+    for key, title in (("by_gender", "By gender"), ("by_age_group", "By age group"), ("by_language", "By language"),
+                       ("by_reviews_read", "By reviews read")):
+        if res.get(key):
+            tables.append((title, res[key]))
+    for dn, rows_ in sorted((res.get("by_trait") or {}).items()):
+        tables.append(("By %s" % dn, rows_))
+    H = ["<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>",
+         "<title>Buyer panel: %s</title><style>" % _esc(res["business"]),
+         "body{font:16px/1.5 system-ui,sans-serif;max-width:860px;margin:0 auto;padding:24px;color:#1c2330;background:#fafbfc}",
+         "h1{font-size:24px;margin:0 0 4px}h2{font-size:18px;margin:28px 0 10px}.sub{color:#5b6573;font-size:14px}",
+         ".cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:18px 0}",
+         ".card{background:#fff;border:1px solid #e3e7ec;border-radius:10px;padding:14px}.big{font-size:28px;font-weight:700}",
+         ".row{display:grid;grid-template-columns:minmax(120px,38%) 1fr 54px;gap:10px;align-items:center;margin:6px 0;font-size:14px}",
+         ".bar{background:#e9edf2;border-radius:6px;height:14px;overflow:hidden}.fill{background:#2f6fde;height:100%}",
+         ".thin{color:#8a93a0;font-size:12px}blockquote{margin:8px 0;padding:8px 12px;background:#fff;border-left:3px solid #2f6fde;font-size:14px}",
+         ".note{background:#fff6e0;border:1px solid #f1d58a;border-radius:8px;padding:10px 14px;font-size:14px}</style></head><body>",
+         "<h1>Buyer panel: %s</h1><div class='sub'>Seed %s · simulated buyers, not customers</div>" % (_esc(res["business"]), _esc(res["seed"])),
+         "<div class='cards'>"]
+    for t, v, sub in cards:
+        H.append("<div class='card'><div class='sub'>%s</div><div class='big'>%s</div><div class='thin'>%s</div></div>" % (_esc(t), _esc(v), _esc(sub)))
+    H.append("</div><div class='note'>Use this to find objections and pick between pitches. Confirm the big calls with real"
+             " people (a waitlist, a pre-sale, a price on a page) before you spend.</div>")
+    for title, rows_ in tables:
+        if not rows_:
+            continue
+        H.append("<h2>%s</h2>" % _esc(title))
+        for k, n, r in rows_:
+            H.append("<div class='row'><div>%s <span class='thin'>(%d%s)</span></div><div class='bar'><div class='fill' style='width:%.0f%%'></div></div><div>%s</div></div>"
+                     % (_esc(k or "(not set)"), n, ", thin" if n < 8 else "", r * 100, pct(r)))
+    for title, key in (("Why they pass", "why_not"), ("Why they buy", "why_yes")):
+        if res.get(key):
+            H.append("<h2>%s</h2>" % title)
+            for k, n, quotes, ids in res[key]:
+                H.append("<div><b>%s</b> <span class='thin'>%d buyer%s</span></div>" % (_esc(k), n, "" if n == 1 else "s"))
+                for q, i in zip(quotes, ids):
+                    H.append("<blockquote>%s <span class='thin'>(%s)</span></blockquote>" % (_esc(q), _esc(i)))
+    if res.get("unprompted"):
+        H.append("<h2>Doubts nobody planted</h2>")
+        for pid, t in res["unprompted"][:15]:
+            H.append("<blockquote>%s <span class='thin'>(%s)</span></blockquote>" % (_esc(t), _esc(pid)))
+    if res.get("flip"):
+        H.append("<h2>What would flip a no</h2><ul>")
+        H += ["<li>%s</li>" % _esc(f) for f in res["flip"][:12]]
+        H.append("</ul>")
+    H.append("</body></html>")
+    return "\n".join(H) + "\n"
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--dir", default=os.path.join("founder", "panel"))
@@ -772,6 +912,8 @@ def main(argv=None):
             cards = init(a.dir, a.customer, a.pitch, n, a.seed, a.only)
             st, _ = load_state(a.dir)
             print("dealt %d buyers (seed %s) into %s. Next: panel.py prompts" % (len(cards), st["seed"], a.dir))
+            for w in unsourced(st["customer"]):
+                print("warning: %s" % w, file=sys.stderr)
         elif a.cmd == "prompts":
             waves = write_briefs(a.dir, a.wave)
             n = sum(len(w) for w in waves)
@@ -798,7 +940,10 @@ def main(argv=None):
             with open(out, "w", encoding="utf-8") as fh:
                 fh.write(text)
             _write_json(_path(a.dir, "results.json"), res)
-            print("%d buy · %d pass (%.0f%%). Wrote %s" % (res["buys"], res["passes"], res["buy_rate"] * 100, out))
+            html = os.path.splitext(out)[0] + ".html"
+            with open(html, "w", encoding="utf-8") as fh:
+                fh.write(results_html(res))
+            print("%d buy · %d pass (%.0f%%). Wrote %s and %s" % (res["buys"], res["passes"], res["buy_rate"] * 100, out, html))
         elif a.cmd == "compare":
             print(compare(a.a, a.b))
         elif a.cmd == "status":

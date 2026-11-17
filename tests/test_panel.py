@@ -380,3 +380,75 @@ class Sizes(unittest.TestCase):
                 panel.main(["--dir", pd, "init", "--customer", example("founder-consumer", "customer.example.json"),
                             "--pitch", example("founder-consumer", "pitch.example.md"), "--size", size, "--seed", "1"])
             self.assertEqual(panel.load_state(pd)[0]["n"], want)
+
+
+class MarketAndReport(unittest.TestCase):
+    """Language mix, real market facts and reviews per buyer, and the HTML report."""
+    def setUp(self):
+        self.d = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, self.d)
+        c = customer()
+        c["languages"] = [{"name": "English", "share": 0.5}, {"name": "Hindi", "share": 0.5}]
+        c["behaviours"] = [{"name": "Reads every review", "share": 0.5, "how": "Checks reviews first."},
+                           {"name": "Impulse buyer", "share": 0.5, "how": "Buys on the spot."}]
+        c["market"] = {"facts": [{"text": "Most people pay by UPI.", "source": "https://example.org/a"}],
+                       "reviews": [{"about": "X", "stars": 2, "text": "Too sweet.", "source": "https://example.org/r1"},
+                                   {"about": "Y", "stars": 5, "text": "Loved it.", "source": "https://example.org/r2"},
+                                   {"about": "Z", "stars": 3, "text": "Okay.", "source": ""}]}
+        self.c = c
+        self.cp = os.path.join(self.d, "c.json")
+        with open(self.cp, "w", encoding="utf-8") as fh:
+            json.dump(c, fh)
+        self.pd = os.path.join(self.d, "p")
+        panel.init(self.pd, self.cp, example("founder-consumer", "pitch.example.md"), n=40, seed=3)
+
+    def cards(self):
+        return panel.load_state(self.pd)[1]
+
+    def test_language_mix_and_translation_only_for_non_english(self):
+        cards = self.cards()
+        self.assertEqual(sum(1 for c in cards if c["language"] == "Hindi"), 20)
+        panel.write_briefs(self.pd)
+        for c in cards:
+            with open(os.path.join(self.pd, "briefs", c["id"] + ".md"), encoding="utf-8") as fh:
+                b = fh.read()
+            self.assertEqual("reason_en" in b, c["language"] == "Hindi")
+
+    def test_careful_shoppers_read_three_reviews_and_see_facts(self):
+        cards = self.cards()
+        for c in cards:
+            if c["behaviour"] == "Reads every review":
+                self.assertEqual(len(c["reviews"]), 3)
+            else:
+                self.assertLessEqual(len(c["reviews"]), 2)
+        panel.write_briefs(self.pd)
+        careful = next(c for c in cards if c["behaviour"] == "Reads every review")
+        with open(os.path.join(self.pd, "briefs", careful["id"] + ".md"), encoding="utf-8") as fh:
+            b = fh.read()
+        self.assertIn("Most people pay by UPI.", b)
+        self.assertIn('2/5 review about X: "Too sweet."', b)
+
+    def test_unsourced_items_are_flagged(self):
+        self.assertEqual(panel.unsourced(self.c), ["1 market reviews have no 'source' link. Buyers are told these are"
+                                                   " real: add links, or remove them."])
+
+    def test_bad_market_is_refused(self):
+        with self.assertRaises(panel.PanelError):
+            panel.deal(dict(self.c, market={"reviews": [{"stars": 3}]}))
+
+    def test_tally_groups_and_html_report(self):
+        for i, c in enumerate(self.cards()):
+            intent = 5 if c["reviews"] else 2
+            a = {"id": c["id"], "intent": intent, "buys": intent >= 4, "reason_code": "need", "reason": "r <b>",
+                 "purchases_first_month": 1 if intent >= 4 else 0}
+            with open(os.path.join(self.pd, "answers", c["id"] + ".json"), "w") as fh:
+                json.dump(a, fh)
+        res = panel.tally(self.pd)
+        groups = dict((k, r) for k, n, r in res["by_reviews_read"])
+        self.assertEqual(groups["read no reviews"], 0.0)
+        self.assertTrue(res["by_language"])
+        html = panel.results_html(res)
+        self.assertTrue(html.startswith("<!DOCTYPE html>"))
+        self.assertIn("By reviews read", html)
+        self.assertIn("r &lt;b&gt;", html)
+        self.assertNotIn("r <b>", html)

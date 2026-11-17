@@ -27,14 +27,22 @@ README. What the Plus edition adds, all in `skills/founder-consumer/panel.py`:
 9. **Pick your panel.** `--size small|medium|large` (20, 100, 250 buyers) or any
    `--n`. Or set exact headcounts per category (Category A 50, B 30, C 20) and
    run only the ones you want with `--only "Category A,Category B"`.
-10. **Stricter plan verdict.** Profitable now also needs the realistic estimate to
+10. **Real market knowledge.** A `market` block with researched facts (how people
+    there pay, shop and compare) and real competitor reviews, each with a source
+    link. Every buyer knows the facts; each reads 0 to 3 reviews, careful shoppers
+    the most, and the results show whether reviews changed who buys. Facts, not
+    stereotypes about how a nationality "thinks".
+11. **Language mix.** `languages` with shares, e.g. India: English, Hinglish, Hindi.
+12. **Visual report.** `tally` also writes `results.html`: headline cards and a bar
+    for every group, the reasons people pass, and the doubts nobody planted.
+13. **Stricter plan verdict.** Profitable now also needs the realistic estimate to
    clear its own bar (`--min-realistic-rate`, default 10%).
 
 Examples: `customer.india.example.json` with `pitch.india.example.md` (a sim-rig
 business in India, Hinglish answers) and `customer.world.example.json` (a US café with genders, age groups and
 a custom split).
 
-Tests: `python3 -m unittest discover -s tests` (51 tests, all passing).
+Tests: `python3 -m unittest discover -s tests` (56 tests, all passing).
 
 **Install the Plus edition.** Paste this link into Claude and say `install skill`:
 

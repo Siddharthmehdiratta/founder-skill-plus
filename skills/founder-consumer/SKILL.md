@@ -58,6 +58,8 @@ panel wrong.
 - `region`: one of `IN US UK EU CN JP AE SG AU BR`. Sets the currency, number
   format (India uses lakhs: ₹13,21,000) and local first names matched to gender.
   `"locale": "IN"` still works. Your own `currency` or `names` override it.
+- `languages`: a mix, e.g. `[{"name": "English", "share": 0.4}, {"name":
+  "Hinglish", "share": 0.6}]`. Each buyer gets one; overrides `language`.
 - `language`: e.g. `"Hindi"`, `"Mandarin Chinese"`, `"Spanish"`. Buyers answer in
   it, the way they would really talk, plus an English translation of the reason.
 - `genders`: `[{"name": "female", "share": 0.5}, ...]`. Names match the gender.
@@ -80,6 +82,29 @@ panel wrong.
 See `customer.india.example.json` with `pitch.india.example.md` (India,
 Hinglish answers) and
 `customer.world.example.json` (United States, genders, age groups, dimensions).
+
+## Step 1b: real market facts and reviews (recommended)
+
+Buyers react better when they know what real shoppers in that market know. Add
+a `market` block to `customer.json`:
+
+- `facts`: up to 8 short, current facts about how people in this market buy
+  this kind of product (how they pay, where they hear about it, what they
+  compare against, recent trends). Every buyer sees all of them.
+- `reviews`: 5 to 15 real reviews of competitors or substitutes, each with
+  `about`, `stars` and `text` (keep each under about 25 words; trim or
+  paraphrase longer ones). Each buyer reads 0 to 2 of them; careful shoppers
+  (behaviours that mention reviews, research or comparing) read 3. The results
+  show whether reading reviews changed who buys.
+
+Rules: research it now, with links. Use `/founder-competitors` output and web
+search. Every fact and review needs a `source` link; `init` warns about any
+without one. Never invent a fact, a statistic or a review: buyers are told these
+are real. Do not hard-code how a nationality "thinks": describe the market (how
+people pay, shop and compare), not a stereotype of the people.
+
+Use `languages` (a mix with shares) instead of one `language` when buyers in the
+market speak different languages, e.g. English, Hinglish and Hindi in India.
 
 ## Step 2: the pitch
 
@@ -143,7 +168,9 @@ can be noise.
 
 ## Step 4: read it to the user
 
-`PANEL tally` writes `founder/panel/results.md` and `results.json`. Give the user:
+`PANEL tally` writes `founder/panel/results.md`, `results.json` and
+`results.html` (a visual one-page report with a bar per group; open it in a
+browser). Give the user:
 
 1. The headline: "40 buy · 60 pass", the buy rate with its 90% range, and the
    realistic estimate (weighted intent). Lead with the realistic estimate.

@@ -1,9 +1,23 @@
 {
+  "_note": "EXAMPLE ONLY. The language shares, market facts and reviews below are placeholders written for this example, not research. Before a real run, replace them with your own numbers and real facts and reviews, each with a source link (see SKILL.md, step 1b).",
   "business": "Tron Simulator home rig (an example: a turnkey direct-drive racing simulator, delivered and set up)",
   "target": "Indian car and racing enthusiasts, 22 to 50, who already game on PC or console and spend on hobbies",
   "where": "India",
   "region": "IN",
-  "language": "Hinglish (Hindi mixed with English)",
+  "languages": [
+    {
+      "name": "English",
+      "share": 0.4
+    },
+    {
+      "name": "Hinglish (Hindi mixed with English)",
+      "share": 0.45
+    },
+    {
+      "name": "Hindi",
+      "share": 0.15
+    }
+  ],
   "price": 250000,
   "skeptic_share": 0.2,
   "intent_weights": {
@@ -152,5 +166,47 @@
         }
       ]
     }
-  ]
+  ],
+  "market": {
+    "facts": [
+      {
+        "text": "Big purchases like this are usually paid on no-cost EMI rather than in one go.",
+        "source": ""
+      },
+      {
+        "text": "Most sim racers here started on a gear or belt wheel and upgrade parts one at a time.",
+        "source": ""
+      },
+      {
+        "text": "Imported direct-drive bases are bought through a few Indian resellers, with import duty in the price.",
+        "source": ""
+      }
+    ],
+    "reviews": [
+      {
+        "about": "an imported direct-drive kit from a reseller",
+        "stars": 4,
+        "text": "Great force feedback, but the base took six weeks to arrive and the reseller stopped replying after delivery.",
+        "source": ""
+      },
+      {
+        "about": "a local cockpit maker",
+        "stars": 2,
+        "text": "Rig flexes under hard braking and they never sent the replacement bracket they promised.",
+        "source": ""
+      },
+      {
+        "about": "a sim racing lounge",
+        "stars": 5,
+        "text": "Tried a full direct-drive rig for an hour before buying my own. Best money I spent.",
+        "source": ""
+      },
+      {
+        "about": "a budget wheel and pedal set",
+        "stars": 3,
+        "text": "Fine to start, but you outgrow the pedals in a month.",
+        "source": ""
+      }
+    ]
+  }
 }
