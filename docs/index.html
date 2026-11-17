@@ -50,6 +50,7 @@ footer{text-align:center;color:var(--sub);font-size:13px;padding:0 16px 30px}
 <header>
   <h1>🧪 Build your buyer panel</h1>
   <p>Pick your markets, how many people from each, their genders, ages, incomes, habits and biases. Everything is custom. Then let the Founder skill in Claude show your idea to every one of them.</p>
+  <p style="margin-top:10px"><a href="how-to-use.html" style="color:#fff;font-weight:700;background:rgba(255,255,255,.22);padding:7px 14px;border-radius:999px;text-decoration:none">New here? Read the 6-step beginner's guide</a></p>
   <div class="ex"><button id="exIndia">🇮🇳 Load India example</button><button id="exWorld">🌍 Load 4-market example</button><button id="exBlank">✨ Start blank</button></div>
 </header>
 <main>
@@ -101,7 +102,8 @@ footer{text-align:center;color:var(--sub);font-size:13px;padding:0 16px 30px}
     <button class="btn" id="dlCustomer">Download customer.json</button>
     <button class="btn alt" id="dlPitch">Download pitch.md</button>
     <button class="btn alt" id="copy">Copy customer.json</button>
-    <ol class="steps hint" style="margin-top:12px">
+    <p class="hint" style="margin-top:12px"><a href="how-to-use.html"><b>Step-by-step beginner's guide</b></a></p>
+    <ol class="steps hint">
       <li>Install the skill: paste <b>github.com/Siddharthmehdiratta/founder-skill-plus</b> into Claude and say "install skill".</li>
       <li>Put both files in a <b>founder</b> folder in your project.</li>
       <li>In Claude, type <b>/founder-consumer</b> and say "use my founder/customer.json and founder/pitch.md". Start with 20 buyers for a cheap first look.</li>
@@ -111,7 +113,7 @@ footer{text-align:center;color:var(--sub);font-size:13px;padding:0 16px 30px}
   <div class="card"><h2>👀 Preview</h2><pre id="out"></pre></div>
 </div>
 </main>
-<footer>Simulated buyers are research, not customers. Use them to find objections and pick between pitches, then test with real people. · <a href="https://github.com/Siddharthmehdiratta/founder-skill-plus">GitHub</a> · <a href="example-report.html">See an example report</a></footer>
+<footer>Simulated buyers are research, not customers. Use them to find objections and pick between pitches, then test with real people. · <a href="https://github.com/Siddharthmehdiratta/founder-skill-plus">GitHub</a> · <a href="example-report.html">See an example report</a> · <a href="how-to-use.html">Beginner's guide</a></footer>
 
 <script>
 const REGIONS = {IN:["🇮🇳 India","₹"],US:["🇺🇸 United States","$"],UK:["🇬🇧 United Kingdom","£"],EU:["🇪🇺 Europe","€"],CN:["🇨🇳 China","¥"],JP:["🇯🇵 Japan","JP¥"],AE:["🇦🇪 UAE","AED "],SG:["🇸🇬 Singapore","S$"],AU:["🇦🇺 Australia","A$"],BR:["🇧🇷 Brazil","R$"]};

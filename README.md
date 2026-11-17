@@ -2,7 +2,7 @@
 
 **Build a panel of AI buyers** (30 from India, 20 from Europe, 10 from the US, any genders, ages, incomes and habits you choose), show them your pitch, and get back who would buy, who would not, why, what to fix first, and what price to test. Free. Runs in Claude.
 
-### 👉 [Open the panel builder](https://siddharthmehdiratta.github.io/founder-skill-plus/) · [See an example report](https://siddharthmehdiratta.github.io/founder-skill-plus/example-report.html)
+### 👉 [Open the panel builder](https://siddharthmehdiratta.github.io/founder-skill-plus/) · [See an example report](https://siddharthmehdiratta.github.io/founder-skill-plus/example-report.html) · [Beginner's guide](https://siddharthmehdiratta.github.io/founder-skill-plus/how-to-use.html)
 
 A fork of [Jakeschincariol/founder-skill](https://github.com/Jakeschincariol/founder-skill) (MIT) with a rebuilt consumer panel. The other ten skills (board, CFO, marketing, launch...) are the original's; the original README is below the line. **Its install steps install the original edition, without these upgrades: use the ones above.**
 

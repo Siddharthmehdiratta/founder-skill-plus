@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Founder Plus · How to use it (beginner's guide)</title>
+<meta name="description" content="Step-by-step beginner's guide to testing your business idea on AI customers with Founder Plus and Claude.">
+<style>
+:root{--bg:#f4f1ff;--card:#fff;--ink:#1b1530;--sub:#5f5878;--line:#e7e2f5;--acc:#7c3aed;--acc2:#ec4899}
+*{box-sizing:border-box}body{margin:0;font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:linear-gradient(120deg,#4c1d95 0%,#7c3aed 45%,#ec4899 100%);color:#fff;padding:32px 20px 70px;text-align:center}
+header h1{margin:0;font-size:30px;letter-spacing:-.02em}header p{margin:10px auto 0;max-width:620px;color:#f3e8ff}
+main{max-width:780px;margin:-48px auto 40px;padding:0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:14px;box-shadow:0 4px 14px rgba(76,29,149,.07)}
+.card h2{margin:0 0 8px;font-size:20px}
+.need{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.need div{border-radius:14px;padding:14px;color:#fff;font-weight:600}
+.need div small{display:block;font-weight:400;opacity:.92;margin-top:4px}
+.step{display:grid;grid-template-columns:46px 1fr;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
+.step:last-child{border-bottom:0}
+.num{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px}
+.step h3{margin:6px 0 6px;font-size:17px}.step p{margin:4px 0}.time{font-size:12px;color:var(--sub);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+code,.copy{font:14px ui-monospace,Consolas,monospace;background:#1b1530;color:#f5d0fe;border-radius:10px;padding:10px 12px;display:block;margin:8px 0;white-space:pre-wrap;word-break:break-word}
+.copy{cursor:pointer;position:relative}.copy::after{content:"tap to copy";position:absolute;right:10px;top:-9px;background:var(--acc2);color:#fff;font:600 10px system-ui;padding:2px 8px;border-radius:999px}
+.copy.done::after{content:"copied ✓";background:#10b981}
+.btn{display:inline-block;background:linear-gradient(120deg,var(--acc),var(--acc2));color:#fff;text-decoration:none;font-weight:700;border-radius:12px;padding:11px 18px;margin:6px 6px 0 0}
+.btn.alt{background:#fff;color:var(--acc);border:2px solid var(--acc)}
+.tip{background:#fff7d6;border:1px solid #fcd34d;border-radius:12px;padding:10px 14px;font-size:14px;margin-top:8px}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.tools div{background:#faf7ff;border:1px solid var(--line);border-radius:12px;padding:12px;font-size:14px}.tools b{display:block;font-family:ui-monospace,Consolas,monospace;color:var(--acc)}
+details{background:#faf7ff;border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:8px 0}summary{cursor:pointer;font-weight:600}
+footer{text-align:center;color:var(--sub);font-size:13px;padding:0 16px 30px}a{color:var(--acc)}
+</style>
+</head>
+<body>
+<header>
+  <h1>How to use Founder Plus</h1>
+  <p>A beginner's guide. No coding needed. About 20 minutes the first time, 5 minutes after that.</p>
+</header>
+<main>
+
+<div class="card">
+  <h2>What it does, in one line</h2>
+  <p>You describe your business idea and pick the customers you want to sell to. AI customers react to it like real people would, and you get a report on who would buy, what holds people back, the questions they'd ask, and the price that feels right.</p>
+  <a class="btn" href="index.html">Open the customer builder</a><a class="btn alt" href="example-report.html">See a sample report</a>
+</div>
+
+<div class="card">
+  <h2>What you need</h2>
+  <div class="need">
+    <div style="background:linear-gradient(135deg,#7c3aed,#a855f7)">A computer<small>Windows or Mac</small></div>
+    <div style="background:linear-gradient(135deg,#ec4899,#f97316)">A paid Claude plan<small>Pro or above. It includes Claude Code.</small></div>
+    <div style="background:linear-gradient(135deg,#0ea5e9,#22c55e)">The Claude Desktop app<small>Free download from claude.ai</small></div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>The steps</h2>
+
+  <div class="step"><div class="num">1</div><div><div class="time">3 minutes</div>
+    <h3>Pick your customers</h3>
+    <p>Open the <a href="index.html">customer builder</a>. Type your idea and price, then choose who your customers are: where they live, age, gender, income and how they shop. Add as many groups as you like.</p>
+    <p>Press <b>Download customer.json</b> and <b>Download pitch.md</b>. You now have 2 files.</p>
+  </div></div>
+
+  <div class="step"><div class="num">2</div><div><div class="time">1 minute</div>
+    <h3>Make a folder for your idea</h3>
+    <p>On your computer, make a new folder, for example <b>my-idea</b>. Inside it, make another folder called <b>founder</b>. Move your 2 downloaded files into the <b>founder</b> folder.</p>
+    <code>my-idea
+└─ founder
+   ├─ customer.json
+   └─ pitch.md</code>
+  </div></div>
+
+  <div class="step"><div class="num">3</div><div><div class="time">5 minutes</div>
+    <h3>Open Claude Desktop in "Code"</h3>
+    <p>Download and install the Claude Desktop app from <a href="https://claude.ai/download" target="_blank" rel="noopener">claude.ai/download</a>. Sign in with your Pro (or higher) plan.</p>
+    <p>Open the <b>Code</b> tab and choose your <b>my-idea</b> folder.</p>
+  </div></div>
+
+  <div class="step"><div class="num">4</div><div><div class="time">2 minutes, only the first time</div>
+    <h3>Install Founder Plus</h3>
+    <p>Copy this message, paste it into Claude and press Enter:</p>
+    <div class="copy">Install this skill pack for me: https://github.com/Siddharthmehdiratta/founder-skill-plus</div>
+    <p>Say yes when Claude asks for permission. When it says it is done, close and reopen the Code tab.</p>
+  </div></div>
+
+  <div class="step"><div class="num">5</div><div><div class="time">5 to 10 minutes</div>
+    <h3>Run your customer test</h3>
+    <p>Copy this message, paste it into Claude and press Enter:</p>
+    <div class="copy">/founder-consumer --size small
+Use founder/customer.json and founder/pitch.md.</div>
+    <p>Claude will show your idea to 20 AI customers, a few at a time. Approve when it asks to save their answers.</p>
+    <div class="tip"><b>Tip:</b> each AI customer uses some of your Claude plan's usage. Start with 20. Go bigger (<b>--size medium</b> = 100) once you like the setup.</div>
+  </div></div>
+
+  <div class="step"><div class="num">6</div><div><div class="time">As long as you like</div>
+    <h3>Open your report</h3>
+    <p>Open your <b>my-idea</b> folder, then <b>founder</b> → <b>panel</b>, and double-click <b>results.html</b>. It opens in your browser.</p>
+    <p>Start with the <b>What to do next</b> tab. Then check <b>Questions to answer</b>: those are the questions real buyers will ask you.</p>
+  </div></div>
+</div>
+
+<div class="card">
+  <h2>Go further: the full toolkit</h2>
+  <p>Founder Plus also includes 10 more tools. Type any of these in Claude, in the same folder:</p>
+  <div class="tools">
+    <div><b>/founder-board</b>A board of advisers scores your idea and votes</div>
+    <div><b>/founder-competitors</b>Your competitors, their prices and what their customers complain about</div>
+    <div><b>/founder-pricing</b>The price range to test</div>
+    <div><b>/founder-offer</b>Bonuses, guarantee and offer that answer the objections</div>
+    <div><b>/founder-cfo</b>Your margins, break-even and cash needed</div>
+    <div><b>/founder-marketing</b>Where your buyers are, a 30-day campaign and 10 hooks</div>
+    <div><b>/founder-brand</b>Names, voice and look</div>
+    <div><b>/founder-ops</b>Suppliers, staff, routines and risks</div>
+    <div><b>/founder-launch</b>A cheap real-world test, then a dated launch plan</div>
+    <div><b>/founder-plan</b>Everything in one business plan, with a verdict</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>If something goes wrong</h2>
+  <details><summary>Claude says "/founder-consumer" is not a command</summary><p>The install did not finish, or the Code tab needs a restart. Repeat step 4, then close and reopen the Code tab. If you installed it as a plugin, the command is <b>/founder-skill:founder-consumer</b>.</p></details>
+  <details><summary>Claude says Python is missing</summary><p>Install Python 3 from <a href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org</a>. On Windows, tick <b>"Add python.exe to PATH"</b> during install. Then try again. If Claude says <b>python3</b> is not found, tell it: "use python instead of python3".</p></details>
+  <details><summary>It keeps asking me to approve every file</summary><p>That is normal: each AI customer saves one answer file. You can switch Claude to accept edits automatically for this folder while the test runs.</p></details>
+  <details><summary>I hit my usage limit</summary><p>Wait for the limit to reset, then type the same command again. It only runs the customers who have not answered yet.</p></details>
+  <details><summary>Is this a real forecast of sales?</summary><p>No. These are AI customers, not real ones. They are very good at finding objections, missing information and the questions buyers will ask. Before you spend real money, test the improved offer with 10 real people.</p></details>
+</div>
+
+</main>
+<footer>Founder Plus is free and open source (MIT). · <a href="https://github.com/Siddharthmehdiratta/founder-skill-plus">GitHub</a> · <a href="index.html">Customer builder</a> · <a href="example-report.html">Sample report</a></footer>
+<script>
+document.querySelectorAll(".copy").forEach(el => el.onclick = async () => {
+  try { await navigator.clipboard.writeText(el.textContent); el.classList.add("done"); setTimeout(() => el.classList.remove("done"), 1600); } catch (e) {}
+});
+</script>
+</body>
+</html>
