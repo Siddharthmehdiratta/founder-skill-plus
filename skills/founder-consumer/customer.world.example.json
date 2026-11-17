@@ -1,0 +1,146 @@
+{
+  "business": "Moss Matcha Bar, US version (an example: a walk-in matcha cafe)",
+  "target": "Coffee drinkers in Austin, Texas, 18 to 65, who buy a drink out at least twice a week",
+  "where": "Austin, Texas",
+  "region": "US",
+  "price": 6.5,
+  "segments": [
+    {
+      "name": "Student / early career",
+      "share": 0.35,
+      "income": [
+        20000,
+        60000
+      ]
+    },
+    {
+      "name": "Professional",
+      "share": 0.45,
+      "income": [
+        60000,
+        150000
+      ]
+    },
+    {
+      "name": "High earner",
+      "share": 0.2,
+      "income": [
+        150000,
+        300000
+      ]
+    }
+  ],
+  "genders": [
+    {
+      "name": "female",
+      "share": 0.55
+    },
+    {
+      "name": "male",
+      "share": 0.43
+    },
+    {
+      "name": "non-binary",
+      "share": 0.02
+    }
+  ],
+  "age_groups": [
+    {
+      "name": "18-24",
+      "range": [
+        18,
+        24
+      ],
+      "share": 0.2
+    },
+    {
+      "name": "25-34",
+      "range": [
+        25,
+        34
+      ],
+      "share": 0.3
+    },
+    {
+      "name": "35-49",
+      "range": [
+        35,
+        49
+      ],
+      "share": 0.3
+    },
+    {
+      "name": "50-65",
+      "range": [
+        50,
+        65
+      ],
+      "share": 0.2
+    }
+  ],
+  "dimensions": [
+    {
+      "name": "commute",
+      "values": [
+        {
+          "name": "drives",
+          "share": 0.7
+        },
+        {
+          "name": "walks or bikes",
+          "share": 0.15
+        },
+        {
+          "name": "works from home",
+          "share": 0.15
+        }
+      ]
+    }
+  ],
+  "behaviours": [
+    {
+      "name": "Daily regular",
+      "share": 0.25,
+      "how": "Same drink, same place, most mornings."
+    },
+    {
+      "name": "Health-first",
+      "share": 0.2,
+      "how": "Reads labels, cuts sugar."
+    },
+    {
+      "name": "Trend chaser",
+      "share": 0.15,
+      "how": "Tries whatever is new and posts it."
+    },
+    {
+      "name": "Deal hunter",
+      "share": 0.2,
+      "how": "Uses app rewards and waits for offers."
+    },
+    {
+      "name": "Drive-through only",
+      "share": 0.2,
+      "how": "Will not park and walk in for a drink."
+    }
+  ],
+  "objections": [
+    "$6.50 is a lot for a drink",
+    "Starbucks has a drive-through",
+    "Does matcha taste like grass?",
+    "Is it actually healthier?",
+    "Parking is a pain"
+  ],
+  "habits": [
+    "you drive past South Congress on the way to work",
+    "you go to the gym after work",
+    "you meet friends for brunch on Sundays"
+  ],
+  "intent_weights": {
+    "5": 0.75,
+    "4": 0.25,
+    "3": 0.1,
+    "2": 0,
+    "1": 0
+  }
+}
