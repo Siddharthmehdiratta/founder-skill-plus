@@ -1,3 +1,5 @@
+import contextlib
+import io
 import json
 import re
 import os
@@ -313,8 +315,9 @@ class ReviewFixes(unittest.TestCase):
 
     def test_quick_flag_and_singular_wording(self):
         d = os.path.join(self.d, "q")
-        panel.main(["--dir", d, "init", "--customer", example("founder-consumer", "customer.example.json"),
-                    "--pitch", example("founder-consumer", "pitch.example.md"), "--quick", "--seed", "1"])
+        with contextlib.redirect_stdout(io.StringIO()):
+            panel.main(["--dir", d, "init", "--customer", example("founder-consumer", "customer.example.json"),
+                        "--pitch", example("founder-consumer", "pitch.example.md"), "--quick", "--seed", "1"])
         self.assertEqual(len(panel.load_state(d)[1]), 20)
         self.put("P001", self.good("P001"))
         md = panel.results_md(panel.tally(self.d))
@@ -373,6 +376,7 @@ class Sizes(unittest.TestCase):
         self.addCleanup(shutil.rmtree, d)
         for size, want in (("small", 20), ("large", 250)):
             pd = os.path.join(d, size)
-            panel.main(["--dir", pd, "init", "--customer", example("founder-consumer", "customer.example.json"),
-                        "--pitch", example("founder-consumer", "pitch.example.md"), "--size", size, "--seed", "1"])
+            with contextlib.redirect_stdout(io.StringIO()):
+                panel.main(["--dir", pd, "init", "--customer", example("founder-consumer", "customer.example.json"),
+                            "--pitch", example("founder-consumer", "pitch.example.md"), "--size", size, "--seed", "1"])
             self.assertEqual(panel.load_state(pd)[0]["n"], want)
