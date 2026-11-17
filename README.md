@@ -36,7 +36,15 @@ a custom split).
 
 Tests: `python3 -m unittest discover -s tests` (51 tests, all passing).
 
-**Install the Plus edition** (Claude Code):
+**Install the Plus edition.** Paste this link into Claude and say `install skill`:
+
+```
+https://github.com/Siddharthmehdiratta/founder-skill-plus
+
+install skill
+```
+
+Or in Claude Code:
 
 ```
 /plugin marketplace add Siddharthmehdiratta/founder-skill-plus
@@ -44,6 +52,8 @@ Tests: `python3 -m unittest discover -s tests` (51 tests, all passing).
 ```
 
 Or copy the folders: `cp -r skills/founder-* ~/.claude/skills/`
+
+The install steps further down are the original's and install the original edition.
 
 ---
 
