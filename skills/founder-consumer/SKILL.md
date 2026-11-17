@@ -67,6 +67,19 @@ panel wrong.
   out category by category. `--only` picks which categories to run. Pass `--size`
   or `--n` to run a smaller or bigger panel with the same mix: the headcounts
   are scaled to that size.
+- `mode`: `"b2c"` (default, people) or `"b2b"` (businesses). In B2B mode each
+  buyer is a person in a business: segments are business types, `income` (or
+  `budget`) is the business's yearly budget for purchases like this, and
+  `roles` lists who decides, e.g. `[{"name": "Owner", "share": 0.6, "cares":
+  "cost and less hassle"}, {"name": "Finance", "share": 0.4, "cares": "payment
+  terms and a GST invoice"}]`. Briefs ask about return on the money, approvals,
+  contracts, AMC/support, switching and references, and results get a table by
+  role.
+- Industry templates: 11 ready-made starting profiles (automotive, food, retail,
+  apps, home services, real estate, education, fitness, photo and video, Security
+  and CCTV (B2B), software for small businesses (B2B)) live in `docs/templates/`
+  and load in one click in the panel builder. Each has a sample pitch in
+  `_pitch`. They are starting numbers, not research: adjust them.
 - `markets`: buyers from several places in one panel, e.g. 40 India, 30 USA,
   20 Europe, 10 China: `[{"name": "India", "region": "IN", "count": 40,
   "segments": [...], "languages": [...]}, ...]`. Each market can override any

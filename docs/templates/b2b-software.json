@@ -1,0 +1,141 @@
+{
+  "_title": "Software or services for small businesses (B2B)",
+  "mode": "b2b",
+  "_pitch": "BillEasy: billing, GST invoices, stock and payment reminders in one simple app for small businesses.\n₹4,999 a year for 1 user, ₹9,999 for up to 5 users. 14-day free trial, no card needed.\nWorks on phone and laptop. WhatsApp support in English, Hindi and Marathi.",
+  "business": "Billing and stock software for small businesses (template)",
+  "target": "Owners and managers of small businesses in India",
+  "where": "India",
+  "region": "IN",
+  "price": 4999,
+  "segments": [
+    {
+      "name": "Small retail shop",
+      "share": 0.4,
+      "budget": [
+        0,
+        15000
+      ],
+      "age": [
+        25,
+        60
+      ],
+      "roles": [
+        {
+          "name": "Owner",
+          "share": 0.85
+        },
+        {
+          "name": "Accountant or CA",
+          "share": 0.15
+        }
+      ]
+    },
+    {
+      "name": "Wholesaler or distributor",
+      "share": 0.3,
+      "budget": [
+        10000,
+        60000
+      ],
+      "age": [
+        28,
+        60
+      ],
+      "roles": [
+        {
+          "name": "Owner",
+          "share": 0.6
+        },
+        {
+          "name": "Accountant or CA",
+          "share": 0.4
+        }
+      ]
+    },
+    {
+      "name": "Service business (agency, clinic)",
+      "share": 0.3,
+      "budget": [
+        5000,
+        40000
+      ],
+      "age": [
+        25,
+        55
+      ],
+      "roles": [
+        {
+          "name": "Owner",
+          "share": 0.6
+        },
+        {
+          "name": "Store or office manager",
+          "share": 0.4
+        }
+      ]
+    }
+  ],
+  "roles": [
+    {
+      "name": "Owner",
+      "share": 0.6,
+      "cares": "saving time, getting paid on time and not paying for things I won't use"
+    },
+    {
+      "name": "Accountant or CA",
+      "share": 0.2,
+      "cares": "correct GST, clean records and easy filing"
+    },
+    {
+      "name": "Store or office manager",
+      "share": 0.2,
+      "cares": "something staff can learn in a day"
+    }
+  ],
+  "genders": [
+    {
+      "name": "male",
+      "share": 0.7
+    },
+    {
+      "name": "female",
+      "share": 0.3
+    }
+  ],
+  "behaviours": [
+    {
+      "name": "Uses paper and Excel",
+      "share": 0.35,
+      "how": "Keeps accounts in a notebook or Excel."
+    },
+    {
+      "name": "Already uses Tally or Vyapar",
+      "share": 0.3,
+      "how": "Has software and is used to it."
+    },
+    {
+      "name": "Asks the CA",
+      "share": 0.2,
+      "how": "Does whatever the CA recommends."
+    },
+    {
+      "name": "Tries free tools",
+      "share": 0.15,
+      "how": "Prefers free apps."
+    }
+  ],
+  "objections": [
+    "My staff won't learn new software",
+    "I already use Tally",
+    "Moving my data is a pain",
+    "Another yearly subscription",
+    "Is my business data safe?"
+  ],
+  "habits": [
+    "you chase customers for payments every month",
+    "GST filing stresses you out",
+    "you run the business from your phone"
+  ],
+  "_note": "TEMPLATE: realistic starting numbers, not research. Change the shares, incomes and ages to match your own customers.",
+  "biases": true
+}

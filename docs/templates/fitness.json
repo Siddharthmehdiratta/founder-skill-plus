@@ -1,0 +1,93 @@
+{
+  "_title": "Health & fitness: gym, studio, coaching",
+  "_pitch": "Forge Fitness, Koregaon Park: strength training and group classes with certified coaches.\n₹3,500 a month, or ₹30,000 a year. First week free.\nOpen 5 am to 11 pm. Body composition check every month.",
+  "business": "Gym and fitness studio (template)",
+  "target": "Adults in Pune who want to get fit",
+  "where": "Pune, India",
+  "region": "IN",
+  "price": 3500,
+  "segments": [
+    {
+      "name": "Student / young adult",
+      "share": 0.3,
+      "income": [
+        0,
+        600000
+      ],
+      "age": [
+        18,
+        25
+      ]
+    },
+    {
+      "name": "Working professional",
+      "share": 0.5,
+      "income": [
+        700000,
+        3000000
+      ],
+      "age": [
+        24,
+        45
+      ]
+    },
+    {
+      "name": "40-plus, health-focused",
+      "share": 0.2,
+      "income": [
+        1200000,
+        5000000
+      ],
+      "age": [
+        40,
+        65
+      ]
+    }
+  ],
+  "genders": [
+    {
+      "name": "male",
+      "share": 0.55
+    },
+    {
+      "name": "female",
+      "share": 0.45
+    }
+  ],
+  "behaviours": [
+    {
+      "name": "Starts strong, quits",
+      "share": 0.3,
+      "how": "Joins gyms in January, stops by March."
+    },
+    {
+      "name": "Regular gym-goer",
+      "share": 0.25,
+      "how": "Trains 4 or more days a week."
+    },
+    {
+      "name": "Home workout fan",
+      "share": 0.25,
+      "how": "Prefers YouTube workouts at home."
+    },
+    {
+      "name": "Needs a coach",
+      "share": 0.2,
+      "how": "Only stays consistent with a trainer."
+    }
+  ],
+  "objections": [
+    "I won't go regularly",
+    "A yearly fee is risky",
+    "My building has a free gym",
+    "Crowded at peak hours",
+    "Too far from my home"
+  ],
+  "habits": [
+    "you sit at a desk all day",
+    "you want to lose weight before a wedding",
+    "you sleep late"
+  ],
+  "_note": "TEMPLATE: realistic starting numbers, not research. Change the shares, incomes and ages to match your own customers.",
+  "biases": true
+}

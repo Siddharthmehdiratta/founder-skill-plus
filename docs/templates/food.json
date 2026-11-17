@@ -1,0 +1,122 @@
+{
+  "_title": "Food: restaurant, cloud kitchen, meal plans",
+  "_pitch": "HomeThali: home-style veg and non-veg thalis delivered for lunch and dinner.\n₹149 a thali, or ₹3,999 for a monthly plan of 30 meals. Pay by UPI.\nOrder on WhatsApp by 11 am for lunch, 6 pm for dinner. Free delivery within 5 km.",
+  "business": "Cloud kitchen with daily meal plans (template)",
+  "target": "Working people and students who eat out or order in often",
+  "where": "Pune, India",
+  "region": "IN",
+  "price": 149,
+  "languages": [
+    {
+      "name": "English",
+      "share": 0.4
+    },
+    {
+      "name": "Hinglish (Hindi mixed with English)",
+      "share": 0.4
+    },
+    {
+      "name": "Marathi",
+      "share": 0.2
+    }
+  ],
+  "segments": [
+    {
+      "name": "Student / PG resident",
+      "share": 0.3,
+      "income": [
+        0,
+        300000
+      ],
+      "age": [
+        18,
+        25
+      ]
+    },
+    {
+      "name": "Working single",
+      "share": 0.4,
+      "income": [
+        400000,
+        1500000
+      ],
+      "age": [
+        22,
+        35
+      ]
+    },
+    {
+      "name": "Working couple / family",
+      "share": 0.3,
+      "income": [
+        1200000,
+        4000000
+      ],
+      "age": [
+        28,
+        50
+      ]
+    }
+  ],
+  "genders": [
+    {
+      "name": "male",
+      "share": 0.55
+    },
+    {
+      "name": "female",
+      "share": 0.45
+    }
+  ],
+  "dimensions": [
+    {
+      "name": "diet",
+      "values": [
+        {
+          "name": "vegetarian",
+          "share": 0.45
+        },
+        {
+          "name": "eats non-veg",
+          "share": 0.55
+        }
+      ]
+    }
+  ],
+  "behaviours": [
+    {
+      "name": "Daily orderer",
+      "share": 0.3,
+      "how": "Orders on Swiggy or Zomato most days."
+    },
+    {
+      "name": "Deal hunter",
+      "share": 0.25,
+      "how": "Orders only with coupons and offers."
+    },
+    {
+      "name": "Health-conscious",
+      "share": 0.2,
+      "how": "Avoids oily food, checks ingredients."
+    },
+    {
+      "name": "Cooks at home",
+      "share": 0.25,
+      "how": "Orders only when tired or busy."
+    }
+  ],
+  "objections": [
+    "Home-style food is never like home",
+    "What if the food is cold or late?",
+    "A monthly plan locks me in",
+    "Hygiene of cloud kitchens worries me",
+    "Swiggy has more choice"
+  ],
+  "habits": [
+    "you work late on weekdays",
+    "you live away from your family",
+    "you split orders with flatmates"
+  ],
+  "_note": "TEMPLATE: realistic starting numbers, not research. Change the shares, incomes and ages to match your own customers.",
+  "biases": true
+}

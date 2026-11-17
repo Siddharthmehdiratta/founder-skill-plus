@@ -1,0 +1,93 @@
+{
+  "_title": "Automotive: car care, accessories, detailing",
+  "_pitch": "ShineLab: ceramic coating and full detailing for your car, done at our studio in Baner, Pune.\n5-year ceramic coating from ₹24,999 (hatchback) to ₹39,999 (SUV), with a written warranty.\nFree pickup and drop within 10 km. Ready in 2 days.\nBook a free paint inspection on WhatsApp.",
+  "business": "Car detailing and ceramic coating studio (template)",
+  "target": "Car owners in Pune who care how their car looks",
+  "where": "Pune, India",
+  "region": "IN",
+  "price": 24999,
+  "segments": [
+    {
+      "name": "Entry car owner (hatchback/compact)",
+      "share": 0.4,
+      "income": [
+        600000,
+        1500000
+      ],
+      "age": [
+        24,
+        40
+      ]
+    },
+    {
+      "name": "Mid-size sedan/SUV owner",
+      "share": 0.4,
+      "income": [
+        1500000,
+        4000000
+      ],
+      "age": [
+        28,
+        50
+      ]
+    },
+    {
+      "name": "Luxury car owner",
+      "share": 0.2,
+      "income": [
+        4000000,
+        15000000
+      ],
+      "age": [
+        30,
+        60
+      ]
+    }
+  ],
+  "genders": [
+    {
+      "name": "male",
+      "share": 0.8
+    },
+    {
+      "name": "female",
+      "share": 0.2
+    }
+  ],
+  "behaviours": [
+    {
+      "name": "Car enthusiast",
+      "share": 0.25,
+      "how": "Washes the car every weekend, follows car pages on Instagram."
+    },
+    {
+      "name": "Practical owner",
+      "share": 0.35,
+      "how": "Wants the car clean and protected, not fancy."
+    },
+    {
+      "name": "Price comparer",
+      "share": 0.25,
+      "how": "Gets 3 quotes before any service."
+    },
+    {
+      "name": "Dealer loyalist",
+      "share": 0.15,
+      "how": "Does everything at the authorised service centre."
+    }
+  ],
+  "objections": [
+    "Ceramic coating sounds like a scam",
+    "My dealer offers it cheaper",
+    "Will it really last 5 years?",
+    "I don't want my car away for 2 days",
+    "Local washing is good enough"
+  ],
+  "habits": [
+    "you drive to work in city traffic",
+    "your car is parked outside, in dust and rain",
+    "you take long road trips on weekends"
+  ],
+  "_note": "TEMPLATE: realistic starting numbers, not research. Change the shares, incomes and ages to match your own customers.",
+  "biases": true
+}

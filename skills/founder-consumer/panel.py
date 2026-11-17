@@ -208,7 +208,18 @@ PRACTICAL_CHECKS = ["the total cost, including delivery, fees, taxes or add-ons"
                     "who is behind it and whether they will still be around",
                     "what data they collect and what they do with it",
                     "how much of your time it takes to start using it"]
+# What business buyers check before they sign, on top of price.
+B2B_CHECKS = ["the total cost over a year, including installation, setup, training, maintenance and renewals",
+              "the return on the money: what it saves or earns the business, and how fast",
+              "who else has to approve it, and whether you can justify it to them",
+              "contract terms: minimum period, lock-in, cancelling, payment terms and a proper GST/VAT invoice",
+              "support: response times, on-site service, maintenance contract (AMC), warranty and spares",
+              "how it fits what the business already uses, and the cost and risk of switching",
+              "proof it works: references, case studies, clients like you",
+              "whether the supplier is reliable and will still be around"]
 QUESTION_TOPICS = [  # first match wins, so the specific topics come first
+    ("contract, invoice, AMC and payment terms", ("contract", "invoice", "gst", "credit period", "payment terms", "lock-in",
+                                                  "purchase order", "amc", "sla", "maintenance contract", "tender", "quotation")),
     ("data and privacy", ("data", "privacy", "track", "personal info", "collect", "stored", "spam", "see my")),
     ("refunds, cancelling, free trial", ("refund", "return", "cancel", "money back", "guarantee", "unsubscribe", "trial", "auto-renew", "charge me")),
     ("how to pay", ("upi", "card", "emi", "instal", "cash", "wallet", "paypal", "wechat", "alipay", "pay with", "pay in", "pay by", "se pay")),
@@ -220,6 +231,8 @@ QUESTION_TOPICS = [  # first match wins, so the specific topics come first
                                  "how do i", "device", "work with", "compatible", "portion", "size", "menu", "options")),
     ("delivery and timing", ("deliver", "arrive", "shipping", "reach", "late", "how long", "on time", "pickup")),
     ("quality and proof", ("quality", "fresh", "taste", "proof", "review", "sample", "spec", "results", "does it work", "actually work")),
+    ("return on investment", ("roi", "return on", "payback", "save us", "saves", "worth it for the business", "pay for itself")),
+    ("approvals and switching", ("approve", "approval", "management", "board", "boss", "partner", "switch", "existing vendor", "current vendor", "integrate")),
     ("support and warranty", ("support", "warranty", "help", "contact", "repair", "complain", "customer service")),
     ("who is behind it", ("who", "company", "brand", "legit", "scam", "founder", "still be around", "exist")),
 ]
@@ -261,14 +274,26 @@ def validate_customer(c):
         if k not in c or c[k] in ("", [], None):
             raise PanelError("customer.json needs '%s'" % k)
     for s in c["segments"]:
+        if "budget" in s and "income" not in s:
+            s["income"] = s["budget"]
         if "name" not in s or "income" not in s or len(s["income"]) != 2:
             raise PanelError("every segment needs a name and an income [low, high]")
+        if "roles" in s and (not isinstance(s["roles"], list) or not all(isinstance(r, dict) and "name" in r for r in s["roles"])):
+            raise PanelError("a segment's 'roles' must be a list like [{\"name\": \"Owner\", \"share\": 0.8}]")
         if "age" in s and (not isinstance(s["age"], list) or len(s["age"]) != 2):
             raise PanelError("a segment's 'age' must be [youngest, oldest]")
     for b in c["behaviours"]:
         if "name" not in b:
             raise PanelError("every behaviour needs a name")
     region_of(c)
+    for sg in c.get("segments") or []:
+        if "budget" in sg and "income" not in sg:
+            sg["income"] = sg["budget"]
+    if c.get("mode", "b2c") not in ("b2c", "b2b"):
+        raise PanelError("'mode' must be \"b2c\" (people) or \"b2b\" (businesses)")
+    for r in c.get("roles") or []:
+        if not isinstance(r, dict) or "name" not in r:
+            raise PanelError("every role needs a name (and a share, and what they 'cares' about)")
     for g in c.get("genders") or []:
         if "name" not in g:
             raise PanelError("every gender needs a name")
@@ -471,6 +496,7 @@ def _deal_one(customer, n, seed):
         k = min(len(reviews), 3 if careful else rng.choice([0, 0, 1, 2]))
         return sorted(rng.sample(range(len(reviews)), k))
 
+    roles = _spread(customer["roles"], n, rng) if customer.get("roles") else [None] * n
     bias_opt = customer.get("biases", True)
     bias_pool = list(BIASES) if bias_opt is True else (list(bias_opt) if isinstance(bias_opt, list) else [])
     biases = [bias_pool[i % len(bias_pool)] for i in range(n)] if bias_pool else [""] * n
@@ -482,6 +508,20 @@ def _deal_one(customer, n, seed):
     for i in range(n):
         s, b = segs[i], behs[i]
         lo, hi = float(s["income"][0]), float(s["income"][1])
+        # A segment's own roles win, so a housing society has a secretary and a shop has an owner.
+        seg_role = None
+        if s.get("roles"):
+            opts = s["roles"]
+            tot = sum(float(o.get("share", 1)) for o in opts) or 1.0
+            x, acc = rng.random() * tot, 0.0
+            for o in opts:
+                acc += float(o.get("share", 1))
+                if x <= acc:
+                    seg_role = dict(o)
+                    break
+            seg_role = seg_role or dict(opts[-1])
+            if not seg_role.get("cares"):
+                seg_role["cares"] = next((r.get("cares", "") for r in customer.get("roles") or [] if r["name"] == seg_role["name"]), "")
         # A segment's own age range wins, so students are young and senior managers are older, as in real life.
         seg_age = rng.randint(int(min(s["age"])), int(max(s["age"]))) if s.get("age") else None
         cards.append({
@@ -500,6 +540,8 @@ def _deal_one(customer, n, seed):
             "habit": habits[rng.randrange(len(habits))] if habits else "",
             "reviews": reviews_for(b),
             "bias": biases[i],
+            "role": seg_role["name"] if seg_role else (roles[i]["name"] if roles[i] else ""),
+            "role_cares": seg_role.get("cares", "") if seg_role else (roles[i].get("cares", "") if roles[i] else ""),
             "region": (region_of(customer) and (customer.get("region") or customer.get("locale") or "").strip().upper()) or "",
         })
     return cards
@@ -611,6 +653,36 @@ Create the file {out} with your file-writing tool (do not just print the answer 
 """
 
 
+def _b2b(brief, c, cust):
+    """Turn a consumer brief into a business-buyer brief: a role at a company, a budget, approvals and ROI."""
+    cur = _currency(cust)
+    budget = ("Your company can spend about %s%s a year on purchases like this" % (cur, _money(c["income"], cust))
+              if c["income"] > 0 else "There is no set budget for this; any spend must be argued for")
+    role = c.get("role") or "the person who decides purchases like this"
+    who = "%s, %d%s. Your role: %s. Your business: %s. %s." % (c["name"], c["age"], (", %s" % c["gender"]) if c.get("gender") else "",
+                                                                 role, c["segment"], budget)
+    old_who = brief.split("=== WHO YOU ARE ===\n", 1)[1].split("\n", 1)[0]
+    brief = brief.replace(old_who, who + ((" You work in %s." % cust["where"]) if cust.get("where") else ""), 1)
+    if c.get("role_cares"):
+        brief = brief.replace("How you buy: ", "What matters most to you in your job: %s\nHow your company buys: " % c["role_cares"], 1)
+    else:
+        brief = brief.replace("How you buy: ", "How your company buys: ", 1)
+    brief = brief.replace("You are a simulated buyer on a consumer panel. A founder wants to know, before spending any money, whether real people like you would buy.",
+                          "You are a simulated business buyer on a panel. A founder wants to know, before spending any money, whether businesses like yours would buy.", 1)
+    brief = brief.replace("(you see it for the first time, the way a passer-by or a scroller would)",
+                          "(it reaches you the way a sales pitch, a WhatsApp message or a cold email would)", 1)
+    brief = brief.replace("you are busy, you have other options, and spending money means not spending it on something else.",
+                          "you are busy, you have other suppliers, and the money comes from a business budget you must justify.", 1)
+    brief = brief.replace("Like any careful shopper, check what the offer tells you about: " + "; ".join(PRACTICAL_CHECKS),
+                          "Like any careful business buyer, check what the offer tells you about: " + "; ".join(B2B_CHECKS), 1)
+    brief = brief.replace("with %s's money, habits and doubts, in a normal week." % c["name"],
+                          "for the business, with its budget, its approvals and its risks, in a normal working week.", 1)
+    brief = brief.replace("how many times you would buy in the first month (0 if you would not buy)",
+                          "how many units or orders your business would place in the first month (0 if you would not buy)", 1)
+    brief = brief.replace("You are one of these people:", "Your business is one of these:", 1)
+    return brief
+
+
 def write_briefs(d, wave=WAVE):
     state, cards = load_state(d)
     target = state["customer"]["target"]
@@ -638,6 +710,8 @@ def write_briefs(d, wave=WAVE):
                              objection_line=('The first thing that comes to mind when you hear an offer like this: "%s"' % c["objection"])
                              if c.get("objection") else "Nobody has told you what to doubt. React the way you really would.",
                              reasons=" / ".join(REASONS), **c)
+        if (cust.get("mode") or top.get("mode")) == "b2b":
+            brief = _b2b(brief, c, cust)
         bp = _path(d, "briefs", c["id"] + ".md")
         with open(bp, "w", encoding="utf-8") as fh:
             fh.write(brief)
@@ -927,6 +1001,7 @@ def tally(d):
         "unprompted": [(r["id"], r["unprompted_doubt"]) for r in rows if (r.get("unprompted_doubt") or "").strip()],
         "by_market": group("market") if any(r.get("market") for r in rows) else [],
         "by_bias": group("bias") if any(r.get("bias") for r in rows) else [],
+        "by_role": group("role") if any(r.get("role") for r in rows) else [],
         "by_segment": group("segment"), "by_behaviour": group("behaviour"), "by_income": group("income_band"),
         "by_gender": group("gender") if any(r.get("gender") for r in rows) else [],
         "by_age_group": group("age_group") if any(r.get("age_group") for r in rows) else [],
@@ -961,7 +1036,7 @@ def tally(d):
     res["questions"] = [{"topic": t, "count": len(v), "examples": [q for _, q in v[:4]], "ids": [i for i, _ in v[:4]]}
                         for t, v in sorted(topics.items(), key=lambda kv: -len(kv[1]))]
     trait_names = sorted({k for r in rows for k in (r.get("traits") or {})})
-    keep = ("id", "name", "age", "gender", "age_group", "segment", "behaviour", "bias", "language", "market", "traits",
+    keep = ("id", "name", "age", "gender", "age_group", "segment", "role", "behaviour", "bias", "language", "market", "traits",
             "income_band", "buys", "intent", "reason_code", "reason", "reason_en", "objection", "unprompted_doubt",
             "would_change_my_mind", "purchases_first_month", "questions_before_buying")
     buyers = []
@@ -969,7 +1044,7 @@ def tally(d):
         b = {k: r.get(k) for k in keep if r.get(k) not in (None, "")}
         b["buys"] = r["buys"]
         mc = market_customer(state["customer"], r["market"]) if r.get("market") else state["customer"]
-        b["income_txt"] = "%s%s a year" % (_currency(mc), _money(r["income"], mc))
+        b["income_txt"] = ("budget %s%s a year" if (mc.get("mode") or state["customer"].get("mode")) == "b2b" else "%s%s a year") % (_currency(mc), _money(r["income"], mc))
         n_rev = len(r.get("reviews") or [])
         b["reviews_read"] = "none" if n_rev == 0 else str(n_rev)
         buyers.append(b)
@@ -1016,6 +1091,8 @@ def results_md(res):
     tables = [("By segment", res["by_segment"]), ("By buying behaviour", res["by_behaviour"]), ("By income", res["by_income"])]
     if res.get("by_market"):
         tables.insert(0, ("By market", res["by_market"]))
+    if res.get("by_role"):
+        tables.insert(1 if res.get("by_market") else 0, ("By role", res["by_role"]))
     if res.get("by_bias"):
         tables.append(("By how they decide (bias)", res["by_bias"]))
     if res.get("by_gender"):
@@ -1129,7 +1206,7 @@ def practical(state, rows, res):
     for code, n, _, _ in res["why_not"][:3]:
         steps.append({"reason": code, "buyers": n, "share": n / float(len(rows)), "do": ACTIONS.get(code, ACTIONS["other"])})
     best = None
-    for title, key in (("market", "by_market"), ("segment", "by_segment"), ("age group", "by_age_group"),
+    for title, key in (("market", "by_market"), ("role", "by_role"), ("segment", "by_segment"), ("age group", "by_age_group"),
                        ("gender", "by_gender"), ("behaviour", "by_behaviour")):
         for k, n, r in res.get(key) or []:
             if n >= 5 and r > 0 and (best is None or r > best["rate"]):
@@ -1259,7 +1336,7 @@ function groupsOf(rows, key){
   const m = {}; rows.forEach(r => { const k = r[key] || "(not set)"; (m[k] = m[k] || []).push(r); });
   return Object.entries(m).map(([k,v]) => [k, v.length, v.filter(x => x.buys).length / v.length]).sort((a,b) => b[2]-a[2]);
 }
-const DIMS = [["market","Market"],["segment","Segment / category"],["income_band","Income"],["gender","Gender"],["age_group","Age group"],["behaviour","Buying behaviour"],["bias","How they decide"],["language","Language"],["reviews_read","Reviews read"]];
+const DIMS = [["market","Market"],["role","Role"],["segment","Segment / category"],["income_band","Income"],["gender","Gender"],["age_group","Age group"],["behaviour","Buying behaviour"],["bias","How they decide"],["language","Language"],["reviews_read","Reviews read"]];
 function who(){
   let h = "";
   const dims = DIMS.concat(R.trait_names.map(t => ["trait:" + t, t]));

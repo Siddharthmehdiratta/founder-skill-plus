@@ -645,3 +645,72 @@ class ReviewFixes2(unittest.TestCase):
             b = fh.read()
         self.assertIn("no income of your own", b)
         self.assertNotIn("$0 a year", b)
+
+
+class B2BAndTemplates(unittest.TestCase):
+    ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    def template(self, name):
+        with open(os.path.join(self.ROOT, "docs", "templates", name + ".json"), encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_every_template_deals_and_is_listed(self):
+        with open(os.path.join(self.ROOT, "docs", "templates", "index.json"), encoding="utf-8") as fh:
+            index = json.load(fh)
+        self.assertGreaterEqual(len(index), 10)
+        for t in index:
+            c = self.template(t["id"])
+            self.assertTrue(c["_pitch"].strip(), t["id"])
+            self.assertEqual(c.get("mode", "b2c"), t["mode"])
+            cards = panel.deal(c, 30, 1)
+            self.assertEqual(len(cards), 30, t["id"])
+            for x in cards:
+                seg = next(sg for sg in c["segments"] if sg["name"] == x["segment"])
+                self.assertTrue(seg["age"][0] <= x["age"] <= seg["age"][1], t["id"])
+
+    def test_b2b_brief_and_tally_by_role(self):
+        c = self.template("security-cctv")
+        d = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, d)
+        cp, pp = os.path.join(d, "c.json"), os.path.join(d, "pitch.md")
+        with open(cp, "w", encoding="utf-8") as fh:
+            json.dump(c, fh, ensure_ascii=False)
+        with open(pp, "w", encoding="utf-8") as fh:
+            fh.write(c["_pitch"])
+        panel.init(d, cp, pp, n=12, seed=4)
+        panel.write_briefs(d)
+        cards = panel.load_state(d)[1]
+        with open(os.path.join(d, "briefs", "P001.md"), encoding="utf-8") as fh:
+            b = fh.read()
+        for phrase in ("simulated business buyer", "Your role: ", "Your business: ", "a year on purchases like this",
+                       "careful business buyer", "units or orders", "with its budget, its approvals"):
+            self.assertIn(phrase, b)
+        self.assertNotIn("consumer panel", b)
+        for x in cards:
+            with open(os.path.join(d, "answers", x["id"] + ".json"), "w") as fh:
+                json.dump({"id": x["id"], "intent": 4 if x["role"] == "Owner" else 2, "buys": x["role"] == "Owner",
+                           "reason_code": "price", "reason": "x",
+                           "questions_before_buying": [{"question": "What does the AMC cost after year one?",
+                                                        "topic": "contract, invoice, AMC and payment terms"}]}, fh)
+        res = panel.tally(d)
+        roles = dict((k, r) for k, n, r in res["by_role"])
+        self.assertEqual(roles["Owner"], 1.0)
+        self.assertEqual(res["questions"][0]["topic"], "contract, invoice, AMC and payment terms")
+        self.assertTrue(all(b["income_txt"].startswith("budget ") for b in res["buyers"]))
+
+    def test_bad_mode_is_refused(self):
+        with self.assertRaises(panel.PanelError):
+            panel.deal(dict(customer(), mode="b2x"))
+
+
+class SegmentRoles(unittest.TestCase):
+    def test_roles_follow_the_business_type(self):
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        with open(os.path.join(root, "docs", "templates", "security-cctv.json"), encoding="utf-8") as fh:
+            c = json.load(fh)
+        allowed = {sg["name"]: {r["name"] for r in sg["roles"]} for sg in c["segments"]}
+        cards = panel.deal(c, 200, 3)
+        for x in cards:
+            self.assertIn(x["role"], allowed[x["segment"]])
+            self.assertTrue(x["role_cares"])
+        self.assertTrue(any(x["role"] == "Society secretary" for x in cards))

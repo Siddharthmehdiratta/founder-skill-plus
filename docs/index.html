@@ -20,7 +20,7 @@ textarea{min-height:90px;resize:vertical}
 .grid{display:grid;gap:8px;align-items:end}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:2fr 1fr 1fr}
 .line{display:grid;gap:6px;align-items:center;margin:6px 0}
 .line.mk{grid-template-columns:1.3fr 1.6fr 80px 1.6fr 34px}.line.seg{grid-template-columns:2fr 60px 1fr 1fr 58px 58px 34px}
-.line.pair{grid-template-columns:2fr 80px 34px}.line.age{grid-template-columns:1.2fr 70px 70px 80px 34px}
+.line.pair{grid-template-columns:2fr 80px 34px}.line.role{grid-template-columns:1.2fr 2fr 70px 34px}.line.age{grid-template-columns:1.2fr 70px 70px 80px 34px}
 .line.beh{grid-template-columns:1.2fr 2fr 70px 34px}.line.fact{grid-template-columns:2fr 1.2fr 34px}.line.rev{grid-template-columns:1fr 60px 2fr 1fr 34px}
 @media(max-width:640px){
   .line{grid-template-columns:1fr 1fr!important;background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px;position:relative}
@@ -51,11 +51,17 @@ footer{text-align:center;color:var(--sub);font-size:13px;padding:0 16px 30px}
   <h1>🧪 Build your buyer panel</h1>
   <p>Pick your markets, how many people from each, their genders, ages, incomes, habits and biases. Everything is custom. Then let the Founder skill in Claude show your idea to every one of them.</p>
   <p style="margin-top:10px"><a href="how-to-use.html" style="color:#fff;font-weight:700;background:rgba(255,255,255,.22);padding:7px 14px;border-radius:999px;text-decoration:none">New here? Read the 6-step beginner's guide</a></p>
-  <div class="ex"><button id="exIndia">🇮🇳 Load India example</button><button id="exWorld">🌍 Load 4-market example</button><button id="exBlank">✨ Start blank</button></div>
+  <div class="ex">
+    <select id="tpl" style="width:auto;border:0;border-radius:999px;padding:8px 14px;font-weight:700;color:#4c1d95"><option value="">🏭 Start from your industry…</option></select>
+    <button id="exWorld">🌍 Example: 4 countries</button><button id="exBlank">✨ Start blank</button>
+    <label style="margin:0;display:inline-flex"><input type="file" id="imp" accept=".json,application/json" style="display:none"><span style="border-radius:999px;padding:8px 14px;background:rgba(255,255,255,.18);color:#fff;font-weight:700;cursor:pointer">📂 Open a saved customer.json</span></label>
+  </div>
 </header>
 <main>
 <div>
   <div class="card"><h2>1. 💡 Your business</h2><p class="hint">What you sell, to whom, and the exact pitch every buyer sees.</p>
+    <label>Who are you selling to?</label>
+    <div class="chips" id="modeChips"><label><input type="radio" name="mode" value="b2c"> 🧍 People (B2C)</label><label><input type="radio" name="mode" value="b2b"> 🏢 Businesses (B2B)</label></div>
     <label>Business name and one-line description</label><input id="business" placeholder="GreenBowl: healthy lunch bowls delivered to offices">
     <label>Who your customer is, in one line</label><input id="target" placeholder="Office workers in Pune, 22 to 50, who order lunch at work">
     <div class="grid g2"><div><label>Price buyers see (number)</label><input id="price" type="number" step="any" placeholder="249"></div>
@@ -65,6 +71,10 @@ footer{text-align:center;color:var(--sub);font-size:13px;padding:0 16px 30px}
 
   <div class="card"><h2>2. 🌍 Markets and headcount</h2><p class="hint">Add each market (country or region) and how many buyers to take from it. Each market gets its own currency, local names, and official facts about how people there pay and save.</p>
     <div id="markets"></div><button class="add" id="addMarket">+ Add a market</button>
+  </div>
+
+  <div class="card" id="rolesCard"><h2>🏢 Roles: who decides in the business</h2><p class="hint">B2B only. The people who decide or influence the purchase, what they care about most, and their share.</p>
+    <div id="roles"></div><button class="add" id="addRole">+ Add a role</button> <span id="rSum" class="pill"></span>
   </div>
 
   <div class="card"><h2>3. 👫 Gender</h2><p class="hint">Percentages across all buyers. Leave empty to not set gender.</p>
@@ -155,12 +165,14 @@ const frac = list => { const t = list.reduce((a,b) => a + (+b.share||0), 0) || 1
 
 function build(){
   const c = {business: S.business || "My business", target: S.target || "My target customer"};
+  if (S.mode === "b2b") c.mode = "b2b";
   if (S.price !== "" && S.price != null) { c.price = +S.price; c.price_currency = S.pcur; }
   const mks = S.markets.filter(m => m.name && +m.count > 0);
   const mkObj = m => { const o = {name:m.name, region:m.region, count: Math.round(+m.count)}; if (m.where) o.where = m.where;
     const L = parsePairs(m.languages); if (L.length) o.languages = frac(L);
     const segs = m.segments.filter(s => s.name).map(s => { const o = {name:s.name, share:+s.share||0, income:[+s.lo||0, +s.hi||0]};
-      if (s.alo !== "" && s.alo != null && s.ahi !== "" && s.ahi != null) o.age = [Math.min(+s.alo,+s.ahi), Math.max(+s.alo,+s.ahi)]; return o; });
+      if (s.alo !== "" && s.alo != null && s.ahi !== "" && s.ahi != null) o.age = [Math.min(+s.alo,+s.ahi), Math.max(+s.alo,+s.ahi)];
+      if (S.mode === "b2b" && s.roles && parsePairs(s.roles).length) o.roles = frac(parsePairs(s.roles)); return o; });
     if (segs.length) o.segments = frac(segs).map(s => Object.assign(s, {income: s.income[1] < s.income[0] ? [s.income[1], s.income[0]] : s.income}));
     return o; };
   if (mks.length === 1) { const o = mkObj(mks[0]); c.region = o.region; if (o.where) c.where = o.where; if (o.languages) c.languages = o.languages;
@@ -170,6 +182,7 @@ function build(){
   const G = S.genders.filter(g => g.name && +g.share > 0); if (G.length) c.genders = frac(G);
   const A = S.ages.filter(a => a.name && +a.share > 0).map(a => ({name:a.name, range:[Math.min(+a.lo,+a.hi), Math.max(+a.lo,+a.hi)], share:+a.share})); if (A.length) c.age_groups = frac(A);
   c.behaviours = frac(S.behs.filter(b => b.name).map(b => ({name:b.name, how:b.how||"", share:+b.share||1})));
+  if (S.mode === "b2b") { const R = (S.roles||[]).filter(r => r.name).map(r => ({name:r.name, cares:r.cares||"", share:+r.share||1})); if (R.length) c.roles = frac(R); }
   c.objections = S.objections.split("\n").map(x => x.trim()).filter(Boolean);
   const H = S.habits.split("\n").map(x => x.trim()).filter(Boolean); if (H.length) c.habits = H;
   const D = S.dims.filter(d => d.name && parsePairs(d.values).length).map(d => ({name:d.name, values: frac(parsePairs(d.values))})); if (D.length) c.dimensions = D;
@@ -186,6 +199,7 @@ function blockers(){
   if (S.objections.split("\n").filter(x => x.trim()).length < 3) b.push("Add at least 3 doubts (step 6).");
   const names = S.markets.map(m => (m.name||"").trim().toLowerCase()).filter(Boolean);
   if (new Set(names).size !== names.length) b.push("Two markets have the same name. Give each its own name.");
+  if (S.mode === "b2b" && !(S.roles||[]).some(r => r.name)) b.push("B2B: add at least one role (who decides).");
   S.markets.forEach(m => m.segments.forEach(s => { if (s.name && (s.lo === "" || s.hi === "")) b.push(`${m.name}: set an income range for "${s.name}" (0 to 0 is fine for no income).`); }));
   return [...new Set(b)];
 }
@@ -206,9 +220,13 @@ function rowsHTML(){
       <input data-p="markets.${i}.where" value="${esc(m.where)}" placeholder="Where exactly (city / area)">
       <button class="x" data-del="markets.${i}">✕</button></div>
       <label>Languages buyers answer in, with % (e.g. English 60, Hinglish 40). Empty = English</label><input data-p="markets.${i}.languages" value="${esc(m.languages)}">
-      <h3 style="margin-top:10px">Segments / categories in ${esc(m.name || "this market")} <span class="hint">name · % · yearly income from · to (${esc(REGIONS[m.region][1])}) · age from · to</span></h3>
-      ${m.segments.map((s,j) => `<div class="line seg"><input data-p="markets.${i}.segments.${j}.name" value="${esc(s.name)}" placeholder="Category A"><input type="number" data-p="markets.${i}.segments.${j}.share" value="${esc(s.share)}" title="%"><input type="number" data-p="markets.${i}.segments.${j}.lo" value="${esc(s.lo)}" placeholder="income from"><input type="number" data-p="markets.${i}.segments.${j}.hi" value="${esc(s.hi)}" placeholder="income to"><input type="number" data-p="markets.${i}.segments.${j}.alo" value="${esc(s.alo)}" placeholder="age"><input type="number" data-p="markets.${i}.segments.${j}.ahi" value="${esc(s.ahi)}" placeholder="age"><button class="x" data-del="markets.${i}.segments.${j}">✕</button></div>`).join("")}
+      <h3 style="margin-top:10px">Segments / categories in ${esc(m.name || "this market")} <span class="hint">name · % · ${S.mode==="b2b"?"yearly budget for this":"yearly income"} from · to (${esc(REGIONS[m.region][1])}) · age from · to</span></h3>
+      ${m.segments.map((s,j) => `<div class="line seg"><input data-p="markets.${i}.segments.${j}.name" value="${esc(s.name)}" placeholder="Category A"><input type="number" data-p="markets.${i}.segments.${j}.share" value="${esc(s.share)}" title="%"><input type="number" data-p="markets.${i}.segments.${j}.lo" value="${esc(s.lo)}" placeholder="${S.mode==="b2b"?"budget":"income"} from"><input type="number" data-p="markets.${i}.segments.${j}.hi" value="${esc(s.hi)}" placeholder="${S.mode==="b2b"?"budget":"income"} to"><input type="number" data-p="markets.${i}.segments.${j}.alo" value="${esc(s.alo)}" placeholder="age"><input type="number" data-p="markets.${i}.segments.${j}.ahi" value="${esc(s.ahi)}" placeholder="age"><button class="x" data-del="markets.${i}.segments.${j}">✕</button></div>${S.mode==="b2b"?`<input data-p="markets.${i}.segments.${j}.roles" value="${esc(s.roles||"")}" placeholder="Who decides here, e.g. Owner 80, Accounts 20 (optional)" style="margin:0 0 8px">`:""}`).join("")}
       <button class="add" data-addseg="${i}">+ Add a segment</button></div>`).join("");
+  S.mode = S.mode || "b2c"; S.roles = S.roles || [];
+  document.querySelectorAll('input[name="mode"]').forEach(r => r.checked = r.value === S.mode);
+  $("rolesCard").style.display = S.mode === "b2b" ? "" : "none";
+  $("roles").innerHTML = S.roles.map((r,i) => `<div class="line role"><input data-p="roles.${i}.name" value="${esc(r.name)}" placeholder="Owner"><input data-p="roles.${i}.cares" value="${esc(r.cares)}" placeholder="What they care about most"><input type="number" data-p="roles.${i}.share" value="${esc(r.share)}" title="%"><button class="x" data-del="roles.${i}">✕</button></div>`).join("");
   $("genders").innerHTML = S.genders.map((g,i) => `<div class="line pair"><input data-p="genders.${i}.name" value="${esc(g.name)}"><input type="number" data-p="genders.${i}.share" value="${esc(g.share)}" title="%"><button class="x" data-del="genders.${i}">✕</button></div>`).join("");
   $("ages").innerHTML = S.ages.map((a,i) => `<div class="line age"><input data-p="ages.${i}.name" value="${esc(a.name)}"><input type="number" data-p="ages.${i}.lo" value="${esc(a.lo)}" title="from"><input type="number" data-p="ages.${i}.hi" value="${esc(a.hi)}" title="to"><input type="number" data-p="ages.${i}.share" value="${esc(a.share)}" title="%"><button class="x" data-del="ages.${i}">✕</button></div>`).join("");
   $("behs").innerHTML = S.behs.map((b,i) => `<div class="line beh"><input data-p="behs.${i}.name" value="${esc(b.name)}" placeholder="Habit"><input data-p="behs.${i}.how" value="${esc(b.how)}" placeholder="What they do"><input type="number" data-p="behs.${i}.share" value="${esc(b.share)}" title="%"><button class="x" data-del="behs.${i}">✕</button></div>`).join("");
@@ -229,7 +247,7 @@ function refresh(){
   $("total").textContent = total;
   $("mkSummary").innerHTML = S.markets.filter(m => m.name).map(m => `<span class="pill" style="margin:2px">${esc(REGIONS[m.region][0].split(" ")[0])} ${esc(m.name)}: ${esc(m.count)}</span>`).join("");
   const sum = l => Math.round(l.reduce((a,b) => a + (+b.share||0), 0));
-  [["gSum",S.genders],["aSum",S.ages],["bSum",S.behs]].forEach(([id,l]) => { const t = sum(l); $(id).textContent = "total " + t + "%"; $(id).className = "pill " + (t === 100 || !l.length ? "ok" : "bad"); });
+  [["gSum",S.genders],["aSum",S.ages],["bSum",S.behs],["rSum",S.roles||[]]].forEach(([id,l]) => { const t = sum(l); $(id).textContent = "total " + t + "%"; $(id).className = "pill " + (t === 100 || !l.length ? "ok" : "bad"); });
   const bl = blockers(), w = warnings(c);
   $("warns").innerHTML = bl.map(x => "⛔ " + esc(x)).concat(w.map(x => "⚠️ " + esc(x))).join("<br>");
   ["dlCustomer","dlPitch","copy"].forEach(id => { $(id).disabled = bl.length > 0; $(id).style.opacity = bl.length ? .45 : 1; $(id).title = bl.length ? "Fix the red items first" : ""; });
@@ -239,17 +257,38 @@ function refresh(){
 
 document.addEventListener("input", e => { const p = e.target.dataset.p; if (p) { setPath(p, e.target.value); refresh(); return; }
   if (["business","target","price","pitch","objections","habits","pcur"].includes(e.target.id)) { S[e.target.id] = e.target.value; refresh(); } });
-document.addEventListener("change", e => { const p = e.target.dataset.p; if (p && e.target.tagName === "SELECT") { setPath(p, e.target.value); rowsHTML(); }
+document.addEventListener("change", e => {
+  if (e.target.name === "mode") { S.mode = e.target.value; if (S.mode === "b2b" && !(S.roles||[]).length) S.roles = [{name:"Owner",cares:"cost, return on the money and less hassle",share:60},{name:"Manager",cares:"something reliable that is easy to run",share:25},{name:"Finance",cares:"total cost, payment terms and a proper invoice",share:15}]; rowsHTML(); return; }
+  const p = e.target.dataset.p; if (p && e.target.tagName === "SELECT") { setPath(p, e.target.value); rowsHTML(); }
   if (e.target.dataset.bias) { const b = e.target.dataset.bias; S.biases = e.target.checked ? [...new Set([...S.biases, b])] : S.biases.filter(x => x !== b); refresh(); } });
 document.addEventListener("click", e => { const t = e.target;
   if (t.dataset.del) { delPath(t.dataset.del); rowsHTML(); }
   if (t.dataset.addseg) { S.markets[+t.dataset.addseg].segments.push({name:"",share:0,lo:"",hi:"",alo:"",ahi:""}); rowsHTML(); } });
 const adders = {addMarket:() => S.markets.push({name:"New market " + (S.markets.length + 1),region:"US",count:20,where:"",languages:"",segments:[{name:"Everyone",share:100,lo:"",hi:"",alo:"",ahi:""}]}),
   addGender:() => S.genders.push({name:"",share:0}), addAge:() => S.ages.push({name:"",lo:18,hi:30,share:0}), addBeh:() => S.behs.push({name:"",how:"",share:0}),
-  addDim:() => S.dims.push({name:"",values:""}), addFact:() => S.facts.push({text:"",source:""}), addRev:() => S.reviews.push({about:"",stars:"",text:"",source:""}),
+  addDim:() => S.dims.push({name:"",values:""}), addRole:() => (S.roles = S.roles || []).push({name:"",cares:"",share:0}), addFact:() => S.facts.push({text:"",source:""}), addRev:() => S.reviews.push({about:"",stars:"",text:"",source:""}),
   allAges:() => S.ages = [{name:"18-24",lo:18,hi:24,share:15},{name:"25-34",lo:25,hi:34,share:22},{name:"35-44",lo:35,hi:44,share:20},{name:"45-54",lo:45,hi:54,share:17},{name:"55-64",lo:55,hi:64,share:15},{name:"65-75",lo:65,hi:75,share:11}]};
 Object.entries(adders).forEach(([id,f]) => $(id).onclick = () => { f(); rowsHTML(); });
-$("exIndia").onclick = () => { S = exIndia(); rowsHTML(); };
+const pctOf = (items) => { const counts = items.every(x => x.count != null); const tot = items.reduce((a,x) => a + (+(counts ? x.count : (x.share ?? 1))||0), 0) || 1;
+  return items.map(x => Math.round((+(counts ? x.count : (x.share ?? 1))||0) / tot * 1000) / 10); };
+const pairs = list => { const p = pctOf(list||[]); return (list||[]).map((x,i) => x.name + " " + p[i]).join(", "); };
+function fromCustomer(c){
+  const cur = c.price_currency || (REGIONS[(c.region||"US").toUpperCase()]||REGIONS.US)[1];
+  const segsOf = (segs) => { const p = pctOf(segs||[]); return (segs||[]).map((g,i) => { const inc = g.income || g.budget || ["",""]; return {name:g.name, share:p[i], lo:inc[0], hi:inc[1], alo:(g.age||[""])[0], ahi:(g.age||["",""])[1], roles: g.roles ? pairs(g.roles) : ""}; }); };
+  const mk = c.markets ? c.markets.map(m => ({name:m.name, region:(m.region||c.region||"US").toUpperCase(), count:m.count ?? Math.round((m.share||0)*100), where:m.where||"", languages: pairs(m.languages || (m.language ? [{name:m.language,share:1}] : c.languages)), segments: segsOf(m.segments || c.segments)}))
+    : [{name: c.where ? String(c.where).split(",")[0] : "Main market", region:(c.region||c.locale||"US").toUpperCase(), count: (c.segments||[]).every(g => g.count != null) ? c.segments.reduce((a,g) => a + g.count, 0) : 100, where:c.where||"", languages: pairs(c.languages || (c.language ? [{name:c.language,share:1}] : [])), segments: segsOf(c.segments)}];
+  mk.forEach(m => { if (!REGIONS[m.region]) m.region = "US"; });
+  const gp = pctOf(c.genders||[]), ap = pctOf(c.age_groups||[]), bp = pctOf(c.behaviours||[]), rp = pctOf(c.roles||[]);
+  return {business:c.business||"", target:c.target||"", price:c.price ?? "", pcur:cur, pitch:c._pitch||"", mode:c.mode||"b2c", markets:mk,
+    genders:(c.genders||[]).map((g,i) => ({name:g.name, share:gp[i]})), ages:(c.age_groups||[]).map((a,i) => ({name:a.name, lo:a.range[0], hi:a.range[1], share:ap[i]})),
+    behs:(c.behaviours||[]).map((b,i) => ({name:b.name, how:b.how||"", share:bp[i]})), roles:(c.roles||[]).map((r,i) => ({name:r.name, cares:r.cares||"", share:rp[i]})),
+    objections:(c.objections||[]).join("\n"), habits:(c.habits||[]).join("\n"), dims:(c.dimensions||[]).map(d => ({name:d.name, values:pairs(d.values)})),
+    biases: c.biases === false ? [] : Array.isArray(c.biases) ? c.biases.slice() : BIASES.slice(),
+    facts:((c.market||{}).facts||[]).map(f => ({text:f.text, source:f.source||""})), reviews:((c.market||{}).reviews||[]).map(r => ({about:r.about||"", stars:r.stars ?? "", text:r.text, source:r.source||""}))};
+}
+if (typeof fetch === "function") fetch("templates/index.json").then(r => r.json()).then(list => { $("tpl").innerHTML += list.map(t => `<option value="${esc(t.id)}">${esc(t.title)}</option>`).join(""); }).catch(() => {});
+$("tpl").onchange = async e => { const id = e.target.value; if (!id) return; try { const c = await (await fetch("templates/" + id + ".json")).json(); S = fromCustomer(c); rowsHTML(); window.scrollTo({top: document.querySelector("main").offsetTop - 20, behavior:"smooth"}); } catch (err) { alert("Could not load that template. Check your internet connection."); } e.target.value = ""; };
+$("imp").onchange = e => { const f = e.target.files[0]; if (!f) return; const rd = new FileReader(); rd.onload = () => { try { S = fromCustomer(JSON.parse(rd.result)); rowsHTML(); } catch (err) { alert("That file is not a valid customer.json."); } }; rd.readAsText(f); e.target.value = ""; };
 $("exWorld").onclick = () => { S = exWorld(); rowsHTML(); };
 $("exBlank").onclick = () => { S = blank(); rowsHTML(); };
 function download(name, text){ const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], {type:"text/plain"})); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); }
@@ -260,6 +299,7 @@ $("copy").onclick = async () => { try { await navigator.clipboard.writeText(JSON
 try { S = JSON.parse(localStorage.getItem("founderPanel")) || exIndia(); } catch (e) { S = exIndia(); }
 rowsHTML();
 window.__build = build; window.__load = x => { S = x === "world" ? exWorld() : x === "blank" ? blank() : exIndia(); rowsHTML(); };
+window.__fromCustomer = c => { S = fromCustomer(c); rowsHTML(); };
 </script>
 </body>
 </html>

@@ -1,0 +1,93 @@
+{
+  "_title": "Education: coaching and online courses",
+  "_pitch": "SkillUp Data: a 12-week live online course in data analytics, with projects and job support.\n₹34,999, or 6 monthly EMIs of ₹5,999. Weekend batches.\nCertificate, portfolio projects and mock interviews. Free demo class every Saturday.",
+  "business": "Online course with job support (template)",
+  "target": "Students and early-career people in India who want a better job",
+  "where": "India",
+  "region": "IN",
+  "price": 34999,
+  "segments": [
+    {
+      "name": "Final-year student",
+      "share": 0.3,
+      "income": [
+        0,
+        200000
+      ],
+      "age": [
+        20,
+        23
+      ]
+    },
+    {
+      "name": "Early-career employee",
+      "share": 0.45,
+      "income": [
+        300000,
+        900000
+      ],
+      "age": [
+        22,
+        30
+      ]
+    },
+    {
+      "name": "Career switcher",
+      "share": 0.25,
+      "income": [
+        600000,
+        2000000
+      ],
+      "age": [
+        27,
+        40
+      ]
+    }
+  ],
+  "genders": [
+    {
+      "name": "male",
+      "share": 0.55
+    },
+    {
+      "name": "female",
+      "share": 0.45
+    }
+  ],
+  "behaviours": [
+    {
+      "name": "YouTube learner",
+      "share": 0.35,
+      "how": "Learns from free YouTube videos."
+    },
+    {
+      "name": "Certificate collector",
+      "share": 0.2,
+      "how": "Buys courses for the certificate."
+    },
+    {
+      "name": "Careful researcher",
+      "share": 0.25,
+      "how": "Asks alumni and reads reviews first."
+    },
+    {
+      "name": "Parent pays",
+      "share": 0.2,
+      "how": "Family pays, so family must agree."
+    }
+  ],
+  "objections": [
+    "Free YouTube courses teach the same",
+    "Job guarantee claims are fake",
+    "₹35,000 is a lot",
+    "I can't commit 12 weekends",
+    "Will the certificate matter?"
+  ],
+  "habits": [
+    "you apply for jobs on LinkedIn and Naukri",
+    "you have little free time on weekdays",
+    "your friends are doing courses too"
+  ],
+  "_note": "TEMPLATE: realistic starting numbers, not research. Change the shares, incomes and ages to match your own customers.",
+  "biases": true
+}

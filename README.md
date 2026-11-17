@@ -33,13 +33,15 @@ A fork of [Jakeschincariol/founder-skill](https://github.com/Jakeschincariol/fou
 - **Real reviews (yours).** Add real competitor reviews with links; each buyer reads a few, and the report shows whether reviews changed who buys.
 - **Any language.** A mix per market, e.g. English, Hinglish and Marathi in Pune, with English translations.
 - **Honest numbers.** A realistic estimate from a 1 to 5 intent scale next to the raw buy rate (an upper bound), a 90% range, and a first-month revenue line.
+- **People or businesses.** B2C for consumers, or B2B mode where each buyer is an owner, manager or finance person in a business, thinking about budget, return on investment, approvals, contracts and support.
+- **11 industry templates** to start from in one click: automotive, food, retail, apps, home services, real estate, education, fitness, photo and video, Security & CCTV (B2B), and software for small businesses (B2B).
 - **A/B test pitches** on the same buyers: `panel.py compare A B`.
 
 ## Honest limits
 
 These are simulated buyers, not customers. They are good at surfacing objections, questions and wording, and at comparing two pitches. They are not a sales forecast. Confirm the big calls with real people (a waitlist, a pre-sale, a price on a page) before you spend. Never present panel answers as customer reviews.
 
-Examples: `customer.india.example.json` + `pitch.india.example.md` (a lunch delivery service in Pune with Category A/B/C) and `customer.world.example.json` + `pitch.world.example.md` (a focus app sold to buyers in India, the US, Europe and China). Tests: `python3 -m unittest discover -s tests` (70 tests, all passing). Python 3.8+, nothing to install.
+Examples: `customer.india.example.json` + `pitch.india.example.md` (a lunch delivery service in Pune with Category A/B/C) and `customer.world.example.json` + `pitch.world.example.md` (a focus app sold to buyers in India, the US, Europe and China). Tests: `python3 -m unittest discover -s tests` (73 tests, all passing). Python 3.8+, nothing to install.
 
 Plus edition by Siddharth Mehdiratta. MIT.
 
