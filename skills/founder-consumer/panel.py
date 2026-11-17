@@ -237,6 +237,7 @@ QUESTION_TOPICS = [  # first match wins, so the specific topics come first
     ("who is behind it", ("who", "company", "brand", "legit", "scam", "founder", "still be around", "exist")),
 ]
 TOPIC_NAMES = [t for t, _ in QUESTION_TOPICS] + ["other"]
+ENGAGEMENT = ["none", "like", "comment", "share", "save", "follow"]
 REASONS = ["price", "habit", "need", "trust", "quality", "convenience", "timing", "values", "other"]
 ANSWER_FIELDS = {"id", "buys", "reason_code", "reason"}
 WAVE = 10
@@ -289,6 +290,8 @@ def validate_customer(c):
     for sg in c.get("segments") or []:
         if "budget" in sg and "income" not in sg:
             sg["income"] = sg["budget"]
+    if c.get("test", "offer") not in ("offer", "content"):
+        raise PanelError("'test' must be \"offer\" (a product or service) or \"content\" (a post, reel, ad or headline)")
     if c.get("mode", "b2c") not in ("b2c", "b2b"):
         raise PanelError("'mode' must be \"b2c\" (people) or \"b2b\" (businesses)")
     for r in c.get("roles") or []:
@@ -683,6 +686,29 @@ def _b2b(brief, c, cust):
     return brief
 
 
+def _content(brief, c, cust):
+    """Turn an offer brief into a feed brief: would they stop, engage, click, and does it make them want to buy?"""
+    platform = cust.get("platform") or "your social media feed"
+    brief = brief.replace("=== WHAT IS BEING OFFERED (you see it for the first time, the way a passer-by or a scroller would) ===",
+                          "=== WHAT APPEARS IN YOUR FEED on %s (between posts from friends and creators you follow) ===" % platform, 1)
+    brief = brief.replace("=== WHAT IS BEING OFFERED (it reaches you the way a sales pitch, a WhatsApp message or a cold email would) ===",
+                          "=== WHAT APPEARS IN YOUR FEED on %s (between posts from people and brands you follow) ===" % platform, 1)
+    i = brief.find("Before you answer, picture the real moment:")
+    j = brief.find("Do not be agreeable.", i)
+    if i >= 0 and j > i:
+        brief = brief[:i] + ("Picture the real moment: you are scrolling quickly, half paying attention, and you give most posts less than "
+                             "two seconds. Most posts get scrolled past. Decide what %s would really do, then whether it makes you "
+                             "want what it promotes. " % c["name"]) + brief[j:]
+    brief = brief.replace('  "intent": 1 to 5', ('  "stops_scrolling": true or false (would this make you stop and look for more than two seconds?),\n'
+                                                   '  "engagement": one of "none" / "like" / "comment" / "share" / "save" / "follow" (the one thing you would most likely do),\n'
+                                                   '  "clicks": true or false (would you tap through, visit the profile or link, or send a message?),\n'
+                                                   '  "intent": 1 to 5'), 1)
+    brief = brief.replace('"buys": true only if intent is 4 or 5, else false', '"buys": true only if intent is 4 or 5 (you would actually go and buy or enquire), else false', 1)
+    brief = brief.replace('"reason": "why, in one or two sentences, in your own voice"',
+                          '"reason": "why you stopped or scrolled past, and why you would or would not act, in one or two sentences, in your own voice"', 1)
+    return brief
+
+
 def write_briefs(d, wave=WAVE):
     state, cards = load_state(d)
     target = state["customer"]["target"]
@@ -712,6 +738,8 @@ def write_briefs(d, wave=WAVE):
                              reasons=" / ".join(REASONS), **c)
         if (cust.get("mode") or top.get("mode")) == "b2b":
             brief = _b2b(brief, c, cust)
+        if (cust.get("test") or top.get("test")) == "content":
+            brief = _content(brief, c, cust)
         bp = _path(d, "briefs", c["id"] + ".md")
         with open(bp, "w", encoding="utf-8") as fh:
             fh.write(brief)
@@ -737,6 +765,12 @@ def _answer_ok(path, pid):
         return "id is %r, expected %s" % (a.get("id"), pid)
     if not isinstance(a.get("buys"), bool):
         return "'buys' must be true or false"
+    if "stops_scrolling" in a and not isinstance(a["stops_scrolling"], bool):
+        return "'stops_scrolling' must be true or false"
+    if "clicks" in a and not isinstance(a["clicks"], bool):
+        return "'clicks' must be true or false"
+    if "engagement" in a and a["engagement"] not in ENGAGEMENT:
+        return "'engagement' must be one of %s" % ", ".join(ENGAGEMENT)
     if not isinstance(a.get("reason"), str) or not a["reason"].strip():
         return "'reason' must be text"
     if "intent" in a:
@@ -979,6 +1013,8 @@ def tally(d):
     rated = [r for r in rows if r.get("intent") in (1, 2, 3, 4, 5)]
     intent_counts = {str(k): sum(1 for r in rated if r["intent"] == k) for k in range(1, 6)}
     realistic = (sum(weights.get(str(r["intent"]), 0.0) for r in rated) / len(rated)) if rated else None
+    if realistic is not None:  # the raw rate is the upper bound, so the realistic estimate never goes above it
+        realistic = min(realistic, sum(1 for r in rated if r["intent"] >= 4) / float(len(rated)))
     lo, hi = _wilson(len(yes), len(rows))
     price = _price_num(state["customer"].get("price"))
     revenue_per_100 = None
@@ -1051,13 +1087,30 @@ def tally(d):
     res["buyers"] = buyers
     res["trait_names"] = trait_names
     res["practical"] = practical(state, rows, res)
+    res["test"] = state["customer"].get("test", "offer")
+    if res["test"] == "content":
+        n = float(len(rows))
+        res["content"] = {"platform": state["customer"].get("platform", ""),
+                          "stop_rate": sum(1 for r in rows if r.get("stops_scrolling") is True) / n,
+                          "click_rate": sum(1 for r in rows if r.get("clicks") is True) / n,
+                          "engagement": {e: sum(1 for r in rows if r.get("engagement") == e) for e in ENGAGEMENT},
+                          "answered": sum(1 for r in rows if "stops_scrolling" in r)}
+    res["audit"] = audit(state, rows, res)
     res["sources"] = _sources(state["customer"])
     return res
 
 
 def results_md(res):
     pct = lambda v: "%.0f%%" % (v * 100)
-    L = ["# Buyer panel: %s" % res["business"], ""]
+    if res.get("audit"):
+        a = res["audit"]
+        head = ["# Buyer panel: %s" % res["business"], "", "**Score: %d / 100 (%s).** %s See audit.md." % (a["score"], a["grade"], a["verdict"]), ""]
+        head += ["- %s" % x for x in a["easy"]] + [""]
+    else:
+        head = []
+    L = head[:-1] if head else ["# Buyer panel: %s" % res["business"], ""]
+    if head:
+        L.append("")
     L.append("**%d buy · %d pass** (%s buy) out of %d simulated buyer%s. Seed %s, so the same cards can be dealt again."
              % (res["buys"], res["passes"], pct(res["buy_rate"]), res["answered"], "" if res["answered"] == 1 else "s", res["seed"]))
     lo, hi = res.get("buy_rate_interval_90", [None, None])
@@ -1199,6 +1252,142 @@ def _median(vals):
     return vals[m] if len(vals) % 2 else (vals[m - 1] + vals[m]) / 2.0
 
 
+GRADES = [(80, "Strong", "Buyers want this. Fix the small gaps and test it with real customers."),
+          (60, "Promising", "There is real interest. Fix the top objections and test again."),
+          (40, "Needs work", "Interest is weak. Change the offer, price or target customer before you spend."),
+          (0, "Weak", "Most buyers would not act. Rethink the idea, the customer or the price.")]
+
+
+def audit(state, rows, res):
+    """The audit: one score out of 100 with a transparent breakdown, a plain summary and a detailed summary.
+    The score is a guide for comparing versions of your idea, not a forecast."""
+    n = float(len(rows))
+    rated = [r for r in rows if r.get("intent") in (1, 2, 3, 4, 5)]
+    mean_intent = (sum(r["intent"] for r in rated) / len(rated)) if rated else (1 + 4 * res["buy_rate"])
+    parts = []
+    if res.get("test") == "content":
+        ct = res["content"]
+        engaged = 1 - (ct["engagement"].get("none", 0) / n) if ct["answered"] else 0.0
+        parts.append({"name": "Stops the scroll", "points": round(40 * ct["stop_rate"]), "max": 40,
+                      "why": "%d%% of buyers would stop and look" % round(100 * ct["stop_rate"])})
+        parts.append({"name": "Engagement", "points": round(20 * engaged), "max": 20,
+                      "why": "%d%% would like, comment, share, save or follow" % round(100 * engaged)})
+        parts.append({"name": "Makes them act", "points": round(40 * (0.5 * (mean_intent - 1) / 4.0 + 0.5 * ct["click_rate"])), "max": 40,
+                      "why": "average interest %.1f out of 5 after seeing it; %d%% would click through" % (mean_intent, round(100 * ct["click_rate"]))})
+    else:
+        price = res.get("price")
+        fit = None
+        if price is not None:
+            judged = [r for r in rows if _num(r.get("price_too_expensive")) is not None
+                      and (r.get("price_currency") or res.get("price_currency")) == res.get("price_currency")]
+            if judged:
+                fit = sum(1 for r in judged if price < _num(r["price_too_expensive"])) / float(len(judged))
+        trust = sum(1 for r in rows if r.get("reason_code") == "trust") / n
+        demand_max = 60 if fit is not None else 80
+        # half how keen they are on average, half how many actually said yes
+        demand = 0.5 * (mean_intent - 1) / 4.0 + 0.5 * res["buy_rate"]
+        parts.append({"name": "Demand", "points": round(demand_max * demand), "max": demand_max,
+                      "why": "average interest %.1f out of 5; %d%% said yes" % (mean_intent, round(100 * res["buy_rate"]))})
+        if fit is not None:
+            parts.append({"name": "Price fit", "points": round(20 * fit), "max": 20,
+                          "why": "%d%% of buyers find your price below their 'too expensive' point" % round(100 * fit)})
+        parts.append({"name": "Trust", "points": round(20 * (1 - trust)), "max": 20,
+                      "why": "%d%% hold back mainly because they do not trust it yet" % round(100 * trust)})
+    score = int(sum(p["points"] for p in parts))
+    grade, verdict = next((g, v) for cut, g, v in GRADES if score >= cut)
+
+    P = res["practical"]
+    easy = []
+    if res.get("test") == "content":
+        ct = res["content"]
+        easy.append("%d%% of buyers would stop scrolling for this, and %d%% would click through." % (round(100 * ct["stop_rate"]), round(100 * ct["click_rate"])))
+    real = res.get("realistic_rate")
+    if res["buys"] == 0:
+        easy.append("None of the %d buyers said they would buy yet." % len(rows))
+    else:
+        easy.append("About %d%% of these buyers would realistically buy, and at most %d%% in the most hopeful reading." % (
+            round(100 * (real if real is not None else res["buy_rate"])), round(100 * res["buy_rate"])))
+    if P.get("best_group"):
+        easy.append("Your best customers: %s (%d%% said yes)." % (P["best_group"]["group"], round(100 * P["best_group"]["rate"])))
+    else:
+        easy.append("No customer group said yes yet, so fix the offer before you target anyone.")
+    if P.get("fix_first"):
+        f = P["fix_first"][0]
+        easy.append("The biggest thing holding people back is %s (%d of %d buyer%s)." % (f["reason"], f["buyers"], len(rows), "" if len(rows) == 1 else "s"))
+    for pv in P.get("prices") or []:
+        if res.get("price") is not None and pv["currency"] == res.get("price_currency") and pv.get("too_expensive") is not None:
+            pr = res["price"]
+            where = ("above what most buyers would pay" if pr >= pv["too_expensive"] else
+                     "on the expensive side" if pv.get("expensive") is not None and pr > pv["expensive"] else
+                     "in the range buyers accept")
+            easy.append("Your price is %s; buyers see %s%s as a bargain and %s%s as too expensive." % (
+                where, pv["currency"], _num_txt(pv["bargain"]), pv["currency"], _num_txt(pv["too_expensive"])))
+            break
+    if res.get("questions"):
+        easy.append("The question buyers ask most is about %s: answer it on your page and in your pitch." % res["questions"][0]["topic"])
+
+    detailed = []
+    detailed.append({"title": "Score breakdown", "lines": ["%s: %d of %d (%s)" % (p["name"], p["points"], p["max"], p["why"]) for p in parts]})
+    groups = []
+    for title, key in (("Market", "by_market"), ("Role", "by_role"), ("Segment", "by_segment"), ("Age group", "by_age_group"),
+                       ("Gender", "by_gender"), ("Buying behaviour", "by_behaviour")):
+        rs = [g for g in res.get(key) or [] if g[1] >= 3]
+        if len(rs) >= 2:
+            groups.append("%s: strongest %s (%d%%), weakest %s (%d%%)" % (title, rs[0][0], round(100 * rs[0][2]), rs[-1][0], round(100 * rs[-1][2])))
+    if groups:
+        detailed.append({"title": "Who responds best and worst", "lines": groups})
+    if P.get("fix_first"):
+        detailed.append({"title": "What to fix, in order", "lines": ["%s (%d buyer%s): %s" % (f["reason"], f["buyers"], "" if f["buyers"] == 1 else "s", f["do"]) for f in P["fix_first"]]})
+    if res.get("questions"):
+        detailed.append({"title": "Questions to answer before buyers will commit",
+                         "lines": ["%s (%d): e.g. \"%s\"" % (q["topic"], q["count"], q["examples"][0]) for q in res["questions"][:6]]})
+    if res.get("unprompted"):
+        detailed.append({"title": "Doubts you had not listed", "lines": ['"%s"' % t for _, t in res["unprompted"][:5]]})
+    detailed.append({"title": "Next steps", "lines": [
+        "Fix the top 1 or 2 issues above and answer the top questions in your pitch.",
+        "Run the panel again on the new pitch and compare the two (panel.py compare).",
+        "Then test with real people: a page with a price, a waitlist or a pre-order from 10 to 20 real customers."]})
+    return {"score": score, "grade": grade, "verdict": verdict, "parts": parts, "easy": easy, "detailed": detailed,
+            "note": "The score compares versions of your idea on these simulated buyers. It is not a sales forecast."}
+
+
+def _num_txt(v):
+    return "{:,.0f}".format(v) if v is not None and v >= 100 else ("%g" % v if v is not None else "-")
+
+
+def audit_md(res):
+    a = res["audit"]
+    L = ["# Audit: %s" % res["business"], "",
+         "## Score: %d / 100 (%s)" % (a["score"], a["grade"]), "", a["verdict"], "", "*%s*" % a["note"], "",
+         "## In plain words", ""]
+    L += ["- %s" % x for x in a["easy"]]
+    for sec in a["detailed"]:
+        L += ["", "## %s" % sec["title"], ""] + ["- %s" % x for x in sec["lines"]]
+    return "\n".join(L) + "\n"
+
+
+def sales_kit_brief(res):
+    """What the sales kit must answer, straight from the panel. Claude turns it into founder/panel/sales-kit.md."""
+    L = ["# Sales kit inputs: %s" % res["business"], "",
+         "Write `sales-kit.md` from this: honest answers only, and mark anything the founder must fill in as [fill in].", "",
+         "## Objections, most common first", ""]
+    for code, n, quotes, ids in res["why_not"]:
+        L.append("- **%s** (%d buyers): %s" % (code, n, " · ".join('"%s"' % q for q in quotes)))
+    if res.get("questions"):
+        L += ["", "## Questions buyers ask before paying", ""]
+        for q in res["questions"]:
+            L.append("- **%s** (%d): %s" % (q["topic"], q["count"], " · ".join('"%s"' % x for x in q["examples"][:3])))
+    if res.get("flip"):
+        L += ["", "## What would turn a no into a yes", ""] + ["- %s" % f for f in res["flip"][:10]]
+    L += ["", "## Write these sections", "",
+          "1. Short answers to each objection (2 lines each, no invented facts).",
+          "2. WhatsApp replies: 5 ready-to-send replies to the most common questions.",
+          "3. FAQ for the website: 8 to 10 questions and answers.",
+          "4. A 60-second sales call script: opener, 2 questions to ask, the pitch, handling the top 2 objections, the close.",
+          "5. Three changes to the offer itself that would remove objections (e.g. trial, guarantee, payment option)."]
+    return "\n".join(L) + "\n"
+
+
 def practical(state, rows, res):
     """Plain next steps from the answers: what to fix first, who to target, what price to test."""
     no = [r for r in rows if not r["buys"]]
@@ -1288,7 +1477,7 @@ a{color:var(--acc)}.count{font-weight:800}.chip{display:inline-block;background:
 <div class="kpis" id="kpis"></div>
 <div class="note">This is research, not a forecast. AI buyers lean agreeable, so read the raw buy rate as a ceiling. Use the reasons and doubts to fix the offer, then confirm with real people (a waitlist, a pre-sale, a price on a page) before you spend.</div>
 <div class="tabs" id="tabs"></div>
-<section id="t-plan"></section><section id="t-who"></section><section id="t-why"></section><section id="t-faq"></section><section id="t-buyers"></section><section id="t-price"></section><section id="t-facts"></section>
+<section id="t-audit"></section><section id="t-plan"></section><section id="t-who"></section><section id="t-why"></section><section id="t-faq"></section><section id="t-buyers"></section><section id="t-price"></section><section id="t-facts"></section>
 </main>
 <script>
 const R = __DATA__;
@@ -1308,15 +1497,30 @@ function kpis(){
   el("kpis").innerHTML = k.map(x => `<div class="kpi"><div class="l">${esc(x[0])}</div><div class="v">${esc(x[1])}</div><div class="s">${esc(x[2])}</div></div>`).join("");
 }
 
-const TABS = [["plan","🚀 What to do next"],["who","🎯 Who buys"],["why","💬 Why not"],["faq","❓ Questions to answer"],["buyers","👥 Every buyer"],["price","💰 Price"],["facts","📚 Facts used"]];
+const TABS = [["audit","🏆 Score & summary"],["plan","🚀 What to do next"],["who","🎯 Who buys"],["why","💬 Why not"],["faq","❓ Questions to answer"],["buyers","👥 Every buyer"],["price","💰 Price"],["facts","📚 Facts used"]];
 function tabs(){
   el("tabs").innerHTML = TABS.map(([id,t],i) => `<button data-t="${id}" class="${i? "":"on"}">${t}</button>`).join("");
-  el("t-plan").classList.add("on");
+  el("t-audit").classList.add("on");
   el("tabs").onclick = e => { const id = e.target.dataset.t; if(!id) return; show(id); };
 }
 function show(id){
   document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.t === id));
   document.querySelectorAll("section").forEach(s => s.classList.toggle("on", s.id === "t-" + id));
+}
+
+function audit(){
+  const A = R.audit; if (!A) { el("t-audit").innerHTML = "<div class='box'>No audit in this report.</div>"; return; }
+  const col = A.score >= 80 ? "#10b981" : A.score >= 60 ? "#84cc16" : A.score >= 40 ? "#f59e0b" : "#ef4444";
+  const deg = Math.round(A.score * 3.6);
+  let h = `<div class="box" style="display:grid;grid-template-columns:150px 1fr;gap:18px;align-items:center">
+    <div style="width:140px;height:140px;border-radius:50%;background:conic-gradient(${col} ${deg}deg,#efeaf9 0);display:flex;align-items:center;justify-content:center">
+      <div style="width:108px;height:108px;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center"><div style="font-size:34px;font-weight:800;color:${col}">${A.score}</div><div class="thin">out of 100</div></div></div>
+    <div><div class="chip" style="font-size:15px">${esc(A.grade)}</div><p style="font-size:17px;margin:8px 0">${esc(A.verdict)}</p><p class="thin">${esc(A.note)}</p></div></div>`;
+  if (R.content) { const C = R.content; h += `<div class="box"><h2>📱 Content results${C.platform?" · "+esc(C.platform):""}</h2><div class="price"><div style="background:#7c3aed"><small>Stop scrolling</small>${pct(C.stop_rate)}</div><div style="background:#ec4899"><small>Click through</small>${pct(C.click_rate)}</div>${Object.entries(C.engagement).filter(e => e[0] !== "none").sort((a,b) => b[1]-a[1]).slice(0,2).map(([k,v]) => `<div style="background:#0ea5e9"><small>${esc(k)}</small>${v}</div>`).join("")}</div></div>`; }
+  h += '<div class="box"><h2>In plain words</h2><ul>' + A.easy.map(x => `<li style="margin:6px 0">${esc(x)}</li>`).join("") + "</ul></div>";
+  h += '<div class="box"><h2>How the score is made</h2>' + A.parts.map(p => `<div class="row" style="cursor:default"><div>${esc(p.name)} <span class="thin">${esc(p.why)}</span></div><div class="bar"><div class="fill" style="width:${Math.round(p.points/p.max*100)}%;background:${color(p.points/p.max)}"></div></div><div class="count">${p.points}/${p.max}</div></div>`).join("") + "</div>";
+  h += '<div class="box"><h2>Detailed summary</h2>' + A.detailed.filter(s => s.title !== "Score breakdown").map(s => `<h3>${esc(s.title)}</h3><ul>` + s.lines.map(x => `<li>${esc(x)}</li>`).join("") + "</ul>").join("") + "</div>";
+  el("t-audit").innerHTML = h;
 }
 
 function plan(){
@@ -1418,7 +1622,7 @@ function facts(){
   h += R.sources.map(s => `<p>${s.region?`<span class="tag">${esc(s.region)}</span> `:""}${esc(s.text)} ${s.source?`<a href="${esc(s.source)}" target="_blank" rel="noopener">source</a>`:'<b style="color:#dc2626">no source</b>'}</p>`).join("");
   el("t-facts").innerHTML = h + "</div>";
 }
-kpis(); tabs(); plan(); who(); why(); faq(); buyers(); price(); facts();
+kpis(); tabs(); audit(); plan(); who(); why(); faq(); buyers(); price(); facts();
 </script></body></html>
 """
 
@@ -1497,10 +1701,16 @@ def main(argv=None):
             with open(out, "w", encoding="utf-8") as fh:
                 fh.write(text)
             _write_json(_path(a.dir, "results.json"), res)
+            base_dir = os.path.dirname(out) or "."
+            with open(os.path.join(base_dir, "audit.md"), "w", encoding="utf-8") as fh:
+                fh.write(audit_md(res))
+            with open(os.path.join(base_dir, "sales-kit-brief.md"), "w", encoding="utf-8") as fh:
+                fh.write(sales_kit_brief(res))
             html = os.path.splitext(out)[0] + ".html"
             with open(html, "w", encoding="utf-8") as fh:
                 fh.write(results_html(res))
-            print("%d buy · %d pass (%.0f%%). Wrote %s and %s" % (res["buys"], res["passes"], res["buy_rate"] * 100, out, html))
+            print("%d buy · %d pass (%.0f%%). Score %d/100 (%s). Wrote %s, %s, audit.md and sales-kit-brief.md"
+                  % (res["buys"], res["passes"], res["buy_rate"] * 100, res["audit"]["score"], res["audit"]["grade"], out, html))
         elif a.cmd == "compare":
             print(compare(a.a, a.b))
         elif a.cmd == "status":

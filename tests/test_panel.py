@@ -714,3 +714,73 @@ class SegmentRoles(unittest.TestCase):
             self.assertIn(x["role"], allowed[x["segment"]])
             self.assertTrue(x["role_cares"])
         self.assertTrue(any(x["role"] == "Society secretary" for x in cards))
+
+
+class AuditContentSalesKit(unittest.TestCase):
+    def setUp(self):
+        self.d = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, self.d)
+
+    def run_panel(self, cust, answer):
+        cp = os.path.join(self.d, "c.json")
+        with open(cp, "w", encoding="utf-8") as fh:
+            json.dump(cust, fh)
+        panel.init(self.d, cp, example("founder-consumer", "pitch.example.md"), n=10, seed=2)
+        panel.write_briefs(self.d)
+        for i, x in enumerate(panel.load_state(self.d)[1]):
+            with open(os.path.join(self.d, "answers", x["id"] + ".json"), "w") as fh:
+                json.dump(answer(i, x), fh)
+        return panel.tally(self.d)
+
+    def test_audit_score_parts_and_plain_summary(self):
+        res = self.run_panel(dict(customer(), price=6.5), lambda i, x: {
+            "id": x["id"], "intent": 5 if i < 5 else 2, "buys": i < 5, "reason_code": "price" if i >= 5 else "need",
+            "reason": "r", "price_too_cheap": 2, "price_cheap": 4, "price_expensive": 7, "price_too_expensive": 9})
+        a = res["audit"]
+        self.assertEqual([p["name"] for p in a["parts"]], ["Demand", "Price fit", "Trust"])
+        self.assertEqual(sum(p["max"] for p in a["parts"]), 100)
+        self.assertEqual(a["score"], sum(p["points"] for p in a["parts"]))
+        self.assertTrue(0 <= a["score"] <= 100)
+        self.assertTrue(any("realistically buy" in x for x in a["easy"]))
+        self.assertIn("Score:", panel.audit_md(res))
+        self.assertIn("Sales kit inputs", panel.sales_kit_brief(res))
+        self.assertLessEqual(res["realistic_rate"], res["buy_rate"])
+
+    def test_realistic_never_exceeds_raw(self):
+        res = self.run_panel(customer(), lambda i, x: {"id": x["id"], "intent": 3, "buys": False, "reason_code": "trust", "reason": "r"})
+        self.assertEqual(res["realistic_rate"], 0.0)
+        self.assertTrue(any("None of the 10 buyers" in x for x in res["audit"]["easy"]))
+
+    def test_content_mode_brief_metrics_and_score(self):
+        c = dict(customer(), test="content", platform="Instagram reel")
+        res = self.run_panel(c, lambda i, x: {"id": x["id"], "stops_scrolling": i < 6, "engagement": "save" if i < 3 else "none",
+                                                 "clicks": i < 2, "intent": 4 if i < 2 else 2, "buys": i < 2,
+                                                 "reason_code": "need", "reason": "r"})
+        with open(os.path.join(self.d, "briefs", "P001.md"), encoding="utf-8") as fh:
+            b = fh.read()
+        self.assertIn("WHAT APPEARS IN YOUR FEED on Instagram reel", b)
+        self.assertIn('"stops_scrolling"', b)
+        self.assertNotIn("Like any careful shopper", b)
+        self.assertAlmostEqual(res["content"]["stop_rate"], 0.6)
+        self.assertAlmostEqual(res["content"]["click_rate"], 0.2)
+        self.assertEqual(res["content"]["engagement"]["save"], 3)
+        self.assertEqual([p["name"] for p in res["audit"]["parts"]], ["Stops the scroll", "Engagement", "Makes them act"])
+
+    def test_bad_content_fields_are_reported(self):
+        path = os.path.join(self.d, "x.json")
+        with open(path, "w") as fh:
+            json.dump({"id": "P001", "buys": False, "reason_code": "need", "reason": "r", "engagement": "dance"}, fh)
+        self.assertIn("engagement", panel._answer_ok(path, "P001"))
+        with self.assertRaises(panel.PanelError):
+            panel.deal(dict(customer(), test="video"))
+
+
+class WebsiteDataInSync(unittest.TestCase):
+    def test_builder_data_matches_the_tool(self):
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        with open(os.path.join(root, "docs", "panel-data.json"), encoding="utf-8") as fh:
+            d = json.load(fh)
+        self.assertEqual(d["facts"], panel.REGION_FACTS)
+        self.assertEqual(d["biases"], panel.BIASES)
+        self.assertEqual(d["checks"], panel.PRACTICAL_CHECKS)
+        self.assertEqual(d["b2b_checks"], panel.B2B_CHECKS)

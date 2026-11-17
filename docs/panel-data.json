@@ -1,0 +1,112 @@
+{
+ "facts": {
+  "IN": [
+   {
+    "text": "UPI handled 85.5% of all payments by number in the second half of 2025, but only about 9.5% by value: it is how people pay for everyday, small things.",
+    "source": "https://www.thestatesman.com/business/upi-dominates-indias-digital-payments-debit-card-usage-declines-sharply-rbi-report-1503595761.html"
+   },
+   {
+    "text": "Household debt reached 41.3% of GDP by March 2025, led by consumption loans: many people buy big items on loans and EMIs.",
+    "source": "https://www.business-standard.com/economy/news/indias-household-debt-rises-to-41-3-per-cent-of-gdp-rbi-fsr-125123101081_1.html"
+   },
+   {
+    "text": "Households' net financial saving was 7.0% of national disposable income in 2024-25, up from 5.8% a year earlier.",
+    "source": "https://rbi.org.in/SCRIPTS/AnnualReportPublications.aspx?Id=1462"
+   }
+  ],
+  "US": [
+   {
+    "text": "In 2024, credit cards were used for 35% of payments, debit cards for 30% and cash for 14%; credit card use keeps growing.",
+    "source": "https://frbservices.org/news/research/2025-findings-from-the-diary-of-consumer-payment-choice"
+   },
+   {
+    "text": "23% of purchases and person-to-person payments were made remotely (online or by phone) in 2024, a share that has risen every year since 2021.",
+    "source": "https://frbservices.org/news/fed360/issues/060325/cash-2025-findings-diary-consumer-payment-choice"
+   },
+   {
+    "text": "The personal saving rate fell to 3.8% of disposable income in September 2026, a near four-year low: most income is spent.",
+    "source": "https://www.bea.gov/taxonomy/term/741"
+   }
+  ],
+  "UK": [
+   {
+    "text": "Card payments were 64% of all UK payments in 2025, and debit cards alone more than half; contactless and phone wallets are everyday habits.",
+    "source": "https://www.ukfinance.org.uk/news-and-insight/press-release/digital-payments-continue-grow-mobile-wallets-become-more-popular"
+   },
+   {
+    "text": "Cash fell below 10% of UK payments for the first time in 2024.",
+    "source": "https://www.ukfinance.org.uk/system/files/2025-10/Payment%20Markets%20Report%20Summary.pdf"
+   }
+  ],
+  "EU": [
+   {
+    "text": "In the euro area, cash was still used for 52% of in-store payments in 2024 (59% in 2022), mostly for small amounts; cards lead for payments over 50 euros.",
+    "source": "https://www.ecb.europa.eu/press/pr/date/2024/html/ecb.pr241219~172b929461.en.html"
+   },
+   {
+    "text": "62% of euro area consumers said it is important to keep cash as a way to pay.",
+    "source": "https://www.ecb.europa.eu/stats/ecb_surveys/space/html/ecb.space2024~19d46f0f17.ro.html"
+   },
+   {
+    "text": "Euro area households saved 14.4% of their disposable income in the last quarter of 2025.",
+    "source": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-09042026-ap"
+   }
+  ],
+  "CN": [
+   {
+    "text": "Mobile wallets such as Alipay and WeChat Pay made up about 89% of in-store spending in 2025, as reported by Caixin; cards are rarely used.",
+    "source": "https://www.caixinglobal.com/2026-05-20/china-leads-world-in-mobile-payment-uptake-as-asia-drives-growth-102445900.html"
+   },
+   {
+    "text": "Disposable income per person was 43,377 yuan in 2025 nationwide and 56,502 yuan for urban residents.",
+    "source": "https://www.stats.gov.cn/english/PressRelease/202601/t20260120_1962356.html"
+   },
+   {
+    "text": "Household bank deposits grew nearly 10% in 2025 while borrowing weakened: people are saving cautiously.",
+    "source": "https://www2.yicaiglobal.com/news/china-household-deposits-rise-nearly-10-in-2025-as-borrowing-weakens"
+   }
+  ],
+  "JP": [
+   {
+    "text": "Cashless payments were 58.0% of consumer spending in 2025, up from 16.6% in 2010; cash is still common.",
+    "source": "https://www.meti.go.jp/english/press/2026/0331_005.html"
+   },
+   {
+    "text": "Credit cards make up most of Japan's cashless payments.",
+    "source": "https://trade.gov/country-commercial-guides/japan-financial-technology"
+   }
+  ]
+ },
+ "biases": {
+  "loss aversion": "Losing money hurts you more than saving the same amount pleases you, so you worry about paying for something that turns out bad.",
+  "anchoring": "You judge a price against the first price you saw for something similar.",
+  "social proof": "You trust what friends and other buyers do more than what a brand says about itself.",
+  "status quo": "You stick with what you already use unless the new option is clearly better.",
+  "present bias": "Today's cost feels bigger to you than benefits that come later.",
+  "price means quality": "You assume cheap means low quality and a higher price means better.",
+  "mental budget": "You keep a rough budget for each kind of spending and dislike going over it.",
+  "free is powerful": "Anything free (a trial, a sample, a free extra) feels worth more to you than it really is.",
+  "authority": "You give weight to experts, reviews by professionals and well-known names.",
+  "choice overload": "When there are many options or details, you put off deciding."
+ },
+ "checks": [
+  "the total cost, including delivery, fees, taxes or add-ons",
+  "how you would pay (and whether your usual way of paying works)",
+  "when and how you would get it, and how much effort that takes",
+  "what happens if it is late, broken or not as described: returns, refunds, cancelling",
+  "warranty, support, and who you would call or message",
+  "who is behind it and whether they will still be around",
+  "what data they collect and what they do with it",
+  "how much of your time it takes to start using it"
+ ],
+ "b2b_checks": [
+  "the total cost over a year, including installation, setup, training, maintenance and renewals",
+  "the return on the money: what it saves or earns the business, and how fast",
+  "who else has to approve it, and whether you can justify it to them",
+  "contract terms: minimum period, lock-in, cancelling, payment terms and a proper GST/VAT invoice",
+  "support: response times, on-site service, maintenance contract (AMC), warranty and spares",
+  "how it fits what the business already uses, and the cost and risk of switching",
+  "proof it works: references, case studies, clients like you",
+  "whether the supplier is reliable and will still be around"
+ ]
+}

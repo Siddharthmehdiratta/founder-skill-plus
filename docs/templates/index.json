@@ -53,5 +53,10 @@
     "id": "photo-video",
     "title": "Creative services: photography and video",
     "mode": "b2c"
+  },
+  {
+    "id": "social-post",
+    "title": "Social post, reel or ad (content test)",
+    "mode": "b2c"
   }
 ]

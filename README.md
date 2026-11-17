@@ -6,7 +6,11 @@
 
 A fork of [Jakeschincariol/founder-skill](https://github.com/Jakeschincariol/founder-skill) (MIT) with a rebuilt consumer panel. The other ten skills (board, CFO, marketing, launch...) are the original's; the original README is below the line. **Its install steps install the original edition, without these upgrades: use the ones above.**
 
-## How it works (4 steps)
+## ⚡ Quick way: no installs
+
+Open the [builder](https://siddharthmehdiratta.github.io/founder-skill-plus/), pick your industry and customers, press **Copy the message for Claude**, and paste it into the normal Claude app. You get every customer's answer, a score out of 100, a plain and a detailed summary, and a sales answer kit.
+
+## Full way (4 steps)
 
 1. **Build your panel** in the [builder](https://siddharthmehdiratta.github.io/founder-skill-plus/): markets, headcounts, gender, age groups, segments and incomes, buying habits, doubts, your own groups. Download `customer.json` and `pitch.md`.
 2. **Install the skill**: paste `https://github.com/Siddharthmehdiratta/founder-skill-plus` into Claude and say `install skill`. Or in Claude Code: `/plugin marketplace add Siddharthmehdiratta/founder-skill-plus` then `/plugin install founder-skill@founder-skill`.
@@ -17,6 +21,7 @@ A fork of [Jakeschincariol/founder-skill](https://github.com/Jakeschincariol/fou
 
 | | |
 |---|---|
+| 🏆 **Score & summary** | An audit score out of 100 with its breakdown, a plain-words summary and a detailed summary |
 | 🚀 **What to do next** | The top reasons people pass, each with a practical fix, and the group to sell to first |
 | 🎯 **Who buys** | Buy rate by market, segment, income, gender, age, habit, bias, language and your own groups. Click a bar to see those buyers |
 | ❓ **Questions to answer** | The practical questions buyers need answered before paying (fees, refunds, delivery, payment, data, who you are), sorted by topic: your FAQ and checkout fixes |
@@ -34,14 +39,16 @@ A fork of [Jakeschincariol/founder-skill](https://github.com/Jakeschincariol/fou
 - **Any language.** A mix per market, e.g. English, Hinglish and Marathi in Pune, with English translations.
 - **Honest numbers.** A realistic estimate from a 1 to 5 intent scale next to the raw buy rate (an upper bound), a 90% range, and a first-month revenue line.
 - **People or businesses.** B2C for consumers, or B2B mode where each buyer is an owner, manager or finance person in a business, thinking about budget, return on investment, approvals, contracts and support.
-- **11 industry templates** to start from in one click: automotive, food, retail, apps, home services, real estate, education, fitness, photo and video, Security & CCTV (B2B), and software for small businesses (B2B).
+- **12 templates** to start from in one click: automotive, food, retail, apps, home services, real estate, education, fitness, photo and video, Security & CCTV (B2B), software for small businesses (B2B), and social posts, reels and ads.
+- **Test posts, reels and ads**, not just products: buyers say whether they'd stop scrolling, engage, click through and buy.
+- **Sales answer kit**: answers to objections, WhatsApp replies, an FAQ and a 60-second call script, built from what buyers said.
 - **A/B test pitches** on the same buyers: `panel.py compare A B`.
 
 ## Honest limits
 
 These are simulated buyers, not customers. They are good at surfacing objections, questions and wording, and at comparing two pitches. They are not a sales forecast. Confirm the big calls with real people (a waitlist, a pre-sale, a price on a page) before you spend. Never present panel answers as customer reviews.
 
-Examples: `customer.india.example.json` + `pitch.india.example.md` (a lunch delivery service in Pune with Category A/B/C) and `customer.world.example.json` + `pitch.world.example.md` (a focus app sold to buyers in India, the US, Europe and China). Tests: `python3 -m unittest discover -s tests` (73 tests, all passing). Python 3.8+, nothing to install.
+Examples: `customer.india.example.json` + `pitch.india.example.md` (a lunch delivery service in Pune with Category A/B/C) and `customer.world.example.json` + `pitch.world.example.md` (a focus app sold to buyers in India, the US, Europe and China). Tests: `python3 -m unittest discover -s tests` (79 tests, all passing). Python 3.8+, nothing to install.
 
 Plus edition by Siddharth Mehdiratta. MIT.
 

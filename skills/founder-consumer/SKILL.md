@@ -67,6 +67,13 @@ panel wrong.
   out category by category. `--only` picks which categories to run. Pass `--size`
   or `--n` to run a smaller or bigger panel with the same mix: the headcounts
   are scaled to that size.
+- `test`: `"offer"` (default: a product, service or price) or `"content"` (a
+  reel hook, post, caption, ad or headline). In content mode put the post text
+  in `pitch.md`, set `platform` (e.g. "Instagram reel"), and each buyer says
+  whether they would stop scrolling, how they would engage (like, comment,
+  share, save, follow), whether they would click through, and whether it makes
+  them want to buy. To pick the best of 2 or 3 versions, run one panel per
+  version with the same seed and use `compare`.
 - `mode`: `"b2c"` (default, people) or `"b2b"` (businesses). In B2B mode each
   buyer is a person in a business: segments are business types, `income` (or
   `budget`) is the business's yearly budget for purchases like this, and
@@ -204,14 +211,31 @@ PANEL compare founder/panel founder/panel-b
 segment, and which buyers switched and why. Under about 10 points on 100 buyers
 can be noise.
 
+## Step 3c: the audit and the sales kit
+
+`PANEL tally` also writes `founder/panel/audit.md` (a score out of 100 with its
+breakdown, a plain summary and a detailed summary) and
+`founder/panel/sales-kit-brief.md` (the objections and questions to answer).
+
+Then write `founder/panel/sales-kit.md` from the brief:
+1. Short answers to each objection (2 lines each).
+2. Five ready-to-send WhatsApp replies to the most common questions.
+3. A website FAQ: 8 to 10 questions and answers.
+4. A 60-second sales call script: opener, 2 questions, the pitch, handling the
+   top 2 objections, the close.
+5. Three changes to the offer itself that would remove objections.
+Never invent facts about the business (prices, warranties, clients, stock): write
+[fill in] where the founder must supply them.
+
 ## Step 4: read it to the user
 
-`PANEL tally` writes `founder/panel/results.md`, `results.json` and
-`results.html` (a visual one-page report with a bar per group; open it in a
+`PANEL tally` writes `founder/panel/results.md`, `results.json`, `audit.md`,
+`sales-kit-brief.md` and `results.html` (a visual one-page report with a bar per group; open it in a
 browser). Give the user:
 
-1. The headline: "40 buy · 60 pass", the buy rate with its 90% range, and the
-   realistic estimate (weighted intent). Lead with the realistic estimate.
+1. The score out of 100 and its grade, then the plain summary from audit.md.
+   Then the headline: "40 buy · 60 pass", the buy rate with its 90% range, and
+   the realistic estimate (weighted intent, never above the raw rate).
 2. Who buys and who doesn't: the rows that differ most across segment,
    behaviour, income, gender, age group and any dimension. Give the money line.
 3. Why they pass: the top three reasons with one quote each, as written.
