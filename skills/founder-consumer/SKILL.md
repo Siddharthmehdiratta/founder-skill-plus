@@ -70,11 +70,11 @@ panel wrong.
 - Group facts: any segment, or any value of a `dimensions` group, can carry
   `"facts": [{"text": "...", "source": "https://..."}]`. Each buyer in that
   group sees them ("About where you live and how people like you spend").
-- Ready-made presets with official sources, in `docs/presets.json` and one tap
+- Ready-made presets with published sources, in `docs/presets.json` and one tap
   in the panel builder: India city tiers (Tier 1 metro to Tier 4 village, from
   the government's X/Y/Z city classes and MoSPI's spending survey), India
-  household income tiers (Tier 1 rich to Tier 4 low income, from the ICE 360
-  survey classes) and London vs the rest of the UK (ONS).
+  household income tiers (Tier 1 rich to Tier 4 low income, from the PRICE
+  ICE 360 survey classes) and London vs the rest of the UK (ONS).
 - `income_is`: `"household"` when segment incomes are household incomes (the
   India income tiers are), so briefs say "Your household earns".
 - After purchase: every buyer also says what star rating and one-line review

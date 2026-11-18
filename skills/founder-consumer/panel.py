@@ -265,9 +265,9 @@ def unsourced(c):
     m = c.get("market") or {}
     out = []
     k = sum(1 for dim in c.get("dimensions") or [] for v in dim["values"] for f in v.get("facts") or [] if not str(f.get("source", "")).strip())
-    k += sum(1 for sg in c.get("segments") or [] for f in sg.get("facts") or [] if not str(f.get("source", "")).strip())
+    k += sum(1 for sg in _all_segments(c) for f in sg.get("facts") or [] if not str(f.get("source", "")).strip())
     if k:
-        out.append("%d group facts have no 'source' link. Buyers are told these are real: add links, or remove them." % k)
+        out.append("%d group %s no 'source' link. Buyers are told these are real: add links, or remove them." % (k, "fact has" if k == 1 else "facts have"))
     for kind in ("facts", "reviews"):
         k = sum(1 for x in m.get(kind) or [] if not str(x.get("source", "")).strip())
         if k:
@@ -345,6 +345,19 @@ def validate_customer(c):
                     raise PanelError("every fact on a dimension value needs a 'text' (and a 'source' link)")
     if c.get("income_is", "personal") not in ("personal", "household"):
         raise PanelError("'income_is' must be \"personal\" or \"household\"")
+    for sg in _all_segments(c):
+        if not isinstance(sg.get("facts") or [], list):
+            raise PanelError("'facts' on segment %r must be a list" % sg.get("name"))
+        for f in sg.get("facts") or []:
+            if not (isinstance(f, dict) and str(f.get("text", "")).strip()):
+                raise PanelError("every fact on segment %r needs a 'text' (and a 'source' link)" % sg.get("name"))
+        if sg.get("income_is", "personal") not in ("personal", "household"):
+            raise PanelError("'income_is' on segment %r must be \"personal\" or \"household\"" % sg.get("name"))
+
+
+def _all_segments(c):
+    """Segments at the top level and inside every market."""
+    return list(c.get("segments") or []) + [sg for mk in c.get("markets") or [] for sg in mk.get("segments") or []]
 
 
 SIZES = {"small": 20, "medium": 100, "large": 250}
@@ -549,6 +562,7 @@ def _deal_one(customer, n, seed):
             "trait_facts": [f["text"] for f in s.get("facts") or []] + [f["text"] for dn, vals in dims for f in dim_facts.get((dn, vals[i]["name"]), [])],
             "language": langs[i]["name"] if langs[i] else (customer.get("language") or ""),
             "segment": s["name"],
+            "household": (s.get("income_is") or customer.get("income_is")) == "household",
             "income": int(round(rng.uniform(lo, hi), -3)),
             "behaviour": b["name"],
             "behaviour_how": b.get("how", ""),
@@ -747,7 +761,7 @@ def write_briefs(d, wave=WAVE):
                              language_line=_language_line(c.get("language", "")),
                              reason_en_line=("\n  \"reason_en\": \"the same reason translated into English\","
                                              if _foreign(c.get("language", "")) else ""),
-                             market_block=_market_block(cust, c), income_line=("%s about %s%s a year" % ("Your household earns" if cust.get("income_is") == "household" else "You earn",
+                             market_block=_market_block(cust, c), income_line=("%s about %s%s a year" % ("Your household earns" if c.get("household") else "You earn",
                                                      _currency(cust), _money(c["income"], cust))) if c["income"] > 0
                              else "You have no income of your own (you live on family support, savings or a stipend)",
                              where_line=(" You live in %s." % cust["where"]) if cust.get("where") else "",
@@ -757,6 +771,7 @@ def write_briefs(d, wave=WAVE):
         if (cust.get("mode") or top.get("mode")) == "b2b":
             brief = _b2b(brief, c, cust)
         if (cust.get("test") or top.get("test")) == "content":
+            brief = "\n".join(l for l in brief.split("\n") if not re.match(r'\s*"(if_bought_stars|if_bought_review|recommend|after_purchase)"', l))
             brief = _content(brief, c, cust)
         bp = _path(d, "briefs", c["id"] + ".md")
         with open(bp, "w", encoding="utf-8") as fh:
@@ -785,7 +800,7 @@ def _answer_ok(path, pid):
         return "'buys' must be true or false"
     if "if_bought_stars" in a and (isinstance(a["if_bought_stars"], bool) or a["if_bought_stars"] not in (1, 2, 3, 4, 5)):
         return "'if_bought_stars' must be 1 to 5"
-    if "recommend" in a and (isinstance(a["recommend"], bool) or a["recommend"] not in range(11)):
+    if "recommend" in a and (not isinstance(a["recommend"], int) or isinstance(a["recommend"], bool) or a["recommend"] not in range(11)):
         return "'recommend' must be a whole number 0 to 10"
     if "after_purchase" in a and a["after_purchase"] not in AFTER:
         return "'after_purchase' must be one of %s" % ", ".join(AFTER)
@@ -1471,7 +1486,7 @@ def practical(state, rows, res):
 
 def _sources(customer):
     """Every fact buyers were shown, with its link, for the report."""
-    out, seen = [], set()
+    out, seen = [], {}
     custs = [customer] + [market_customer(customer, mk["name"]) for mk in customer.get("markets") or []]
     for c in custs:
         reg = {"GB": "UK"}.get((c.get("region") or c.get("locale") or "").strip().upper(), "")
@@ -1482,9 +1497,12 @@ def _sources(customer):
         facts = facts + [dict(f, region=sg["name"]) for sg in c.get("segments") or [] for f in sg.get("facts") or []]
         for f in facts:
             key = f["text"]
+            label = f.get("region") or (REGIONS.get(reg, {}).get("label", reg) if reg else "")
             if key not in seen:
-                seen.add(key)
-                out.append({"region": f.get("region") or (REGIONS.get(reg, {}).get("label", reg) if reg else ""), "text": f["text"], "source": f.get("source", "")})
+                seen[key] = {"region": label, "text": f["text"], "source": f.get("source", "")}
+                out.append(seen[key])
+            elif label and label not in seen[key]["region"].split("; "):
+                seen[key]["region"] += "; " + label
     return out
 
 

@@ -25,8 +25,8 @@ Open the [builder](https://siddharthmehdiratta.github.io/founder-skill-plus/), p
 | 🚀 **What to do next** | The top reasons people pass, each with a practical fix, and the group to sell to first |
 | 🎯 **Who buys** | Buy rate by market, segment, income, gender, age, habit, bias, language and your own groups. Click a bar to see those buyers |
 | ❓ **Questions to answer** | The practical questions buyers need answered before paying (fees, refunds, delivery, payment, data, who you are), sorted by topic: your FAQ and checkout fixes |
-| 👥 **Every buyer** | Each buyer's profile, answer, doubts and questions, with filters and search |
 | ⭐ **Reviews they'd leave** | Expected star rating, NPS, the best and worst one-line reviews, and what buyers would do after buying |
+| 👥 **Every buyer** | Each buyer's profile, answer, doubts and questions, with filters and search |
 | 💰 **Price** | What buyers call a bargain, expensive and too expensive, and a verdict on your price |
 | 📚 **Facts used** | Every fact buyers were shown, with its source link |
 
@@ -43,7 +43,7 @@ python3 skills/founder-product/feedback.py load reviews.csv   # then: brief, che
 - **Real places, real money.** 10 regions (India, US, UK, Europe, China, Japan, UAE, Singapore, Australia, Brazil): local currency, local names, India's lakh format. Buyers from India, the US, UK, Europe, China and Japan also see facts about how people there pay and save: official figures from the RBI, US Federal Reserve, BEA, ECB, Eurostat, UK Finance, China's statistics bureau and Japan's METI, each linked to the release or a news report of it (checked November 2026).
 - **Real ways of deciding.** Every buyer gets one well-studied bias: loss aversion, anchoring, social proof, status quo, present bias, price means quality, mental budget, free is powerful, authority or choice overload.
 - **Real shopper checks.** Every buyer weighs total cost, payment method, delivery, refunds and cancelling, support, who is behind it, data and time to start, and asks about what your pitch leaves out.
-- **City and income tiers.** One tap adds India's city tiers (Tier 1 metros like Mumbai, Delhi and Bengaluru down to Tier 4 villages), India's household income tiers (Tier 1 rich to Tier 4 low income) or London vs the rest of the UK, each with official facts on how those people spend.
+- **City and income tiers.** One tap adds India's city tiers (Tier 1 metros like Mumbai, Delhi and Bengaluru down to Tier 4 villages), India's household income tiers (Tier 1 rich to Tier 4 low income) or London vs the rest of the UK, each with published, linked facts on how those people spend.
 - **After-purchase behaviour.** Every buyer says what stars and review they'd give, whether they'd recommend you (NPS), and whether they'd tell friends, post, stay quiet or complain.
 - **Real ages and incomes.** Segments carry their own income and age ranges, so students are young and executives are older.
 - **Real reviews (yours).** Add real competitor reviews with links; each buyer reads a few, and the report shows whether reviews changed who buys.
@@ -59,7 +59,7 @@ python3 skills/founder-product/feedback.py load reviews.csv   # then: brief, che
 
 These are simulated buyers, not customers. They are good at surfacing objections, questions and wording, and at comparing two pitches. They are not a sales forecast. Confirm the big calls with real people (a waitlist, a pre-sale, a price on a page) before you spend. Never present panel answers as customer reviews.
 
-Examples: `customer.india.example.json` + `pitch.india.example.md` (a lunch delivery service in Pune with Category A/B/C) and `customer.world.example.json` + `pitch.world.example.md` (a focus app sold to buyers in India, the US, Europe and China). Tests: `python3 -m unittest discover -s tests` (90 tests, all passing). Python 3.8+, nothing to install.
+Examples: `customer.india.example.json` + `pitch.india.example.md` (a lunch delivery service in Pune with Category A/B/C) and `customer.world.example.json` + `pitch.world.example.md` (a focus app sold to buyers in India, the US, Europe and China). Tests: `python3 -m unittest discover -s tests` (95 tests, all passing). Python 3.8+, nothing to install.
 
 Plus edition by Siddharth Mehdiratta. MIT.
 

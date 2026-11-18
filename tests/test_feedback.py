@@ -29,7 +29,8 @@ class Feedback(unittest.TestCase):
                                                                     "questions_before_buying": [{"question": "Is it veg?", "topic": "other"}]}]}))
         added, total = fb.load(self.d, [csvp, txtp, panelp])
         self.assertEqual(total, 5)
-        items = json.load(open(os.path.join(self.d, "items.json"), encoding="utf-8"))
+        with open(os.path.join(self.d, "items.json"), encoding="utf-8") as fh:
+            items = json.load(fh)
         self.assertEqual(items[0]["rating"], 2.0)
         self.assertEqual(items[0]["source"], "Google")
         self.assertIn("Portions are small\nreally small", [i["text"] for i in items])
@@ -80,7 +81,8 @@ class Feedback(unittest.TestCase):
 
     def test_check_finds_bad_tags(self):
         self.tagged()
-        tags = json.load(open(os.path.join(self.d, "tags.json")))
+        with open(os.path.join(self.d, "tags.json")) as fh:
+            tags = json.load(fh)
         tags["F001"]["sentiment"] = "angry"
         tags["F002"]["severity"] = True
         del tags["F003"]

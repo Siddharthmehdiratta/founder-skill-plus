@@ -1,5 +1,5 @@
 {
- "_note": "Ready-made groups with official or published sources. Shares are starting points: set your own for your customers. Checked November 2026.",
+ "_note": "Ready-made groups with published sources (government, MoSPI, ONS, and the PRICE ICE 360 survey via news reports). Shares are starting points: set your own for your customers. Checked 18 November 2026.",
  "india_city_tiers": {
   "title": "India city tiers (Tier 1 to Tier 4)",
   "kind": "dimension",
@@ -11,7 +11,7 @@
      "share": 0.35,
      "facts": [
       {
-       "text": "The government classes 8 cities as X (Tier 1) for house rent allowance, the highest rate: Mumbai, Delhi, Bengaluru, Chennai, Hyderabad, Kolkata, Ahmedabad and Pune. Rents and prices are highest here.",
+       "text": "The government classes 8 cities as X (Tier 1) for house rent allowance, the highest rate: Mumbai, Delhi, Bengaluru, Chennai, Hyderabad, Kolkata, Ahmedabad and Pune.",
        "source": "https://www.mod.gov.in/sites/default/files/hra.pdf"
       },
       {
@@ -25,8 +25,8 @@
      "share": 0.3,
      "facts": [
       {
-       "text": "About 97 cities are classed Y (Tier 2) by the government, with lower living costs than the 8 metros.",
-       "source": "https://en.wikipedia.org/wiki/Classification_of_Indian_cities"
+       "text": "Cities classed Y (Tier 2) by the government get a lower house rent allowance rate than the 8 X-class metros.",
+       "source": "https://www.mod.gov.in/sites/default/files/hra.pdf"
       },
       {
        "text": "Urban Indians spend on average ₹6,996 per person per month (2023-24), about 70% more than rural Indians (₹4,122).",
@@ -79,10 +79,11 @@
     ],
     "facts": [
      {
-      "text": "Rich households (over ₹30 lakh a year) spend about ₹20.5 lakh a year on average, about 3 times a middle-class household (ICE 360 survey, 2020-21 prices).",
-      "source": "https://business-standard.com/finance/personal-finance/india-s-super-rich-households-will-rise-by-5-times-to-9-1-million-by-2030-123070600278_1.html"
+      "text": "Rich households (over ₹30 lakh a year) spend about ₹20.5 lakh a year on average, almost 3 times a middle-class household (PRICE ICE 360 survey, 2020-21).",
+      "source": "https://theprint.in/india/middle-class-set-to-boom-in-india-avg-household-income-to-be-rs-20l-year-by-2047-finds-price-survey/1657450"
      }
-    ]
+    ],
+    "income_is": "household"
    },
    {
     "name": "Tier 2: middle-class household (₹5 to 30 lakh a year)",
@@ -97,10 +98,11 @@
     ],
     "facts": [
      {
-      "text": "Middle-class households (₹5 to 30 lakh a year) spend about ₹6.9 lakh a year on average and were about 31% of households in 2021 (ICE 360 survey).",
-      "source": "https://business-standard.com/finance/personal-finance/india-s-super-rich-households-will-rise-by-5-times-to-9-1-million-by-2030-123070600278_1.html"
+      "text": "Middle-class households earn ₹5 to 30 lakh a year; the middle class was about 31% of India's population in 2020-21 (PRICE ICE 360 survey).",
+      "source": "https://www.ibef.org/news/indian-middle-class-will-nearly-double-to-61-by-2046-47-price-report"
      }
-    ]
+    ],
+    "income_is": "household"
    },
    {
     "name": "Tier 3: aspiring household (₹1.25 to 5 lakh a year)",
@@ -115,10 +117,11 @@
     ],
     "facts": [
      {
-      "text": "Aspirer households earn ₹1.25 to 5 lakh a year (ICE 360 survey classes); much of the budget goes on food, housing and essentials.",
-      "source": "https://thesecretariat.in/article/dateline-2031-india-s-middle-class-will-make-it-much-richer"
+      "text": "Aspirer households earn ₹1.25 to 5 lakh a year: above the lowest-income group but below the middle class (PRICE ICE 360 survey classes).",
+      "source": "https://theprint.in/india/middle-class-set-to-boom-in-india-avg-household-income-to-be-rs-20l-year-by-2047-finds-price-survey/1657450"
      }
-    ]
+    ],
+    "income_is": "household"
    },
    {
     "name": "Tier 4: low-income household (under ₹1.25 lakh a year)",
@@ -133,10 +136,11 @@
     ],
     "facts": [
      {
-      "text": "The lowest-income households (under ₹1.25 lakh a year) spend about ₹82,300 a year on average, mostly on food and shelter (ICE 360 survey).",
-      "source": "https://business-standard.com/finance/personal-finance/india-s-super-rich-households-will-rise-by-5-times-to-9-1-million-by-2030-123070600278_1.html"
+      "text": "The lowest-income households (under ₹1.25 lakh a year) spend about ₹82,300 a year on average (PRICE ICE 360 survey, 2020-21).",
+      "source": "https://theprint.in/india/middle-class-set-to-boom-in-india-avg-household-income-to-be-rs-20l-year-by-2047-finds-price-survey/1657450"
      }
-    ]
+    ],
+    "income_is": "household"
    }
   ]
  },
@@ -161,7 +165,7 @@
      "share": 0.7,
      "facts": [
       {
-       "text": "Spending per person across English regions ranged from £19,842 (North East) to £28,600 (London) in 2023.",
+       "text": "In 2023, spending per person ranged from £19,842 (North East) to £28,600 (London) across English regions; Scotland, Wales and Northern Ireland were about £22,700 to £23,500.",
        "source": "https://www.ons.gov.uk/economy/regionalaccounts/grossdisposablehouseholdincome/bulletins/regionalhouseholdfinalconsumptionexpenditureuk/2009to2023"
       }
      ]

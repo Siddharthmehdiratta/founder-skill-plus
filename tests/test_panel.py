@@ -859,3 +859,43 @@ class PresetNamesWorkInTheBuilder(unittest.TestCase):
         for key in ("india_city_tiers", "uk_london"):
             for v in P[key]["dimension"]["values"]:
                 self.assertNotIn(",", v["name"], v["name"])  # the builder separates values with commas
+
+
+class IndependentReviewFixes(unittest.TestCase):
+    def test_bad_segment_fact_is_a_clear_error_not_a_crash(self):
+        for bad in ([{"source": "x"}], ["just text"]):
+            c = customer()
+            c["segments"][0]["facts"] = bad
+            with self.assertRaises(panel.PanelError):
+                panel.validate_customer(c) if hasattr(panel, "validate_customer") else panel.deal(c, 10, 1)
+
+    def test_unsourced_sees_market_segments_and_one_is_singular(self):
+        c = {"markets": [{"name": "India", "region": "IN", "segments": [{"name": "A", "share": 1, "income": [1, 2], "facts": [{"text": "t"}]}]}]}
+        w = panel.unsourced(c)
+        self.assertTrue(any("1 group fact has" in x for x in w), w)
+
+    def test_household_wording_is_per_segment(self):
+        c = customer()
+        c["segments"][0]["income_is"] = "household"
+        cards = panel.deal(c, 40, 1)
+        name0 = c["segments"][0]["name"]
+        self.assertTrue(all(x["household"] == (x["segment"] == name0) for x in cards))
+
+    def test_float_recommend_rejected(self):
+        d = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, d)
+        pth = os.path.join(d, "P001.json")
+        with open(pth, "w") as fh:
+            json.dump({"id": "P001", "buys": False, "reason_code": "price", "reason": "r", "recommend": 9.0}, fh)
+        self.assertIn("recommend", panel._answer_ok(pth, "P001"))
+
+    def test_shared_fact_lists_every_group(self):
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        with open(os.path.join(root, "docs", "presets.json"), encoding="utf-8") as fh:
+            P = json.load(fh)
+        c = customer()
+        c["region"] = "IN"
+        c["dimensions"] = [P["india_city_tiers"]["dimension"]]
+        src = [x for x in panel._sources(c) if x["text"].startswith("Urban Indians")]
+        self.assertEqual(len(src), 1)
+        self.assertEqual(src[0]["region"].count("city tier:"), 3)
