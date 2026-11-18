@@ -2,9 +2,9 @@
 
 **Build a panel of AI buyers** (30 from India, 20 from Europe, 10 from the US, any genders, ages, incomes and habits you choose), show them your pitch, and get back who would buy, who would not, why, what to fix first, and what price to test. Free. Runs in Claude.
 
-### 👉 [Open the panel builder](https://siddharthmehdiratta.github.io/founder-skill-plus/) · [See an example report](https://siddharthmehdiratta.github.io/founder-skill-plus/example-report.html) · [Beginner's guide](https://siddharthmehdiratta.github.io/founder-skill-plus/how-to-use.html)
+### 👉 [Open the panel builder](https://siddharthmehdiratta.github.io/founder-skill-plus/) · [See an example report](https://siddharthmehdiratta.github.io/founder-skill-plus/example-report.html) · [Beginner's guide](https://siddharthmehdiratta.github.io/founder-skill-plus/how-to-use.html) · [Analyse your reviews / give feedback](https://siddharthmehdiratta.github.io/founder-skill-plus/feedback.html)
 
-A fork of [Jakeschincariol/founder-skill](https://github.com/Jakeschincariol/founder-skill) (MIT) with a rebuilt consumer panel. The other ten skills (board, CFO, marketing, launch...) are the original's; the original README is below the line. **Its install steps install the original edition, without these upgrades: use the ones above.**
+A fork of [Jakeschincariol/founder-skill](https://github.com/Jakeschincariol/founder-skill) (MIT) with a rebuilt consumer panel. The other ten skills (board, CFO, marketing, launch...) are the original's, plus a new twelfth, the Product Improvement Manager; the original README is below the line. **Its install steps install the original edition, without these upgrades: use the ones above.**
 
 ## ⚡ Quick way: no installs
 
@@ -29,6 +29,14 @@ Open the [builder](https://siddharthmehdiratta.github.io/founder-skill-plus/), p
 | 💰 **Price** | What buyers call a bargain, expensive and too expensive, and a verdict on your price |
 | 📚 **Facts used** | Every fact buyers were shown, with its source link |
 
+## 🛠️ New role: the Product Improvement Manager
+
+`/founder-product` (in `skills/founder-product`) reads real customer feedback (reviews, survey answers, support messages, WhatsApp chats, or the buyer panel's answers) and turns it into a plan: a customer health score, the problems to fix **now, next and later** ranked by how many customers raise them, how much it hurts and how hard it is to fix, the most requested features, what customers love, and honest replies to your worst reviews. Claude reads and tags every piece of feedback; the tool counts and ranks, so every number traces back to real words.
+
+```bash
+python3 skills/founder-product/feedback.py load reviews.csv   # then: brief, check, report
+```
+
 ## Built to behave like real people
 
 - **Real places, real money.** 10 regions (India, US, UK, Europe, China, Japan, UAE, Singapore, Australia, Brazil): local currency, local names, India's lakh format. Buyers from India, the US, UK, Europe, China and Japan also see facts about how people there pay and save: official figures from the RBI, US Federal Reserve, BEA, ECB, Eurostat, UK Finance, China's statistics bureau and Japan's METI, each linked to the release or a news report of it (checked November 2026).
@@ -48,7 +56,7 @@ Open the [builder](https://siddharthmehdiratta.github.io/founder-skill-plus/), p
 
 These are simulated buyers, not customers. They are good at surfacing objections, questions and wording, and at comparing two pitches. They are not a sales forecast. Confirm the big calls with real people (a waitlist, a pre-sale, a price on a page) before you spend. Never present panel answers as customer reviews.
 
-Examples: `customer.india.example.json` + `pitch.india.example.md` (a lunch delivery service in Pune with Category A/B/C) and `customer.world.example.json` + `pitch.world.example.md` (a focus app sold to buyers in India, the US, Europe and China). Tests: `python3 -m unittest discover -s tests` (79 tests, all passing). Python 3.8+, nothing to install.
+Examples: `customer.india.example.json` + `pitch.india.example.md` (a lunch delivery service in Pune with Category A/B/C) and `customer.world.example.json` + `pitch.world.example.md` (a focus app sold to buyers in India, the US, Europe and China). Tests: `python3 -m unittest discover -s tests` (86 tests, all passing). Python 3.8+, nothing to install.
 
 Plus edition by Siddharth Mehdiratta. MIT.
 
