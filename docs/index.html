@@ -43,20 +43,35 @@ textarea{min-height:90px;resize:vertical}
 pre{background:#1b1530;color:#e9d5ff;border-radius:12px;padding:12px;font-size:12px;max-height:280px;overflow:auto;white-space:pre-wrap}
 .steps li{margin:6px 0}.warn{color:#b45309;font-size:13px}.ex{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;justify-content:center}
 .ex button{border:0;border-radius:999px;padding:8px 14px;background:rgba(255,255,255,.18);color:#fff;font-weight:700;cursor:pointer}
-footer{text-align:center;color:var(--sub);font-size:13px;padding:0 16px 30px}
+footer{text-align:center;color:var(--sub);font-size:13px;padding:0 16px 80px}
+.how{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:16px auto 6px;max-width:760px}
+.how div{background:rgba(255,255,255,.16);border-radius:14px;padding:10px 14px;font-size:14px;flex:1 1 180px;text-align:left}
+.how b{display:inline-flex;width:24px;height:24px;border-radius:50%;background:#fff;color:#7c3aed;align-items:center;justify-content:center;margin-right:8px}
+nav.links{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+nav.links a{color:#fff;font-weight:700;font-size:14px;background:rgba(255,255,255,.2);padding:7px 13px;border-radius:999px;text-decoration:none;white-space:nowrap}
+.ex.small button,.ex.small span{font-size:13px;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.14);color:#fff;font-weight:600;cursor:pointer;border:0}
+.stickyRun{display:none}
+@media(max-width:900px){.stickyRun{display:block;position:fixed;left:12px;right:12px;bottom:12px;z-index:20;text-align:center;padding:14px;border-radius:14px;color:#fff;font-weight:800;text-decoration:none;background:linear-gradient(120deg,#7c3aed,#ec4899);box-shadow:0 8px 24px rgba(76,29,149,.35)}}
+.preset{border:0;border-radius:10px;padding:7px 12px;margin:6px 6px 0 0;background:linear-gradient(120deg,#ede9fe,#fce7f3);color:#4c1d95;font-weight:700;cursor:pointer}
 </style>
 </head>
 <body>
 <header>
-  <h1>🧪 Build your buyer panel</h1>
-  <p>Pick your markets, how many people from each, their genders, ages, incomes, habits and biases. Everything is custom. Then let the Founder skill in Claude show your idea to every one of them.</p>
-  <p style="margin-top:10px"><a href="how-to-use.html" style="color:#fff;font-weight:700;background:rgba(255,255,255,.22);padding:7px 14px;border-radius:999px;text-decoration:none">New here? Read the 6-step beginner's guide</a> <a href="feedback.html#pim" style="color:#fff;font-weight:700;background:rgba(255,255,255,.22);padding:7px 14px;border-radius:999px;text-decoration:none">🛠️ Analyse your customer reviews</a> <a href="feedback.html" style="color:#fff;font-weight:700;background:rgba(255,255,255,.22);padding:7px 14px;border-radius:999px;text-decoration:none">💬 Give feedback</a></p>
+  <h1>🧪 Test your business idea on AI customers</h1>
+  <p>Pick the customers you want to sell to. They read your offer, react like real people, and Claude gives you a score, what to fix and what to say. Free.</p>
+  <div class="how"><div><b>1</b>Choose your industry and customers</div><div><b>2</b>Tap <i>Run it in Claude</i> and paste</div><div><b>3</b>Get your score, fixes and sales replies</div></div>
   <div class="ex">
-    <select id="tpl" style="width:auto;border:0;border-radius:999px;padding:8px 14px;font-weight:700;color:#4c1d95"><option value="">🏭 Start from your industry…</option></select>
+    <select id="tpl" style="width:auto;border:0;border-radius:999px;padding:10px 16px;font-weight:700;color:#4c1d95"><option value="">🏭 Start: choose your industry…</option></select>
+  </div>
+  <nav class="links">
+    <a href="how-to-use.html">📘 Beginner's guide</a><a href="example-report.html">📊 Sample: 4 countries</a><a href="example-report-india.html">📊 Sample: India city and income tiers</a><a href="feedback.html#pim">🛠️ Analyse your reviews</a><a href="feedback.html">💬 Give feedback</a>
+  </nav>
+  <div class="ex small">
     <button id="exWorld">🌍 Example: 4 countries</button><button id="exBlank">✨ Start blank</button>
-    <label style="margin:0;display:inline-flex"><input type="file" id="imp" accept=".json,application/json" style="display:none"><span style="border-radius:999px;padding:8px 14px;background:rgba(255,255,255,.18);color:#fff;font-weight:700;cursor:pointer">📂 Open a saved customer.json</span></label>
+    <label style="margin:0;display:inline-flex"><input type="file" id="imp" accept=".json,application/json" style="display:none"><span>📂 Open a saved setup</span></label>
   </div>
 </header>
+<a href="#run" class="stickyRun" id="stickyRun">⚡ Run it in Claude</a>
 <main>
 <div>
   <div class="card"><h2>1. 💡 Your business</h2><p class="hint">What you sell, to whom, and the exact pitch every buyer sees.</p>
@@ -80,7 +95,7 @@ footer{text-align:center;color:var(--sub);font-size:13px;padding:0 16px 30px}
     <div id="roles"></div><button class="add" id="addRole">+ Add a role</button> <span id="rSum" class="pill"></span>
   </div>
 
-  <div class="card"><h2>3. 👫 Gender</h2><p class="hint">Percentages across all buyers. Leave empty to not set gender.</p>
+  <div class="card"><h2>3. 👫 Gender</h2><p class="hint">Percentages across all buyers. Leave empty if gender does not matter for your product.</p>
     <div id="genders"></div><button class="add" id="addGender">+ Add</button> <span id="gSum" class="pill"></span>
   </div>
 
@@ -99,6 +114,8 @@ footer{text-align:center;color:var(--sub);font-size:13px;padding:0 16px 30px}
 
   <div class="card"><h2>7. 🧩 Your own groups</h2><p class="hint">Any other split you have real numbers for: city tier, diet, ethnicity, religion, home type, car owned... Buyers are always told to act as one person, never a stereotype.</p>
     <div id="dims"></div><button class="add" id="addDim">+ Add a group</button>
+    <div><button class="preset" id="presetCity">🏙️ Add India city tiers (Tier 1 metro to Tier 4 village)</button><button class="preset" id="presetLondon">🇬🇧 Add London vs rest of UK</button></div>
+    <p class="hint" style="margin-top:6px">Presets come with official facts (government classes, MoSPI, ICE 360, ONS) that each buyer in that group is shown. Change the % to match your customers.</p>
   </div>
 
   <div class="card"><h2>8. 🧠 Biases</h2><p class="hint">Real, well-studied ways people decide. Each buyer gets one, spread evenly.</p><div class="chips" id="biases"></div></div>
@@ -111,7 +128,7 @@ footer{text-align:center;color:var(--sub);font-size:13px;padding:0 16px 30px}
 
 <div class="side">
   <div class="card" style="text-align:center"><div class="hint">Your panel</div><div class="big" id="total">0</div><div class="hint">AI buyers</div><div id="mkSummary" style="margin-top:8px"></div><div id="warns" class="warn"></div></div>
-  <div class="card" style="border:2px solid var(--acc)"><h2>⚡ Run it in Claude</h2>
+  <div class="card" id="run" style="border:2px solid var(--acc)"><h2>⚡ Run it in Claude</h2>
     <p class="hint">No installs. Copies one message for the normal Claude app or claude.ai. Paste it, send it, and Claude runs a quick test and writes your score, summary and sales kit.</p>
     <label>How many AI customers?</label>
     <select id="runN"><option value="10">10 (fastest)</option><option value="20" selected>20 (recommended)</option><option value="30">30</option></select>
@@ -184,7 +201,8 @@ function build(){
     const L = parsePairs(m.languages); if (L.length) o.languages = frac(L);
     const segs = m.segments.filter(s => s.name).map(s => { const o = {name:s.name, share:+s.share||0, income:[+s.lo||0, +s.hi||0]};
       if (s.alo !== "" && s.alo != null && s.ahi !== "" && s.ahi != null) o.age = [Math.min(+s.alo,+s.ahi), Math.max(+s.alo,+s.ahi)];
-      if (S.mode === "b2b" && s.roles && parsePairs(s.roles).length) o.roles = frac(parsePairs(s.roles)); return o; });
+      if (S.mode === "b2b" && s.roles && parsePairs(s.roles).length) o.roles = frac(parsePairs(s.roles));
+      if (s.facts && s.facts.length) o.facts = s.facts; return o; });
     if (segs.length) o.segments = frac(segs).map(s => Object.assign(s, {income: s.income[1] < s.income[0] ? [s.income[1], s.income[0]] : s.income}));
     return o; };
   if (mks.length === 1) { const o = mkObj(mks[0]); c.region = o.region; if (o.where) c.where = o.where; if (o.languages) c.languages = o.languages;
@@ -197,7 +215,8 @@ function build(){
   if (S.mode === "b2b") { const R = (S.roles||[]).filter(r => r.name).map(r => ({name:r.name, cares:r.cares||"", share:+r.share||1})); if (R.length) c.roles = frac(R); }
   c.objections = S.objections.split("\n").map(x => x.trim()).filter(Boolean);
   const H = S.habits.split("\n").map(x => x.trim()).filter(Boolean); if (H.length) c.habits = H;
-  const D = S.dims.filter(d => d.name && parsePairs(d.values).length).map(d => ({name:d.name, values: frac(parsePairs(d.values))})); if (D.length) c.dimensions = D;
+  const D = S.dims.filter(d => d.name && parsePairs(d.values).length).map(d => ({name:d.name, values: frac(parsePairs(d.values)).map(v => (d.facts && d.facts[v.name] && d.facts[v.name].length) ? Object.assign(v, {facts: d.facts[v.name]}) : v)})); if (D.length) c.dimensions = D;
+  if (S.income_is === "household") c.income_is = "household";
   c.biases = S.biases.length === BIASES.length ? true : (S.biases.length ? S.biases.slice() : false);
   const F = S.facts.filter(f => f.text).map(f => ({text:f.text, source:f.source||""}));
   const RV = S.reviews.filter(r => r.text).map(r => ({about:r.about||"", stars: r.stars === "" ? undefined : +r.stars, text:r.text, source:r.source||""}));
@@ -234,7 +253,7 @@ function rowsHTML(){
       <label>Languages buyers answer in, with % (e.g. English 60, Hinglish 40). Empty = English</label><input data-p="markets.${i}.languages" value="${esc(m.languages)}">
       <h3 style="margin-top:10px">Segments / categories in ${esc(m.name || "this market")} <span class="hint">name · % · ${S.mode==="b2b"?"yearly budget for this":"yearly income"} from · to (${esc(REGIONS[m.region][1])}) · age from · to</span></h3>
       ${m.segments.map((s,j) => `<div class="line seg"><input data-p="markets.${i}.segments.${j}.name" value="${esc(s.name)}" placeholder="Category A"><input type="number" data-p="markets.${i}.segments.${j}.share" value="${esc(s.share)}" title="%"><input type="number" data-p="markets.${i}.segments.${j}.lo" value="${esc(s.lo)}" placeholder="${S.mode==="b2b"?"budget":"income"} from"><input type="number" data-p="markets.${i}.segments.${j}.hi" value="${esc(s.hi)}" placeholder="${S.mode==="b2b"?"budget":"income"} to"><input type="number" data-p="markets.${i}.segments.${j}.alo" value="${esc(s.alo)}" placeholder="age"><input type="number" data-p="markets.${i}.segments.${j}.ahi" value="${esc(s.ahi)}" placeholder="age"><button class="x" data-del="markets.${i}.segments.${j}">✕</button></div>${S.mode==="b2b"?`<input data-p="markets.${i}.segments.${j}.roles" value="${esc(s.roles||"")}" placeholder="Who decides here, e.g. Owner 80, Accounts 20 (optional)" style="margin:0 0 8px">`:""}`).join("")}
-      <button class="add" data-addseg="${i}">+ Add a segment</button></div>`).join("");
+      <button class="add" data-addseg="${i}">+ Add a segment</button>${m.region === "IN" ? ` <button class="preset" data-preset-seg="${i}">🇮🇳 Use India income tiers (Tier 1 to 4)</button>` : ""}</div>`).join("");
   S.mode = S.mode || "b2c"; S.roles = S.roles || [];
   document.querySelectorAll('input[name="mode"]').forEach(r => r.checked = r.value === S.mode);
   $("rolesCard").style.display = S.mode === "b2b" ? "" : "none";
@@ -291,7 +310,7 @@ const pctOf = (items) => { const counts = items.every(x => x.count != null); con
 const pairs = list => { const p = pctOf(list||[]); return (list||[]).map((x,i) => x.name + " " + p[i]).join(", "); };
 function fromCustomer(c){
   const cur = c.price_currency || (REGIONS[(c.region||"US").toUpperCase()]||REGIONS.US)[1];
-  const segsOf = (segs) => { const p = pctOf(segs||[]); return (segs||[]).map((g,i) => { const inc = g.income || g.budget || ["",""]; return {name:g.name, share:p[i], lo:inc[0], hi:inc[1], alo:(g.age||[""])[0], ahi:(g.age||["",""])[1], roles: g.roles ? pairs(g.roles) : ""}; }); };
+  const segsOf = (segs) => { const p = pctOf(segs||[]); return (segs||[]).map((g,i) => { const inc = g.income || g.budget || ["",""]; return {name:g.name, share:p[i], lo:inc[0], hi:inc[1], alo:(g.age||[""])[0], ahi:(g.age||["",""])[1], roles: g.roles ? pairs(g.roles) : "", facts: g.facts || []}; }); };
   const mk = c.markets ? c.markets.map(m => ({name:m.name, region:(m.region||c.region||"US").toUpperCase(), count:m.count ?? Math.round((m.share||0)*100), where:m.where||"", languages: pairs(m.languages || (m.language ? [{name:m.language,share:1}] : c.languages)), segments: segsOf(m.segments || c.segments)}))
     : [{name: c.where ? String(c.where).split(",")[0] : "Main market", region:(c.region||c.locale||"US").toUpperCase(), count: (c.segments||[]).every(g => g.count != null) ? c.segments.reduce((a,g) => a + g.count, 0) : 100, where:c.where||"", languages: pairs(c.languages || (c.language ? [{name:c.language,share:1}] : [])), segments: segsOf(c.segments)}];
   mk.forEach(m => { if (!REGIONS[m.region]) m.region = "US"; });
@@ -299,12 +318,21 @@ function fromCustomer(c){
   return {business:c.business||"", target:c.target||"", price:c.price ?? "", pcur:cur, pitch:c._pitch||"", mode:c.mode||"b2c", test:c.test||"offer", platform:c.platform||"", markets:mk,
     genders:(c.genders||[]).map((g,i) => ({name:g.name, share:gp[i]})), ages:(c.age_groups||[]).map((a,i) => ({name:a.name, lo:a.range[0], hi:a.range[1], share:ap[i]})),
     behs:(c.behaviours||[]).map((b,i) => ({name:b.name, how:b.how||"", share:bp[i]})), roles:(c.roles||[]).map((r,i) => ({name:r.name, cares:r.cares||"", share:rp[i]})),
-    objections:(c.objections||[]).join("\n"), habits:(c.habits||[]).join("\n"), dims:(c.dimensions||[]).map(d => ({name:d.name, values:pairs(d.values)})),
+    objections:(c.objections||[]).join("\n"), habits:(c.habits||[]).join("\n"), income_is: c.income_is || "personal", dims:(c.dimensions||[]).map(d => ({name:d.name, values:pairs(d.values), facts: Object.fromEntries(d.values.map(v => [v.name, v.facts||[]]))})),
     biases: c.biases === false ? [] : Array.isArray(c.biases) ? c.biases.slice() : BIASES.slice(),
     facts:((c.market||{}).facts||[]).map(f => ({text:f.text, source:f.source||""})), reviews:((c.market||{}).reviews||[]).map(r => ({about:r.about||"", stars:r.stars ?? "", text:r.text, source:r.source||""}))};
 }
 if (typeof fetch === "function") fetch("templates/index.json").then(r => r.json()).then(list => { $("tpl").innerHTML += list.map(t => `<option value="${esc(t.id)}">${esc(t.title)}</option>`).join(""); }).catch(() => {});
 $("tpl").onchange = async e => { const id = e.target.value; if (!id) return; try { const c = await (await fetch("templates/" + id + ".json")).json(); S = fromCustomer(c); rowsHTML(); window.scrollTo({top: document.querySelector("main").offsetTop - 20, behavior:"smooth"}); } catch (err) { alert("Could not load that template. Check your internet connection."); } e.target.value = ""; };
+let PRESETS = null;
+if (typeof fetch === "function") fetch("presets.json").then(r => r.json()).then(d => PRESETS = d).catch(() => {});
+function addDimPreset(key){ if (!PRESETS) { alert("Presets are still loading. Try again in a second."); return; } const d = PRESETS[key].dimension;
+  S.dims = (S.dims||[]).filter(x => x.name !== d.name); S.dims.push({name:d.name, values: pairs(d.values), facts: Object.fromEntries(d.values.map(v => [v.name, v.facts||[]]))}); rowsHTML(); }
+$("presetCity").onclick = () => addDimPreset("india_city_tiers");
+$("presetLondon").onclick = () => addDimPreset("uk_london");
+document.addEventListener("click", e => { const i = e.target.dataset && e.target.dataset.presetSeg; if (i == null) return; if (!PRESETS) { alert("Presets are still loading. Try again in a second."); return; }
+  const P = PRESETS.india_income_tiers, pc = pctOf(P.segments); S.income_is = "household";
+  S.markets[+i].segments = P.segments.map((g,k) => ({name:g.name, share:pc[k], lo:g.income[0], hi:g.income[1], alo:g.age[0], ahi:g.age[1], facts:g.facts||[]})); rowsHTML(); });
 $("imp").onchange = e => { const f = e.target.files[0]; if (!f) return; const rd = new FileReader(); rd.onload = () => { try { S = fromCustomer(JSON.parse(rd.result)); rowsHTML(); } catch (err) { alert("That file is not a valid customer.json."); } }; rd.readAsText(f); e.target.value = ""; };
 $("exWorld").onclick = () => { S = exWorld(); rowsHTML(); };
 $("exBlank").onclick = () => { S = blank(); rowsHTML(); };
@@ -338,7 +366,7 @@ function chatPrompt(){
   const lines = buyers.map((b,i) => { const bits = [];
     bits.push(b2b ? `${b.role || "Decision maker"}, ${b.segment}` : b.segment);
     bits.push((b.gender ? b.gender + ", " : "") + b.age);
-    bits.push(b.income > 0 ? (b2b ? "yearly budget for this " : "earns ") + cur(b.region) + money(b.income, b.region) + (b2b ? "" : " a year") : (b2b ? "no set budget" : "no income of their own"));
+    bits.push(b.income > 0 ? (b2b ? "yearly budget for this " : (c.income_is === "household" ? "household earns " : "earns ")) + cur(b.region) + money(b.income, b.region) + (b2b ? "" : " a year") : (b2b ? "no set budget" : "no income of their own"));
     if (b.market || b.where) bits.push(b.market ? b.market + (b.where ? " (" + b.where + ")" : "") : b.where);
     bits.push("buys like: " + b.behaviour); if (b.bias) bits.push("decides by: " + b.bias); if (b.traits) bits.push(b.traits);
     if (b.language && !/^english$/i.test(b.language)) bits.push("speaks " + b.language);
@@ -347,13 +375,16 @@ function chatPrompt(){
   const regions = [...new Set(buyers.map(b => b.region))];
   const facts = PD ? regions.flatMap(r => (PD.facts[r] || []).map(f => `- [${(REGIONS[r]||["",""])[0].replace(/^\S+\s/, "")}] ${f.text} (source: ${f.source})`)) : [];
   ((c.market||{}).facts||[]).forEach(f => facts.push(`- ${f.text}${f.source ? " (source: " + f.source + ")" : ""}`));
+  const groupFacts = []; const seenG = new Set(buyers.map(b => b.segment).concat(buyers.flatMap(b => (b.traits||"").split("; ").map(t => t.split(": ").slice(1).join(": ")))));
+  (c.markets || [{segments: c.segments}]).forEach(m => (m.segments || c.segments || []).forEach(g => (g.facts||[]).forEach(f => { if (seenG.has(g.name)) groupFacts.push(`- [${g.name}] ${f.text} (source: ${f.source||"none"})`); })));
+  (c.dimensions||[]).forEach(d => d.values.forEach(v => (v.facts||[]).forEach(f => { if (seenG.has(v.name)) groupFacts.push(`- [${d.name}: ${v.name}] ${f.text} (source: ${f.source||"none"})`); })));
   const reviews = ((c.market||{}).reviews||[]).map(r => `- ${r.stars ? r.stars + "/5 " : ""}review${r.about ? " of " + r.about : ""}: "${r.text}"`);
   const checks = PD ? (b2b ? PD.b2b_checks : PD.checks) : [];
   const pcode = (Object.entries(REGIONS).find(([k,v]) => v[1].trim() === (c.price_currency||"").trim()) || ["US"])[0];
   const price = c.price != null ? `${c.price_currency || ""}${Number.isInteger(+c.price) ? money(c.price, pcode) : (+c.price).toFixed(2)}` : "not stated";
   const perBuyer = content
     ? "Buyer # | stops scrolling? (yes/no) | engagement (none/like/comment/share/save/follow) | clicks through? (yes/no) | interest 1-5 | buys? (yes only if 4-5) | reason in their own words | main doubt | one question they'd want answered"
-    : "Buyer # | interest 1-5 (1 definitely not ... 5 definitely would) | buys? (yes only if 4-5) | reason code (price/habit/need/trust/quality/convenience/timing/values/other) | reason in their own words | main doubt | one practical question before paying | price that would be too expensive (in " + (c.price_currency || "the price's currency") + ")";
+    : "Buyer # | interest 1-5 (1 definitely not ... 5 definitely would) | buys? (yes only if 4-5) | reason code (price/habit/need/trust/quality/convenience/timing/values/other) | reason in their own words | main doubt | one practical question before paying | price that would be too expensive (in " + (c.price_currency || "the price's currency") + ") | if they bought it and it worked as described: stars 1-5 and a one-line review | if bought: would recommend 0-10 | what they'd do after (tell friends / post a review / post on social media / say nothing / complain or ask for a refund)";
   const score = content
     ? "Stops the scroll (40) = 40 × share who stop. Engagement (20) = 20 × share who do anything but 'none'. Makes them act (40) = 40 × (0.5 × (average interest − 1) ÷ 4 + 0.5 × share who click)."
     : "Demand (60) = 60 × (0.5 × (average interest − 1) ÷ 4 + 0.5 × share who buy). Price fit (20) = 20 × share whose 'too expensive' price is above " + price + ". Trust (20) = 20 × (1 − share whose reason is trust)." + (c.price == null ? " No price was given, so make Demand worth 80 and skip Price fit." : "");
@@ -363,7 +394,7 @@ ${content ? "WHAT APPEARS IN THEIR FEED" + (c.platform ? " (" + c.platform + ")"
 ${S.pitch.trim()}
 ${content ? "" : "\nPRICE: " + price + "\n"}
 WHO IT'S FOR: ${c.target}
-${facts.length ? "\nREAL MARKET FACTS every buyer knows (official sources):\n" + facts.join("\n") + "\n" : ""}${reviews.length ? "\nREAL COMPETITOR REVIEWS some buyers have read:\n" + reviews.join("\n") + "\n" : ""}${checks.length && !content ? "\nLike careful " + (b2b ? "business buyers" : "shoppers") + ", they check: " + checks.join("; ") + ".\n" : ""}
+${facts.length ? "\nREAL MARKET FACTS every buyer knows (official sources):\n" + facts.join("\n") + "\n" : ""}${groupFacts.length ? "\nFACTS BY GROUP (each buyer knows the facts for their own groups):\n" + groupFacts.join("\n") + "\n" : ""}${reviews.length ? "\nREAL COMPETITOR REVIEWS some buyers have read:\n" + reviews.join("\n") + "\n" : ""}${checks.length && !content ? "\nLike careful " + (b2b ? "business buyers" : "shoppers") + ", they check: " + checks.join("; ") + ".\n" : ""}
 THE ${b2b ? "BUYERS" : "CUSTOMERS"}:
 ${lines}
 
@@ -374,7 +405,7 @@ ${perBuyer}
 STEP 2. AUDIT REPORT
 A) SCORE out of 100, calculated exactly like this, showing the maths: ${score} Grade: 80+ Strong, 60-79 Promising, 40-59 Needs work, under 40 Weak.
 B) IN PLAIN WORDS: 5 short bullet points a 12-year-old could follow.
-C) DETAILED SUMMARY: who responds best and worst (by every group above), the top 3 reasons people hold back with a practical fix for each, the questions buyers need answered grouped by topic,${content ? " what to change in the post to make more people stop and act," : " the price range buyers accept,"} and doubts I hadn't listed.
+C) DETAILED SUMMARY: who responds best and worst (by every group above), the reviews they would leave (average stars, best and worst one-liners) and word of mouth (NPS = % scoring 9-10 minus % scoring 0-6), the top 3 reasons people hold back with a practical fix for each, the questions buyers need answered grouped by topic,${content ? " what to change in the post to make more people stop and act," : " the price range buyers accept,"} and doubts I hadn't listed.
 D) SALES ANSWER KIT: short answers to the top objections; 5 ready-to-send WhatsApp replies; a website FAQ (8 questions); a 60-second sales call script. Write [fill in] wherever you would need facts about my business that I have not given.
 E) NEXT STEPS: 3 concrete actions, ending with testing on 10 to 20 real people.
 
@@ -395,6 +426,7 @@ try { S = JSON.parse(localStorage.getItem("founderPanel")) || exIndia(); } catch
 rowsHTML();
 window.__build = build; window.__load = x => { S = x === "world" ? exWorld() : x === "blank" ? blank() : exIndia(); rowsHTML(); };
 window.__fromCustomer = c => { S = fromCustomer(c); rowsHTML(); };
+window.__setPresets = d => { PRESETS = d; };
 </script>
 </body>
 </html>

@@ -784,3 +784,78 @@ class WebsiteDataInSync(unittest.TestCase):
         self.assertEqual(d["biases"], panel.BIASES)
         self.assertEqual(d["checks"], panel.PRACTICAL_CHECKS)
         self.assertEqual(d["b2b_checks"], panel.B2B_CHECKS)
+
+
+class TiersAndAfterPurchase(unittest.TestCase):
+    ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    def presets(self):
+        with open(os.path.join(self.ROOT, "docs", "presets.json"), encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_presets_are_sourced_and_deal(self):
+        P = self.presets()
+        c = customer()
+        c["region"] = "IN"
+        c["income_is"] = P["india_income_tiers"]["income_is"]
+        c["segments"] = P["india_income_tiers"]["segments"]
+        c["dimensions"] = [P["india_city_tiers"]["dimension"]]
+        self.assertEqual(panel.unsourced(c), [])
+        cards = panel.deal(c, 60, 2)
+        self.assertEqual(len({x["segment"] for x in cards}), 4)
+        x = next(x for x in cards if x["traits"]["city tier"].startswith("Tier 4"))
+        self.assertTrue(any("Rural Indians" in f for f in x["trait_facts"]))
+        self.assertTrue(all(k.get("source", "").startswith("https://") for key in ("india_city_tiers", "uk_london")
+                            for v in P[key]["dimension"]["values"] for k in v["facts"]))
+
+    def test_brief_says_household_and_shows_local_facts(self):
+        P = self.presets()
+        c = customer()
+        c.update({"region": "IN", "income_is": "household", "segments": P["india_income_tiers"]["segments"],
+                  "dimensions": [P["india_city_tiers"]["dimension"]]})
+        d = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, d)
+        cp = os.path.join(d, "c.json")
+        with open(cp, "w", encoding="utf-8") as fh:
+            json.dump(c, fh, ensure_ascii=False)
+        panel.init(d, cp, example("founder-consumer", "pitch.example.md"), n=8, seed=1)
+        panel.write_briefs(d)
+        with open(os.path.join(d, "briefs", "P001.md"), encoding="utf-8") as fh:
+            b = fh.read()
+        self.assertIn("Your household earns about \u20b9", b)
+        self.assertIn("About where you live and how people like you spend:", b)
+        self.assertIn("if_bought_stars", b)
+        res_sources = panel._sources(c)
+        self.assertTrue(any("Tier 1" in s_["region"] for s_ in res_sources))
+
+    def test_after_purchase_nps_and_reviews(self):
+        d = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, d)
+        panel.init(d, example("founder-consumer", "customer.example.json"), example("founder-consumer", "pitch.example.md"), n=10, seed=1)
+        for i, x in enumerate(panel.load_state(d)[1]):
+            a = {"id": x["id"], "intent": 4 if i < 3 else 2, "buys": i < 3, "reason_code": "price", "reason": "r",
+                 "if_bought_stars": 5 if i < 4 else 2, "if_bought_review": "great" if i < 4 else "meh",
+                 "recommend": 10 if i < 4 else (8 if i < 6 else 3), "after_purchase": "tell friends" if i < 4 else "say nothing"}
+            with open(os.path.join(d, "answers", x["id"] + ".json"), "w") as fh:
+                json.dump(a, fh)
+        res = panel.tally(d)
+        af = res["after"]
+        self.assertEqual(af["nps"], 0)  # 4 promoters, 2 passives, 4 detractors
+        self.assertAlmostEqual(af["avg_stars"], 3.2)
+        self.assertEqual(af["actions"]["tell friends"], 4)
+        self.assertEqual(af["best_reviews"][0][1], 5)
+        self.assertTrue(any("NPS" in x for x in res["audit"]["easy"]))
+        bad = os.path.join(d, "answers", "P001.json")
+        with open(bad, "w") as fh:
+            json.dump({"id": "P001", "buys": False, "reason_code": "price", "reason": "r", "recommend": 11}, fh)
+        self.assertIn("recommend", panel._answer_ok(bad, "P001"))
+
+
+class PresetNamesWorkInTheBuilder(unittest.TestCase):
+    def test_no_commas_in_group_value_names(self):
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        with open(os.path.join(root, "docs", "presets.json"), encoding="utf-8") as fh:
+            P = json.load(fh)
+        for key in ("india_city_tiers", "uk_london"):
+            for v in P[key]["dimension"]["values"]:
+                self.assertNotIn(",", v["name"], v["name"])  # the builder separates values with commas

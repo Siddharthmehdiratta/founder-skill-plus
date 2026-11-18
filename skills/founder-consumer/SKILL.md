@@ -67,6 +67,22 @@ panel wrong.
   out category by category. `--only` picks which categories to run. Pass `--size`
   or `--n` to run a smaller or bigger panel with the same mix: the headcounts
   are scaled to that size.
+- Group facts: any segment, or any value of a `dimensions` group, can carry
+  `"facts": [{"text": "...", "source": "https://..."}]`. Each buyer in that
+  group sees them ("About where you live and how people like you spend").
+- Ready-made presets with official sources, in `docs/presets.json` and one tap
+  in the panel builder: India city tiers (Tier 1 metro to Tier 4 village, from
+  the government's X/Y/Z city classes and MoSPI's spending survey), India
+  household income tiers (Tier 1 rich to Tier 4 low income, from the ICE 360
+  survey classes) and London vs the rest of the UK (ONS).
+- `income_is`: `"household"` when segment incomes are household incomes (the
+  India income tiers are), so briefs say "Your household earns".
+- After purchase: every buyer also says what star rating and one-line review
+  they would give if they bought it and it worked as described, how likely they
+  are to recommend it (0 to 10, giving an NPS), and what they would do next
+  (tell friends, post a review, post on social media, say nothing, complain).
+  The report shows these in a "Reviews they'd leave" tab. They are simulated
+  expectations: never publish them as reviews.
 - `test`: `"offer"` (default: a product, service or price) or `"content"` (a
   reel hook, post, caption, ad or headline). In content mode put the post text
   in `pitch.md`, set `platform` (e.g. "Instagram reel"), and each buyer says

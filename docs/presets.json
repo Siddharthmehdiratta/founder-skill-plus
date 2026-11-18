@@ -1,0 +1,172 @@
+{
+ "_note": "Ready-made groups with official or published sources. Shares are starting points: set your own for your customers. Checked November 2026.",
+ "india_city_tiers": {
+  "title": "India city tiers (Tier 1 to Tier 4)",
+  "kind": "dimension",
+  "dimension": {
+   "name": "city tier",
+   "values": [
+    {
+     "name": "Tier 1 metro (Mumbai / Delhi / Bengaluru / Chennai / Hyderabad / Kolkata / Ahmedabad / Pune)",
+     "share": 0.35,
+     "facts": [
+      {
+       "text": "The government classes 8 cities as X (Tier 1) for house rent allowance, the highest rate: Mumbai, Delhi, Bengaluru, Chennai, Hyderabad, Kolkata, Ahmedabad and Pune. Rents and prices are highest here.",
+       "source": "https://www.mod.gov.in/sites/default/files/hra.pdf"
+      },
+      {
+       "text": "Urban Indians spend on average ₹6,996 per person per month (2023-24), about 70% more than rural Indians (₹4,122).",
+       "source": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2088390"
+      }
+     ]
+    },
+    {
+     "name": "Tier 2 city (e.g. Jaipur / Lucknow / Nagpur / Indore / Kochi)",
+     "share": 0.3,
+     "facts": [
+      {
+       "text": "About 97 cities are classed Y (Tier 2) by the government, with lower living costs than the 8 metros.",
+       "source": "https://en.wikipedia.org/wiki/Classification_of_Indian_cities"
+      },
+      {
+       "text": "Urban Indians spend on average ₹6,996 per person per month (2023-24), about 70% more than rural Indians (₹4,122).",
+       "source": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2088390"
+      }
+     ]
+    },
+    {
+     "name": "Tier 3 town (smaller cities and towns)",
+     "share": 0.2,
+     "facts": [
+      {
+       "text": "All cities not classed X or Y are Z class (Tier 3), with the lowest house rent allowance.",
+       "source": "https://www.mod.gov.in/sites/default/files/hra.pdf"
+      },
+      {
+       "text": "Urban Indians spend on average ₹6,996 per person per month (2023-24), about 70% more than rural Indians (₹4,122).",
+       "source": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2088390"
+      }
+     ]
+    },
+    {
+     "name": "Tier 4 village (rural)",
+     "share": 0.15,
+     "facts": [
+      {
+       "text": "Rural Indians spend on average ₹4,122 per person per month (2023-24); the rural-urban gap has narrowed from 84% in 2011-12 to about 70%.",
+       "source": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2088390"
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "india_income_tiers": {
+  "title": "India income tiers (household, Tier 1 to Tier 4)",
+  "kind": "segments",
+  "income_is": "household",
+  "segments": [
+   {
+    "name": "Tier 1: rich household (over ₹30 lakh a year)",
+    "share": 0.1,
+    "income": [
+     3000000,
+     15000000
+    ],
+    "age": [
+     30,
+     65
+    ],
+    "facts": [
+     {
+      "text": "Rich households (over ₹30 lakh a year) spend about ₹20.5 lakh a year on average, about 3 times a middle-class household (ICE 360 survey, 2020-21 prices).",
+      "source": "https://business-standard.com/finance/personal-finance/india-s-super-rich-households-will-rise-by-5-times-to-9-1-million-by-2030-123070600278_1.html"
+     }
+    ]
+   },
+   {
+    "name": "Tier 2: middle-class household (₹5 to 30 lakh a year)",
+    "share": 0.35,
+    "income": [
+     500000,
+     3000000
+    ],
+    "age": [
+     25,
+     60
+    ],
+    "facts": [
+     {
+      "text": "Middle-class households (₹5 to 30 lakh a year) spend about ₹6.9 lakh a year on average and were about 31% of households in 2021 (ICE 360 survey).",
+      "source": "https://business-standard.com/finance/personal-finance/india-s-super-rich-households-will-rise-by-5-times-to-9-1-million-by-2030-123070600278_1.html"
+     }
+    ]
+   },
+   {
+    "name": "Tier 3: aspiring household (₹1.25 to 5 lakh a year)",
+    "share": 0.4,
+    "income": [
+     125000,
+     500000
+    ],
+    "age": [
+     20,
+     60
+    ],
+    "facts": [
+     {
+      "text": "Aspirer households earn ₹1.25 to 5 lakh a year (ICE 360 survey classes); much of the budget goes on food, housing and essentials.",
+      "source": "https://thesecretariat.in/article/dateline-2031-india-s-middle-class-will-make-it-much-richer"
+     }
+    ]
+   },
+   {
+    "name": "Tier 4: low-income household (under ₹1.25 lakh a year)",
+    "share": 0.15,
+    "income": [
+     40000,
+     125000
+    ],
+    "age": [
+     20,
+     65
+    ],
+    "facts": [
+     {
+      "text": "The lowest-income households (under ₹1.25 lakh a year) spend about ₹82,300 a year on average, mostly on food and shelter (ICE 360 survey).",
+      "source": "https://business-standard.com/finance/personal-finance/india-s-super-rich-households-will-rise-by-5-times-to-9-1-million-by-2030-123070600278_1.html"
+     }
+    ]
+   }
+  ]
+ },
+ "uk_london": {
+  "title": "London vs rest of the UK",
+  "kind": "dimension",
+  "dimension": {
+   "name": "where in the UK",
+   "values": [
+    {
+     "name": "London",
+     "share": 0.3,
+     "facts": [
+      {
+       "text": "London had the highest spending per person of the English regions in 2023 (£28,600) and the highest household saving ratio (23.9%).",
+       "source": "https://www.ons.gov.uk/economy/regionalaccounts/grossdisposablehouseholdincome/bulletins/regionalhouseholdfinalconsumptionexpenditureuk/2009to2023"
+      }
+     ]
+    },
+    {
+     "name": "Rest of the UK",
+     "share": 0.7,
+     "facts": [
+      {
+       "text": "Spending per person across English regions ranged from £19,842 (North East) to £28,600 (London) in 2023.",
+       "source": "https://www.ons.gov.uk/economy/regionalaccounts/grossdisposablehouseholdincome/bulletins/regionalhouseholdfinalconsumptionexpenditureuk/2009to2023"
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

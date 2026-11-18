@@ -238,6 +238,7 @@ QUESTION_TOPICS = [  # first match wins, so the specific topics come first
 ]
 TOPIC_NAMES = [t for t, _ in QUESTION_TOPICS] + ["other"]
 ENGAGEMENT = ["none", "like", "comment", "share", "save", "follow"]
+AFTER = ["tell friends", "post a review", "post on social media", "say nothing", "complain or ask for a refund"]
 REASONS = ["price", "habit", "need", "trust", "quality", "convenience", "timing", "values", "other"]
 ANSWER_FIELDS = {"id", "buys", "reason_code", "reason"}
 WAVE = 10
@@ -263,6 +264,10 @@ def unsourced(c):
     """Warnings for market facts or reviews without a source link: buyers are told these are real."""
     m = c.get("market") or {}
     out = []
+    k = sum(1 for dim in c.get("dimensions") or [] for v in dim["values"] for f in v.get("facts") or [] if not str(f.get("source", "")).strip())
+    k += sum(1 for sg in c.get("segments") or [] for f in sg.get("facts") or [] if not str(f.get("source", "")).strip())
+    if k:
+        out.append("%d group facts have no 'source' link. Buyers are told these are real: add links, or remove them." % k)
     for kind in ("facts", "reviews"):
         k = sum(1 for x in m.get(kind) or [] if not str(x.get("source", "")).strip())
         if k:
@@ -334,6 +339,12 @@ def validate_customer(c):
     for dim in c.get("dimensions") or []:
         if "name" not in dim or not dim.get("values") or any("name" not in v for v in dim["values"]):
             raise PanelError("every dimension needs a name and values, each with a name and a share")
+        for v in dim["values"]:
+            for f in v.get("facts") or []:
+                if not (isinstance(f, dict) and str(f.get("text", "")).strip()):
+                    raise PanelError("every fact on a dimension value needs a 'text' (and a 'source' link)")
+    if c.get("income_is", "personal") not in ("personal", "household"):
+        raise PanelError("'income_is' must be \"personal\" or \"household\"")
 
 
 SIZES = {"small": 20, "medium": 100, "large": 250}
@@ -461,6 +472,7 @@ def _deal_one(customer, n, seed):
     genders = _spread(customer["genders"], n, rng) if customer.get("genders") else [None] * n
     ages = _spread(customer["age_groups"], n, rng) if customer.get("age_groups") else [None] * n
     dims = [(dim["name"], _spread(dim["values"], n, rng)) for dim in customer.get("dimensions") or []]
+    dim_facts = {(dim["name"], v["name"]): v.get("facts") or [] for dim in customer.get("dimensions") or [] for v in dim["values"]}
     used = set()
 
     def pick_name(g):
@@ -534,6 +546,7 @@ def _deal_one(customer, n, seed):
             "gender": genders[i]["name"] if genders[i] else "",
             "age_group": _age_group_for(customer, seg_age) if seg_age is not None else (ages[i]["name"] if ages[i] else ""),
             "traits": {dn: vals[i]["name"] for dn, vals in dims},
+            "trait_facts": [f["text"] for f in s.get("facts") or []] + [f["text"] for dn, vals in dims for f in dim_facts.get((dn, vals[i]["name"]), [])],
             "language": langs[i]["name"] if langs[i] else (customer.get("language") or ""),
             "segment": s["name"],
             "income": int(round(rng.uniform(lo, hi), -3)),
@@ -646,6 +659,10 @@ Create the file {out} with your file-writing tool (do not just print the answer 
   "unprompted_doubt": "a doubt or question you have that nobody has mentioned to you, in your own words, or empty",
   "would_change_my_mind": "the one thing that would flip your answer, or empty",
   "questions_before_buying": [1 to 4 practical questions you would need answered before paying, each as {{"question": "in your own words", "topic": one of {topics}}}],
+  "if_bought_stars": imagine you bought it and it was exactly as described: the star rating you would give, 1 to 5,
+  "if_bought_review": "the one-line review you would honestly write, in your own voice",
+  "recommend": still imagining you bought it and it was as described: how likely you would be to recommend it to a friend, 0 to 10,
+  "after_purchase": what you would most likely do afterwards, one of {after},
   "price_currency": "{price_cur}",
   "price_too_cheap": the price at which it would seem too cheap to be any good (a number),
   "price_cheap": the price at which it would feel like a bargain (a number),
@@ -720,7 +737,7 @@ def write_briefs(d, wave=WAVE):
         if _answer_ok(out, c["id"]) is None:
             continue
         cust = market_customer(top, c["market"]) if c.get("market") else top
-        brief = BRIEF.format(price_cur=price_cur, checks="; ".join(PRACTICAL_CHECKS),
+        brief = BRIEF.format(price_cur=price_cur, after=" / ".join('"%s"' % x for x in AFTER), checks="; ".join(PRACTICAL_CHECKS),
                              topics=" / ".join('"%s"' % t for t in TOPIC_NAMES),
                              bias_line=("How you tend to decide: %s\n" % BIASES[c["bias"]]) if c.get("bias") in BIASES else "",pitch=state["pitch"], target=target, out=os.path.abspath(out),
                              habit_line=("Your day: %s.\n" % c["habit"]) if c.get("habit") else "",
@@ -730,7 +747,8 @@ def write_briefs(d, wave=WAVE):
                              language_line=_language_line(c.get("language", "")),
                              reason_en_line=("\n  \"reason_en\": \"the same reason translated into English\","
                                              if _foreign(c.get("language", "")) else ""),
-                             market_block=_market_block(cust, c), income_line=("You earn about %s%s a year" % (_currency(cust), _money(c["income"], cust))) if c["income"] > 0
+                             market_block=_market_block(cust, c), income_line=("%s about %s%s a year" % ("Your household earns" if cust.get("income_is") == "household" else "You earn",
+                                                     _currency(cust), _money(c["income"], cust))) if c["income"] > 0
                              else "You have no income of your own (you live on family support, savings or a stipend)",
                              where_line=(" You live in %s." % cust["where"]) if cust.get("where") else "",
                              objection_line=('The first thing that comes to mind when you hear an offer like this: "%s"' % c["objection"])
@@ -765,6 +783,12 @@ def _answer_ok(path, pid):
         return "id is %r, expected %s" % (a.get("id"), pid)
     if not isinstance(a.get("buys"), bool):
         return "'buys' must be true or false"
+    if "if_bought_stars" in a and (isinstance(a["if_bought_stars"], bool) or a["if_bought_stars"] not in (1, 2, 3, 4, 5)):
+        return "'if_bought_stars' must be 1 to 5"
+    if "recommend" in a and (isinstance(a["recommend"], bool) or a["recommend"] not in range(11)):
+        return "'recommend' must be a whole number 0 to 10"
+    if "after_purchase" in a and a["after_purchase"] not in AFTER:
+        return "'after_purchase' must be one of %s" % ", ".join(AFTER)
     if "stops_scrolling" in a and not isinstance(a["stops_scrolling"], bool):
         return "'stops_scrolling' must be true or false"
     if "clicks" in a and not isinstance(a["clicks"], bool):
@@ -846,12 +870,16 @@ def _market_block(customer, card):
         facts = [f["text"] for f in REGION_FACTS[reg]] + facts
     allrev = m.get("reviews") or []
     seen = [allrev[i] for i in card.get("reviews") or [] if i < len(allrev)]
-    if not facts and not seen:
+    local = card.get("trait_facts") or []
+    if not facts and not seen and not local:
         return ""
     out = ["", "=== WHAT YOU ALREADY KNOW (real, sourced facts about your market, and real reviews) ==="]
     if facts:
         out.append("How people around you pay, save and buy:")
         out += ["- %s" % f for f in facts]
+    if local:
+        out.append("About where you live and how people like you spend:")
+        out += ["- %s" % f for f in local[:6]]
     if seen:
         out.append("Reviews you have read of other options:")
         for rv in seen:
@@ -1095,6 +1123,20 @@ def tally(d):
                           "click_rate": sum(1 for r in rows if r.get("clicks") is True) / n,
                           "engagement": {e: sum(1 for r in rows if r.get("engagement") == e) for e in ENGAGEMENT},
                           "answered": sum(1 for r in rows if "stops_scrolling" in r)}
+    rec = [r["recommend"] for r in rows if isinstance(r.get("recommend"), int) and not isinstance(r.get("recommend"), bool)]
+    stars = [r["if_bought_stars"] for r in rows if r.get("if_bought_stars") in (1, 2, 3, 4, 5)]
+    if rec or stars:
+        reviews = [(r["id"], r["if_bought_stars"], r.get("if_bought_review", "")) for r in rows
+                   if r.get("if_bought_stars") in (1, 2, 3, 4, 5) and (r.get("if_bought_review") or "").strip()]
+        res["after"] = {
+            "nps": round(100.0 * (sum(1 for x in rec if x >= 9) - sum(1 for x in rec if x <= 6)) / len(rec)) if rec else None,
+            "promoters": sum(1 for x in rec if x >= 9), "passives": sum(1 for x in rec if 7 <= x <= 8),
+            "detractors": sum(1 for x in rec if x <= 6), "answers": len(rec),
+            "avg_stars": (sum(stars) / float(len(stars))) if stars else None,
+            "stars": {str(k): sum(1 for x in stars if x == k) for k in range(1, 6)},
+            "actions": {a: sum(1 for r in rows if r.get("after_purchase") == a) for a in AFTER},
+            "best_reviews": [x for x in sorted(reviews, key=lambda t: -t[1]) if x[1] >= 4][:3],
+            "worst_reviews": [x for x in sorted(reviews, key=lambda t: t[1]) if x[1] <= 3][:3]}
     res["audit"] = audit(state, rows, res)
     res["sources"] = _sources(state["customer"])
     return res
@@ -1325,6 +1367,10 @@ def audit(state, rows, res):
             break
     if res.get("questions"):
         easy.append("The question buyers ask most is about %s: answer it on your page and in your pitch." % res["questions"][0]["topic"])
+    af = res.get("after")
+    if af and af.get("avg_stars") is not None:
+        easy.append("If it works as promised, buyers expect to rate it %.1f stars on average, with a recommendation score (NPS) of %s." % (
+            af["avg_stars"], ("%+d" % af["nps"]) if af.get("nps") is not None else "not given"))
 
     detailed = []
     detailed.append({"title": "Score breakdown", "lines": ["%s: %d of %d (%s)" % (p["name"], p["points"], p["max"], p["why"]) for p in parts]})
@@ -1341,6 +1387,14 @@ def audit(state, rows, res):
     if res.get("questions"):
         detailed.append({"title": "Questions to answer before buyers will commit",
                          "lines": ["%s (%d): e.g. \"%s\"" % (q["topic"], q["count"], q["examples"][0]) for q in res["questions"][:6]]})
+    if af:
+        lines = ["Would recommend it (9-10): %d · passive (7-8): %d · would not (0-6): %d. NPS = %% recommending minus %% not = %s." % (
+            af["promoters"], af["passives"], af["detractors"], ("%+d" % af["nps"]) if af.get("nps") is not None else "-")]
+        top_act = sorted(af["actions"].items(), key=lambda kv: -kv[1])
+        if top_act and top_act[0][1]:
+            lines.append("After buying, most would: " + ", ".join("%s (%d)" % kv for kv in top_act if kv[1]))
+        lines += ['%d stars: "%s"' % (s_, t) for _, s_, t in af["best_reviews"][:2] + af["worst_reviews"][:2]]
+        detailed.append({"title": "Reviews they would leave and word of mouth", "lines": lines})
     if res.get("unprompted"):
         detailed.append({"title": "Doubts you had not listed", "lines": ['"%s"' % t for _, t in res["unprompted"][:5]]})
     detailed.append({"title": "Next steps", "lines": [
@@ -1423,11 +1477,14 @@ def _sources(customer):
         reg = {"GB": "UK"}.get((c.get("region") or c.get("locale") or "").strip().upper(), "")
         reg = reg or (c.get("region") or c.get("locale") or "").strip().upper()
         facts = (REGION_FACTS.get(reg, []) if c.get("region_facts", True) else []) + list((c.get("market") or {}).get("facts") or [])
+        facts = facts + [dict(f, region=("%s: %s" % (dim["name"], v["name"]))) for dim in c.get("dimensions") or []
+                         for v in dim["values"] for f in v.get("facts") or []]
+        facts = facts + [dict(f, region=sg["name"]) for sg in c.get("segments") or [] for f in sg.get("facts") or []]
         for f in facts:
             key = f["text"]
             if key not in seen:
                 seen.add(key)
-                out.append({"region": REGIONS.get(reg, {}).get("label", reg) if reg else "", "text": f["text"], "source": f.get("source", "")})
+                out.append({"region": f.get("region") or (REGIONS.get(reg, {}).get("label", reg) if reg else ""), "text": f["text"], "source": f.get("source", "")})
     return out
 
 
@@ -1477,7 +1534,7 @@ a{color:var(--acc)}.count{font-weight:800}.chip{display:inline-block;background:
 <div class="kpis" id="kpis"></div>
 <div class="note">This is research, not a forecast. AI buyers lean agreeable, so read the raw buy rate as a ceiling. Use the reasons and doubts to fix the offer, then confirm with real people (a waitlist, a pre-sale, a price on a page) before you spend.</div>
 <div class="tabs" id="tabs"></div>
-<section id="t-audit"></section><section id="t-plan"></section><section id="t-who"></section><section id="t-why"></section><section id="t-faq"></section><section id="t-buyers"></section><section id="t-price"></section><section id="t-facts"></section>
+<section id="t-audit"></section><section id="t-plan"></section><section id="t-who"></section><section id="t-why"></section><section id="t-faq"></section><section id="t-reviews"></section><section id="t-buyers"></section><section id="t-price"></section><section id="t-facts"></section>
 </main>
 <script>
 const R = __DATA__;
@@ -1497,7 +1554,7 @@ function kpis(){
   el("kpis").innerHTML = k.map(x => `<div class="kpi"><div class="l">${esc(x[0])}</div><div class="v">${esc(x[1])}</div><div class="s">${esc(x[2])}</div></div>`).join("");
 }
 
-const TABS = [["audit","🏆 Score & summary"],["plan","🚀 What to do next"],["who","🎯 Who buys"],["why","💬 Why not"],["faq","❓ Questions to answer"],["buyers","👥 Every buyer"],["price","💰 Price"],["facts","📚 Facts used"]];
+const TABS = [["audit","🏆 Score & summary"],["plan","🚀 What to do next"],["who","🎯 Who buys"],["why","💬 Why not"],["faq","❓ Questions to answer"],["reviews","⭐ Reviews they'd leave"],["buyers","👥 Every buyer"],["price","💰 Price"],["facts","📚 Facts used"]];
 function tabs(){
   el("tabs").innerHTML = TABS.map(([id,t],i) => `<button data-t="${id}" class="${i? "":"on"}">${t}</button>`).join("");
   el("t-audit").classList.add("on");
@@ -1605,6 +1662,22 @@ function verdict(p){
   return `<p style="background:${col};border-radius:10px;padding:10px"><b>Verdict:</b> ${msg}</p>`;
 }
 
+function reviews(){
+  const A = R.after; if (!A) { el("t-reviews").innerHTML = "<div class='box'><p>No after-purchase answers in this panel (older answer format).</p></div>"; return; }
+  const nc = A.nps == null ? "#94a3b8" : A.nps >= 30 ? "#10b981" : A.nps >= 0 ? "#f59e0b" : "#ef4444";
+  let h = `<div class="box"><h2>If they bought it and it worked as promised</h2><div class="price">
+    <div style="background:#f59e0b"><small>Average stars</small>${A.avg_stars != null ? A.avg_stars.toFixed(1) + " ★" : "–"}</div>
+    <div style="background:${nc}"><small>Recommendation (NPS)</small>${A.nps != null ? (A.nps > 0 ? "+" : "") + A.nps : "–"}</div>
+    <div style="background:#10b981"><small>Would recommend (9-10)</small>${A.promoters}</div><div style="background:#ef4444"><small>Would not (0-6)</small>${A.detractors}</div></div>
+    <p class="thin">NPS = % scoring 9-10 minus % scoring 0-6, from -100 to +100. These are simulated expectations, not real reviews: never publish them as reviews.</p></div>`;
+  h += '<div class="box"><h2>Stars they expect to give</h2>' + [5,4,3,2,1].map(k => { const n = A.stars[String(k)] || 0, tot = Object.values(A.stars).reduce((a,b) => a+b, 0) || 1;
+    return `<div class="row" style="cursor:default"><div>${"★".repeat(k)}</div><div class="bar"><div class="fill" style="width:${Math.round(n/tot*100)}%;background:${color((k-1)/4)}"></div></div><div class="count">${n}</div></div>`; }).join("") + "</div>";
+  h += '<div class="box"><h2>What they would do after buying</h2>' + Object.entries(A.actions).sort((a,b) => b[1]-a[1]).map(([k,n]) => `<div class="row" style="cursor:default"><div>${esc(k)}</div><div class="bar"><div class="fill" style="width:${Math.round(n/(R.answered||1)*100)}%;background:#7c3aed"></div></div><div class="count">${n}</div></div>`).join("") + "</div>";
+  h += '<div class="box"><h2>The reviews they would write</h2><h3>Best</h3>' + (A.best_reviews.map(r => `<blockquote>${"★".repeat(r[1])} ${esc(r[2])} <span class="thin">(${esc(r[0])})</span></blockquote>`).join("") || "<p class='thin'>None.</p>")
+    + '<h3>Worst</h3>' + (A.worst_reviews.map(r => `<blockquote>${"★".repeat(r[1])} ${esc(r[2])} <span class="thin">(${esc(r[0])})</span></blockquote>`).join("") || "<p class='thin'>None.</p>") + "</div>";
+  el("t-reviews").innerHTML = h;
+}
+
 function price(){
   const P = R.practical.prices; let h = '<div class="box"><h2>What buyers would pay</h2>';
   if (!P.length) h += "<p>No complete price answers.</p>";
@@ -1622,7 +1695,7 @@ function facts(){
   h += R.sources.map(s => `<p>${s.region?`<span class="tag">${esc(s.region)}</span> `:""}${esc(s.text)} ${s.source?`<a href="${esc(s.source)}" target="_blank" rel="noopener">source</a>`:'<b style="color:#dc2626">no source</b>'}</p>`).join("");
   el("t-facts").innerHTML = h + "</div>";
 }
-kpis(); tabs(); audit(); plan(); who(); why(); faq(); buyers(); price(); facts();
+kpis(); tabs(); audit(); plan(); who(); why(); faq(); reviews(); buyers(); price(); facts();
 </script></body></html>
 """
 
