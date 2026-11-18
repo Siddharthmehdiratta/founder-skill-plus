@@ -1515,7 +1515,7 @@ REPORT = r"""<!DOCTYPE html>
 <title>Buyer panel: __TITLE__</title>
 <style>
 :root{--bg:#f6f7f9;--card:#fff;--ink:#171a21;--sub:#5d6471;--line:#e4e7ec;--acc:#0B8463;--acc2:#0B8463;--yes:#0b7a66;--no:#b4441b}
-*{box-sizing:border-box}body{margin:0;font:15px/1.55 "Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}body{margin:0;font:15px/1.55 "Jakarta",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
 header{background:#fff;border-bottom:1px solid var(--line);color:var(--ink);padding:28px 20px 64px}
 header h1{margin:0 auto;max-width:1060px;font-size:clamp(22px,3vw,30px);letter-spacing:-.025em;line-height:1.2;font-weight:700}header .sub{color:var(--sub);font-size:14px;margin:8px auto 0;max-width:1060px}
 main{max-width:1100px;margin:0 auto;padding:0 18px 40px}

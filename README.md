@@ -4,17 +4,17 @@
 
 **Build a panel of AI buyers** (30 from India, 20 from Europe, 10 from the US, any genders, ages, incomes and habits you choose), show them your pitch, and get back who would buy, who would not, why, what to fix first, and what price to test. Free. Runs in Claude.
 
-### 👉 [Open the panel builder](https://siddharthmehdiratta.github.io/founder-skill-plus/) · [See an example report](https://siddharthmehdiratta.github.io/founder-skill-plus/example-report.html) · [India city and income tiers example](https://siddharthmehdiratta.github.io/founder-skill-plus/example-report-india.html) · [Beginner's guide](https://siddharthmehdiratta.github.io/founder-skill-plus/how-to-use.html) · [Analyse your reviews / give feedback](https://siddharthmehdiratta.github.io/founder-skill-plus/feedback.html)
+### [Open the panel builder](https://siddharthmehdiratta.github.io/founder-skill-plus/builder.html) · [How it works](https://siddharthmehdiratta.github.io/founder-skill-plus/how-it-works.html) · [Sample report](https://siddharthmehdiratta.github.io/founder-skill-plus/example-report.html) · [India tiers sample](https://siddharthmehdiratta.github.io/founder-skill-plus/example-report-india.html) · [Guide](https://siddharthmehdiratta.github.io/founder-skill-plus/how-to-use.html) · [FAQ](https://siddharthmehdiratta.github.io/founder-skill-plus/faq.html)
 
 A fork of [Jakeschincariol/founder-skill](https://github.com/Jakeschincariol/founder-skill) (MIT) with a rebuilt consumer panel. The other ten skills (board, CFO, marketing, launch...) are the original's, plus a new twelfth, the Product Improvement Manager; the original README is below the line. **Its install steps install the original edition, without these upgrades: use the ones above.**
 
 ## ⚡ Quick way: no installs
 
-Open the [builder](https://siddharthmehdiratta.github.io/founder-skill-plus/), pick your industry and customers, press **Copy the message for Claude**, and paste it into the normal Claude app. You get every customer's answer, a score out of 100, a plain and a detailed summary, and a sales answer kit.
+Open the [builder](https://siddharthmehdiratta.github.io/founder-skill-plus/builder.html), pick your industry and customers, press **Copy the message for Claude**, and paste it into the normal Claude app. You get every customer's answer, a score out of 100, a plain and a detailed summary, and a sales answer kit.
 
 ## Full way (4 steps)
 
-1. **Build your panel** in the [builder](https://siddharthmehdiratta.github.io/founder-skill-plus/): markets, headcounts, gender, age groups, segments and incomes, buying habits, doubts, your own groups. Download `customer.json` and `pitch.md`.
+1. **Build your panel** in the [builder](https://siddharthmehdiratta.github.io/founder-skill-plus/builder.html): markets, headcounts, gender, age groups, segments and incomes, buying habits, doubts, your own groups. Download `customer.json` and `pitch.md`.
 2. **Install the skill**: paste `https://github.com/Siddharthmehdiratta/founder-skill-plus` into Claude and say `install skill`. Or in Claude Code: `/plugin marketplace add Siddharthmehdiratta/founder-skill-plus` then `/plugin install founder-skill@founder-skill`.
 3. **Run it**: put both files in a `founder/` folder and type `/founder-consumer --size small` (20 buyers; each buyer is one AI agent, so start small). Installed as a plugin, the command is `/founder-skill:founder-consumer`.
 4. **Read the report**: open `founder/panel/results.html`.

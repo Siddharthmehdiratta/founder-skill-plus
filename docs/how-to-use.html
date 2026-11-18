@@ -6,12 +6,9 @@
 <title>Founder Plus · How to use it (beginner's guide)</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23171a21'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%238aa0ff' stroke-width='3'/%3E%3C/svg%3E">
 <meta name="description" content="Step-by-step beginner's guide to testing your business idea on AI customers with Founder Plus and Claude.">
-<link rel="preload" href="fonts/geist-sans-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/plus-jakarta-sans-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="theme.css">
 <style>
-header{padding:0 0 40px}
-header h1{margin:0;font-size:clamp(28px,5vw,44px)}header p{margin:12px 0 0;max-width:620px;font-size:18px}
-header .inner{max-width:780px;margin:0 auto;padding:28px 14px 0}
 main{max-width:780px;margin:28px auto 40px;padding:0 14px}
 .card{padding:22px;margin-bottom:14px}
 .card h2{margin:0 0 8px;font-size:20px}
@@ -35,24 +32,41 @@ footer{text-align:center;font-size:13px;padding:0 16px 30px}
 </style>
 </head>
 <body>
-<header>
-<div class="brandbar"><a class="brand" href="index.html"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Founder Plus</a><a class="sibling" href="https://siddharthmehdiratta.github.io/creator-growth-studio/"><span class="long">Growing on Instagram? </span>Creator Growth Studio</a></div>
-<div class="inner">
-  <h1>How to use Founder Plus</h1>
-  <p>A beginner's guide. No coding needed. About 20 minutes the first time, 5 minutes after that.</p>
-</div>
+<!--HEADER-->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="f-logo" viewBox="0 0 32 32"><defs><linearGradient id="fl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0EA47A"/><stop offset=".55" stop-color="#13A9C8"/><stop offset="1" stop-color="#3B6BFF"/></linearGradient></defs><rect width="32" height="32" rx="9" fill="url(#fl)"/><circle cx="12" cy="13" r="4" fill="none" stroke="#fff" stroke-width="2.6"/><circle cx="21" cy="13" r="4" fill="none" stroke="#fff" stroke-width="2.6" opacity=".75"/><path d="M7 24c1.2-3 3-4.5 5-4.5s3.8 1.5 5 4.5M16 24c1.2-3 3-4.5 5-4.5s3.8 1.5 5 4.5" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></symbol>
+  <symbol id="f-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="f-users" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M21.5 20a6.5 6.5 0 0 0-4-6"/></g></symbol>
+  <symbol id="f-chat" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M4 5h16v11H9l-5 4z"/></symbol>
+  <symbol id="f-gauge" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 17a8 8 0 1 1 16 0"/><path d="m12 17 4-5"/></g></symbol>
+  <symbol id="f-doc" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8zm0 0v5h5M8 13h8M8 17h6"/></symbol>
+  <symbol id="f-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></g></symbol>
+  <symbol id="f-help" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17h.01"/></g></symbol>
+  <symbol id="f-shield" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6z"/></symbol>
+  <symbol id="f-globe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></g></symbol>
+</svg>
+<header class="fp-top">
+  <div class="wrap">
+    <a class="brand" href="index.html"><svg aria-hidden="true"><use href="#f-logo"/></svg>Founder Plus</a>
+    <nav aria-label="Main"><a href="index.html#features">Features</a><a href="how-it-works.html">How it works</a><a href="example-report.html">Sample report</a><a href="how-to-use.html" aria-current="page">Guide</a><a href="faq.html">FAQ</a></nav>
+    <div class="right"><a class="sibling" href="https://siddharthmehdiratta.github.io/creator-growth-studio/">Creator Growth Studio</a><a class="fbtn light sm" href="builder.html">Build my panel</a>
+      <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button></div>
+  </div>
+  <nav class="mnav" id="mnav" aria-label="Mobile" hidden><a href="index.html#features">Features</a><a href="how-it-works.html">How it works</a><a href="example-report.html">Sample report</a><a href="how-to-use.html" aria-current="page">Guide</a><a href="faq.html">FAQ</a><a class="fbtn primary" href="builder.html">Build my panel</a></nav>
 </header>
+<!--/HEADER-->
+<section class="fp-page-hero"><div class="wrap"><p class="crumbs"><a href="index.html">Home</a><span>/</span>Guide</p><h1>How to use Founder Plus</h1><p class="lead">A beginner's guide. No coding needed. About 20 minutes the first time, 5 minutes after that.</p></div></section>
 <main>
 
 <div class="card">
   <h2>What it does, in one line</h2>
   <p>You describe your business idea and pick the customers you want to sell to. AI customers react to it like real people would, and you get a report on who would buy, what holds people back, the questions they'd ask, and the price that feels right.</p>
-  <a class="btn" href="index.html">Open the customer builder</a><a class="btn alt" href="example-report.html">See a sample report (4 countries)</a> <a class="btn alt" href="example-report-india.html">See a sample report (India tiers)</a>
+  <a class="btn" href="builder.html">Open the customer builder</a><a class="btn alt" href="example-report.html">See a sample report (4 countries)</a> <a class="btn alt" href="example-report-india.html">See a sample report (India tiers)</a>
 </div>
 
 <div class="card" style="border:2px solid var(--acc)">
   <h2>The quick way: no installs (5 minutes)</h2>
-  <div class="step"><div class="num">1</div><div><h3>Pick your customers</h3><p>Open the <a href="index.html">customer builder</a>. Choose your industry from the menu at the top, then change the pitch and customers to match yours.</p></div></div>
+  <div class="step"><div class="num">1</div><div><h3>Pick your customers</h3><p>Open the <a href="builder.html">customer builder</a>. Choose your industry from the menu at the top, then change the pitch and customers to match yours.</p></div></div>
   <div class="step"><div class="num">2</div><div><h3>Copy the message</h3><p>In the <b>Run it in Claude</b> box, choose how many customers (20 is best) and press <b>Copy the message for Claude</b>.</p></div></div>
   <div class="step"><div class="num">3</div><div><h3>Paste it into Claude</h3><p>Open the Claude app or <a href="https://claude.ai/new" target="_blank" rel="noopener">claude.ai</a>, paste, and send. In a few minutes you get every customer's answer, a <b>score out of 100</b>, a plain summary, a detailed summary and a <b>sales answer kit</b> (WhatsApp replies, FAQ and a sales call script).</p></div></div>
   <div class="tip">The quick way works on Claude's free plan too, though long answers may hit the free limits: 10 customers is safer there. For bigger panels, separate AI customers and the full interactive report, use the full way below.</div>
@@ -72,7 +86,7 @@ footer{text-align:center;font-size:13px;padding:0 16px 30px}
 
   <div class="step"><div class="num">1</div><div><div class="time">3 minutes</div>
     <h3>Pick your customers</h3>
-    <p>Open the <a href="index.html">customer builder</a>. Tip: choose your industry from the <b>Start from your industry</b> menu at the top to fill everything in for you. Then type your idea and price, then choose who your customers are: where they live, age, gender, income and how they shop. Add as many groups as you like. Selling across India or the UK? One tap adds city tiers (Tier 1 metros to Tier 4 villages), household income tiers (Tier 1 to Tier 4) or London vs the rest of the UK, with published, linked facts on how each group spends.</p>
+    <p>Open the <a href="builder.html">customer builder</a>. Tip: choose your industry from the <b>Start from your industry</b> menu at the top to fill everything in for you. Then type your idea and price, then choose who your customers are: where they live, age, gender, income and how they shop. Add as many groups as you like. Selling across India or the UK? One tap adds city tiers (Tier 1 metros to Tier 4 villages), household income tiers (Tier 1 to Tier 4) or London vs the rest of the UK, with published, linked facts on how each group spends.</p>
     <p>Press <b>Download customer.json</b> and <b>Download pitch.md</b>. You now have 2 files.</p>
   </div></div>
 
@@ -142,7 +156,15 @@ Use founder/customer.json and founder/pitch.md.</div>
 </div>
 
 </main>
-<footer>Founder Plus is free and open source (MIT). · <a href="https://github.com/Siddharthmehdiratta/founder-skill-plus">GitHub</a> · <a href="index.html">Customer builder</a> · <a href="example-report.html">Sample report</a> · <a href="feedback.html">Give feedback</a></footer>
+<!--FOOTER-->
+<footer class="fp-foot"><div class="wrap">
+  <div><a class="brand" href="index.html"><svg aria-hidden="true"><use href="#f-logo"/></svg>Founder Plus</a><p>AI customers are research, not real customers. Use them to find objections and pick between pitches, then test with real people. Free and open source (MIT), made by Siddharth Mehdiratta.</p></div>
+  <div><b>Product</b><a href="builder.html">Build my panel</a><a href="how-it-works.html">How it works</a><a href="example-report.html">Sample: 4 countries</a><a href="example-report-india.html">Sample: India tiers</a><a href="feedback.html#pim">Analyse your reviews</a></div>
+  <div><b>Help</b><a href="how-to-use.html">Beginner's guide</a><a href="faq.html">FAQ</a><a href="https://github.com/Siddharthmehdiratta/founder-skill-plus/discussions/new?category=q-a">Ask a question</a><a href="https://github.com/Siddharthmehdiratta/founder-skill-plus/issues/new">Report a problem</a><a href="feedback.html">Give feedback</a></div>
+  <div><b>Project</b><a href="https://github.com/Siddharthmehdiratta/founder-skill-plus">GitHub</a><a href="https://siddharthmehdiratta.github.io/creator-growth-studio/">Creator Growth Studio</a></div>
+</div></footer>
+<script src="site.js"></script>
+<!--/FOOTER-->
 <script>
 document.querySelectorAll(".copy").forEach(el => el.onclick = async () => {
   try { await navigator.clipboard.writeText(el.textContent); el.classList.add("done"); setTimeout(() => el.classList.remove("done"), 1600); } catch (e) {}
