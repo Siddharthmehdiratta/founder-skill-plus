@@ -1,5 +1,7 @@
 # 🧪 Founder Plus: test your business on AI buyers from anywhere in the world
 
+> Sister project: **[Creator Growth Studio](https://github.com/Siddharthmehdiratta/creator-growth-studio)**, a free Instagram, YouTube and Twitch growth studio with an AI boardroom.
+
 **Build a panel of AI buyers** (30 from India, 20 from Europe, 10 from the US, any genders, ages, incomes and habits you choose), show them your pitch, and get back who would buy, who would not, why, what to fix first, and what price to test. Free. Runs in Claude.
 
 ### 👉 [Open the panel builder](https://siddharthmehdiratta.github.io/founder-skill-plus/) · [See an example report](https://siddharthmehdiratta.github.io/founder-skill-plus/example-report.html) · [India city and income tiers example](https://siddharthmehdiratta.github.io/founder-skill-plus/example-report-india.html) · [Beginner's guide](https://siddharthmehdiratta.github.io/founder-skill-plus/how-to-use.html) · [Analyse your reviews / give feedback](https://siddharthmehdiratta.github.io/founder-skill-plus/feedback.html)

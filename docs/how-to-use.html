@@ -5,37 +5,40 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Founder Plus · How to use it (beginner's guide)</title>
 <meta name="description" content="Step-by-step beginner's guide to testing your business idea on AI customers with Founder Plus and Claude.">
+<link rel="preload" href="fonts/unbounded-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="theme.css">
 <style>
-:root{--bg:#f4f1ff;--card:#fff;--ink:#1b1530;--sub:#5f5878;--line:#e7e2f5;--acc:#7c3aed;--acc2:#ec4899}
-*{box-sizing:border-box}body{margin:0;font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
-header{background:linear-gradient(120deg,#4c1d95 0%,#7c3aed 45%,#ec4899 100%);color:#fff;padding:32px 20px 70px;text-align:center}
-header h1{margin:0;font-size:30px;letter-spacing:-.02em}header p{margin:10px auto 0;max-width:620px;color:#f3e8ff}
-main{max-width:780px;margin:-48px auto 40px;padding:0 14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:14px;box-shadow:0 4px 14px rgba(76,29,149,.07)}
+header{padding:0 0 40px}
+header h1{margin:0;font-size:clamp(28px,5vw,44px)}header p{margin:12px 0 0;max-width:620px;font-size:18px}
+header .inner{max-width:780px;margin:0 auto;padding:28px 14px 0}
+main{max-width:780px;margin:28px auto 40px;padding:0 14px}
+.card{padding:22px;margin-bottom:14px}
 .card h2{margin:0 0 8px;font-size:20px}
 .need{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
-.need div{border-radius:14px;padding:14px;color:#fff;font-weight:600}
-.need div small{display:block;font-weight:400;opacity:.92;margin-top:4px}
+.need div{border-radius:12px;padding:14px;color:var(--ink);font-weight:700;background:var(--card2)!important;border:1px solid var(--line)}
+.need div small{display:block;font-weight:400;color:var(--sub);margin-top:4px}
 .step{display:grid;grid-template-columns:46px 1fr;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
 .step:last-child{border-bottom:0}
-.num{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px}
-.step h3{margin:6px 0 6px;font-size:17px}.step p{margin:4px 0}.time{font-size:12px;color:var(--sub);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
-code,.copy{font:14px ui-monospace,Consolas,monospace;background:#1b1530;color:#f5d0fe;border-radius:10px;padding:10px 12px;display:block;margin:8px 0;white-space:pre-wrap;word-break:break-word}
-.copy{cursor:pointer;position:relative}.copy::after{content:"tap to copy";position:absolute;right:10px;top:-9px;background:var(--acc2);color:#fff;font:600 10px system-ui;padding:2px 8px;border-radius:999px}
-.copy.done::after{content:"copied ✓";background:#10b981}
-.btn{display:inline-block;background:linear-gradient(120deg,var(--acc),var(--acc2));color:#fff;text-decoration:none;font-weight:700;border-radius:12px;padding:11px 18px;margin:6px 6px 0 0}
-.btn.alt{background:#fff;color:var(--acc);border:2px solid var(--acc)}
-.tip{background:#fff7d6;border:1px solid #fcd34d;border-radius:12px;padding:10px 14px;font-size:14px;margin-top:8px}
+.num{width:40px;height:40px;border-radius:50%;background:var(--acc);color:#151922;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:16px}
+.step h3{margin:6px 0 6px;font-size:17px}.step p{margin:4px 0}.time{font-size:13px;color:var(--faint);font-weight:700}
+code,.copy{font:14px ui-monospace,Consolas,monospace;border-radius:8px;padding:10px 12px;display:block;margin:8px 0;white-space:pre-wrap;word-break:break-word}
+.copy{cursor:pointer;position:relative}.copy::after{content:"Tap to copy";position:absolute;right:10px;top:-10px;background:var(--acc);color:#151922;font:700 11px var(--text);padding:2px 8px;border-radius:999px}
+.copy.done::after{content:"Copied";background:var(--acc2)}
+.btn{display:inline-block;text-decoration:none;font-weight:700;padding:11px 18px;margin:6px 6px 0 0}
+.tip{background:rgba(255,181,71,.08);border:1px solid rgba(255,181,71,.35);border-radius:10px;padding:10px 14px;font-size:15px;margin-top:8px}
 .tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
-.tools div{background:#faf7ff;border:1px solid var(--line);border-radius:12px;padding:12px;font-size:14px}.tools b{display:block;font-family:ui-monospace,Consolas,monospace;color:var(--acc)}
-details{background:#faf7ff;border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:8px 0}summary{cursor:pointer;font-weight:600}
-footer{text-align:center;color:var(--sub);font-size:13px;padding:0 16px 30px}a{color:var(--acc)}
+.tools div{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:12px;font-size:14px}.tools b{display:block;font-family:ui-monospace,Consolas,monospace;color:var(--acc)}
+details{padding:10px 14px;margin:8px 0}summary{cursor:pointer;font-weight:700}
+footer{text-align:center;font-size:13px;padding:0 16px 30px}
 </style>
 </head>
 <body>
 <header>
+<div class="brandbar"><a class="brand" href="index.html"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Founder Plus</a><a class="sibling" href="https://siddharthmehdiratta.github.io/creator-growth-studio/"><span class="long">Growing on Instagram? </span>Creator Growth Studio</a></div>
+<div class="inner">
   <h1>How to use Founder Plus</h1>
   <p>A beginner's guide. No coding needed. About 20 minutes the first time, 5 minutes after that.</p>
+</div>
 </header>
 <main>
 

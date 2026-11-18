@@ -5,36 +5,41 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Founder Plus · Feedback</title>
 <meta name="description" content="Tell us what you think of Founder Plus, and analyse your own customer reviews with the Product Improvement Manager.">
+<link rel="preload" href="fonts/unbounded-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="theme.css">
 <style>
-:root{--bg:#f4f1ff;--card:#fff;--ink:#1b1530;--sub:#5f5878;--line:#e7e2f5;--acc:#7c3aed;--acc2:#ec4899;--teal:#0ea5e9}
-*{box-sizing:border-box}body{margin:0;font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
-header{background:linear-gradient(120deg,#0f766e 0%,#0ea5e9 40%,#7c3aed 75%,#ec4899 100%);color:#fff;padding:32px 20px 70px;text-align:center}
-header h1{margin:0;font-size:30px}header p{margin:10px auto 0;max-width:640px;color:#f0f9ff}
-nav{margin-top:14px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}nav a{color:#fff;font-weight:700;background:rgba(255,255,255,.2);padding:7px 14px;border-radius:999px;text-decoration:none}
-main{max-width:860px;margin:-48px auto 40px;padding:0 14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:16px;box-shadow:0 4px 14px rgba(76,29,149,.07)}
-.card h2{margin:0 0 6px;font-size:21px}.hint{color:var(--sub);font-size:14px;margin:0 0 12px}
-label{display:block;font-size:14px;color:var(--sub);margin:12px 0 4px}
-input,textarea,select{font:inherit;width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
+header{padding:0 0 40px}
+header .inner{max-width:860px;margin:0 auto;padding:28px 14px 0}
+header h1{margin:0;font-size:clamp(28px,5vw,44px)}header p{margin:12px 0 0;max-width:640px;font-size:18px}
+nav{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}nav a{color:var(--sub);font-weight:700;border:1px solid var(--line);padding:7px 14px;border-radius:999px;text-decoration:none}nav a:hover{color:var(--ink);border-color:var(--sub)}
+main{max-width:860px;margin:28px auto 40px;padding:0 14px}
+.card{padding:22px;margin-bottom:16px}
+.card h2{margin:0 0 6px;font-size:21px}.hint{color:var(--sub);font-size:15px;margin:0 0 12px}
+label{display:block;font-size:14px;margin:12px 0 4px}
+input,textarea,select{width:100%;padding:10px 12px}
 textarea{min-height:110px;resize:vertical}
-.stars{display:flex;gap:6px}.stars button{font-size:28px;border:0;background:none;cursor:pointer;color:#d6d0e6;padding:0 2px}.stars button.on{color:#f59e0b}
-.chips{display:flex;flex-wrap:wrap;gap:8px}.chips label{display:flex;align-items:center;gap:6px;margin:0;background:#f5f0ff;border-radius:999px;padding:6px 12px;color:var(--ink);cursor:pointer;font-size:14px}
+.stars{display:flex;gap:6px}.stars button{font-size:30px;border:0;background:none;cursor:pointer;color:#3a4357;padding:0 2px}.stars button.on{color:var(--acc)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.chips label{display:flex;align-items:center;gap:6px;margin:0;border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--ink);cursor:pointer;font-size:14px;font-weight:400}
+.chips label:has(input:checked){border-color:var(--cyan);background:rgba(76,201,240,.1)}
 .chips input{width:auto}
-.btn{display:block;width:100%;border:0;border-radius:12px;padding:12px 16px;font:700 16px system-ui;cursor:pointer;color:#fff;background:linear-gradient(120deg,var(--acc),var(--acc2));margin-top:12px;text-align:center;text-decoration:none}
-.btn.teal{background:linear-gradient(120deg,#0f766e,#0ea5e9)}.btn.alt{background:#fff;color:var(--acc);border:2px solid var(--acc)}
+.btn{display:block;width:100%;border:0;padding:12px 16px;font-weight:700;font-size:16px;cursor:pointer;margin-top:12px;text-align:center;text-decoration:none}
+.btn.teal{background:var(--cyan);color:#08131a}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:600px){.row{grid-template-columns:1fr}}
 .what{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:12px 0}
-.what div{border-radius:14px;padding:12px;color:#fff;font-weight:600;font-size:14px}.what small{display:block;font-weight:400;opacity:.92}
-.note{background:#fff7d6;border:1px solid #fcd34d;border-radius:12px;padding:10px 14px;font-size:14px;margin-top:10px}
-pre{background:#1b1530;color:#e9d5ff;border-radius:12px;padding:12px;font-size:13px;white-space:pre-wrap;max-height:220px;overflow:auto;display:none}
-footer{text-align:center;color:var(--sub);font-size:13px;padding:0 16px 30px}a{color:var(--acc)}
+.what div{border-radius:10px;padding:12px;color:var(--ink);font-weight:700;font-size:14px;background:var(--card2)!important;border:1px solid var(--line)}.what small{display:block;font-weight:400;color:var(--sub)}
+.note{background:rgba(255,181,71,.08);border:1px solid rgba(255,181,71,.35);border-radius:10px;padding:10px 14px;font-size:14px;margin-top:10px}
+pre{border-radius:10px;padding:12px;font-size:13px;white-space:pre-wrap;max-height:220px;overflow:auto;display:none}
+footer{text-align:center;font-size:13px;padding:0 16px 30px}
 </style>
 </head>
 <body>
 <header>
-  <h1>💬 Feedback</h1>
+<div class="brandbar"><a class="brand" href="index.html"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Founder Plus</a><a class="sibling" href="https://siddharthmehdiratta.github.io/creator-growth-studio/"><span class="long">Growing on Instagram? </span>Creator Growth Studio</a></div>
+<div class="inner">
+  <h1>Feedback and review analysis</h1>
   <p>Tell us what you think of Founder Plus, and turn your own customers' reviews into a clear improvement plan.</p>
   <nav><a href="index.html">Customer builder</a><a href="how-to-use.html">Beginner's guide</a><a href="example-report.html">Sample report</a></nav>
+</div>
 </header>
 <main>
 

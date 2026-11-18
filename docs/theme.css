@@ -1,0 +1,44 @@
+/* Founder Plus design system: sibling of Creator Growth Studio. Dark lab desk, Unbounded + Atkinson Hyperlegible. */
+@font-face{font-family:"Unbounded";font-weight:500;font-display:swap;src:url(fonts/unbounded-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"Unbounded";font-weight:600;font-display:swap;src:url(fonts/unbounded-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Unbounded";font-weight:700;font-display:swap;src:url(fonts/unbounded-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:"Atkinson Hyperlegible";font-weight:400;font-display:swap;src:url(fonts/atkinson-hyperlegible-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Atkinson Hyperlegible";font-weight:700;font-display:swap;src:url(fonts/atkinson-hyperlegible-latin-700-normal.woff2) format("woff2")}
+:root{
+  --display:"Unbounded","Arial Black",system-ui,sans-serif; --text:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --bg:#151922; --card:#1d2230; --card2:#232a3a; --ink:#eef1f7; --sub:#aab3c7; --faint:#8b95ab; --line:#323b50;
+  --acc:#ffb547; --acc2:#3ddc97; --red:#ff5468; --cyan:#4cc9f0; --violet:#b39dfa; --focus:#ffd166;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--text);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.01em;line-height:1.2}
+a{color:var(--cyan)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:4px}
+header{background:var(--bg);color:var(--ink);text-align:left;border-bottom:1px solid var(--line)}
+header h1{font-weight:700}
+header p{color:var(--sub)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:none}
+.card h2{font-family:var(--display);font-weight:600;font-size:19px}
+input,select,textarea{font:inherit;color:var(--ink);background:#121620;border:1px solid var(--line);border-radius:8px}
+input:hover,select:hover,textarea:hover{border-color:#46516b}
+input[type=checkbox],input[type=radio]{accent-color:var(--acc2)}
+select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--sub) 50%),linear-gradient(135deg,var(--sub) 50%,transparent 50%);background-position:calc(100% - 18px) 52%,calc(100% - 13px) 52%;background-size:5px 5px;background-repeat:no-repeat;padding-right:34px}
+label{color:var(--sub);font-weight:700}
+.btn{font-family:var(--text);background:var(--acc2);color:#08130e;border-radius:8px;box-shadow:none}
+.btn:hover{filter:brightness(1.08)}
+.btn.alt{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.alt:hover{border-color:var(--sub)}
+pre,code,.copy{background:#0f1218;color:#e6e9f2;border:1px solid var(--line)}
+details{background:var(--card2);border:1px solid var(--line);border-radius:10px}
+footer{color:var(--faint)}
+.pill{background:rgba(255,181,71,.15);color:var(--acc)}
+.pill.bad{background:rgba(255,84,104,.15);color:var(--red)}.pill.ok{background:rgba(61,220,151,.15);color:var(--acc2)}
+.brandbar{display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:1080px;margin:0 auto;padding:18px 16px 0}
+.brand{display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;font-family:var(--display);font-weight:600;font-size:15px;white-space:nowrap}
+.mark{display:flex;align-items:flex-end;gap:3px;height:20px}.mark i{display:block;width:5px;border-radius:2px}
+.mark i:nth-child(1){height:8px;background:var(--acc2)}.mark i:nth-child(2){height:14px;background:var(--acc)}.mark i:nth-child(3){height:20px;background:var(--cyan)}.mark i:nth-child(4){height:11px;background:var(--red)}
+.sibling{font-size:13px;color:var(--sub);text-decoration:none;border:1px solid var(--line);padding:6px 12px;border-radius:999px}
+.sibling:hover{color:var(--ink);border-color:var(--sub)}
+@media(max-width:600px){.sibling .long{display:none}.brandbar{padding-top:14px}}

@@ -5,17 +5,19 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Founder Plus · Buyer panel builder</title>
 <meta name="description" content="Build your own panel of AI buyers: pick markets, headcounts, genders, ages, incomes, habits and biases. Free, for the Founder skill in Claude.">
+<link rel="preload" href="fonts/unbounded-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="theme.css">
 <style>
-:root{--bg:#f4f1ff;--card:#fff;--ink:#1b1530;--sub:#5f5878;--line:#e7e2f5;--acc:#7c3aed;--acc2:#ec4899}
-*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
-header{background:linear-gradient(120deg,#4c1d95 0%,#7c3aed 45%,#ec4899 100%);color:#fff;padding:30px 20px 64px;text-align:center}
-header h1{margin:0;font-size:30px;letter-spacing:-.02em}header p{margin:8px auto 0;max-width:640px;color:#f3e8ff}
-main{max-width:1080px;margin:-44px auto 40px;padding:0 16px;display:grid;grid-template-columns:1fr 360px;gap:16px;align-items:start}
+header{padding:0 0 40px}
+header .inner{max-width:1080px;margin:0 auto;padding:28px 16px 0}
+header h1{margin:0;font-size:clamp(30px,5vw,52px);max-width:16ch}
+header > .inner > p{margin:14px 0 0;max-width:62ch;font-size:19px}
+main{max-width:1080px;margin:28px auto 40px;padding:0 16px;display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start}
 @media(max-width:900px){main{grid-template-columns:1fr}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:0 4px 14px rgba(76,29,149,.07)}
-.card h2{margin:0 0 4px;font-size:18px;display:flex;align-items:center;gap:8px}.card .hint{color:var(--sub);font-size:13px;margin:0 0 12px}
-label{font-size:13px;color:var(--sub);display:block;margin:8px 0 3px}
-input,select,textarea{font:inherit;width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+.card{padding:20px;margin-bottom:14px}
+.card h2{margin:0 0 4px;display:flex;align-items:center;gap:8px}.card .hint{color:var(--sub);font-size:14px;margin:0 0 12px}
+label{font-size:13px;display:block;margin:10px 0 4px}
+input,select,textarea{width:100%;padding:9px 11px}
 textarea{min-height:90px;resize:vertical}
 .grid{display:grid;gap:8px;align-items:end}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:2fr 1fr 1fr}
 .line{display:grid;gap:6px;align-items:center;margin:6px 0}
@@ -23,47 +25,53 @@ textarea{min-height:90px;resize:vertical}
 .line.pair{grid-template-columns:2fr 80px 34px}.line.role{grid-template-columns:1.2fr 2fr 70px 34px}.line.age{grid-template-columns:1.2fr 70px 70px 80px 34px}
 .line.beh{grid-template-columns:1.2fr 2fr 70px 34px}.line.fact{grid-template-columns:2fr 1.2fr 34px}.line.rev{grid-template-columns:1fr 60px 2fr 1fr 34px}
 @media(max-width:640px){
-  .line{grid-template-columns:1fr 1fr!important;background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px;position:relative}
+  .line{grid-template-columns:1fr 1fr!important;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:8px;position:relative}
   .line>*:first-child{grid-column:1/3;width:calc(100% - 46px)}
   .line>.x{position:absolute;top:8px;right:8px;width:38px}
-  header h1{font-size:24px}main{padding:0 10px}.card{padding:14px}
+  main{padding:0 10px}.card{padding:14px}
 }
-.x{border:0;background:#fee2e2;color:#991b1b;border-radius:8px;height:34px;cursor:pointer;font-weight:700}
-.add{border:1px dashed var(--acc);background:#f5f0ff;color:var(--acc);border-radius:10px;padding:7px 12px;cursor:pointer;font-weight:600;margin-top:6px}
-.btn{border:0;border-radius:12px;padding:11px 16px;font:700 15px system-ui;cursor:pointer;color:#fff;background:linear-gradient(120deg,var(--acc),var(--acc2));width:100%;margin-top:8px}
-.btn.alt{background:#fff;color:var(--acc);border:2px solid var(--acc)}
-.sub{background:#faf7ff;border:1px solid var(--line);border-radius:12px;padding:10px;margin:10px 0}
-.sub h3{margin:0 0 4px;font-size:14px;display:flex;justify-content:space-between;align-items:center}
-.pill{display:inline-block;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700;background:#ede9fe;color:#5b21b6}
-.pill.bad{background:#fee2e2;color:#991b1b}.pill.ok{background:#d1fae5;color:#065f46}
+.x{border:1px solid rgba(255,84,104,.4);background:rgba(255,84,104,.12);color:var(--red);border-radius:8px;height:34px;cursor:pointer;font-weight:700}
+.add{border:1px dashed var(--acc);background:transparent;color:var(--acc);border-radius:8px;padding:7px 12px;cursor:pointer;font-weight:700;margin-top:6px}
+.add:hover{background:rgba(255,181,71,.08)}
+.btn{border:0;padding:12px 16px;font-weight:700;font-size:15px;cursor:pointer;width:100%;margin-top:8px}
+.sub{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:10px;margin:10px 0}
+.sub h3{margin:0 0 4px;font-size:14px;display:flex;justify-content:space-between;align-items:center;font-family:var(--text)}
+.pill{display:inline-block;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700}
 .side{position:sticky;top:12px}
-.big{font-size:44px;font-weight:800;background:linear-gradient(120deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
-.chips{display:flex;flex-wrap:wrap;gap:6px}.chips label{display:flex;gap:6px;align-items:center;margin:0;background:#f5f0ff;border-radius:999px;padding:5px 10px;color:var(--ink);cursor:pointer;font-size:13px}
+.big{font-family:var(--display);font-size:48px;font-weight:700;color:var(--acc);line-height:1}
+.chips{display:flex;flex-wrap:wrap;gap:6px}.chips label{display:flex;gap:6px;align-items:center;margin:0;background:transparent;border:1px solid var(--line);border-radius:999px;padding:5px 11px;color:var(--ink);cursor:pointer;font-size:13px;font-weight:400}
+.chips label:has(input:checked){border-color:var(--cyan);background:rgba(76,201,240,.1)}
 .chips input{width:auto}
-pre{background:#1b1530;color:#e9d5ff;border-radius:12px;padding:12px;font-size:12px;max-height:280px;overflow:auto;white-space:pre-wrap}
-.steps li{margin:6px 0}.warn{color:#b45309;font-size:13px}.ex{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;justify-content:center}
-.ex button{border:0;border-radius:999px;padding:8px 14px;background:rgba(255,255,255,.18);color:#fff;font-weight:700;cursor:pointer}
-footer{text-align:center;color:var(--sub);font-size:13px;padding:0 16px 80px}
-.how{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:16px auto 6px;max-width:760px}
-.how div{background:rgba(255,255,255,.16);border-radius:14px;padding:10px 14px;font-size:14px;flex:1 1 180px;text-align:left}
-.how b{display:inline-flex;width:24px;height:24px;border-radius:50%;background:#fff;color:#7c3aed;align-items:center;justify-content:center;margin-right:8px}
-nav.links{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
-nav.links a{color:#fff;font-weight:700;font-size:14px;background:rgba(255,255,255,.2);padding:7px 13px;border-radius:999px;text-decoration:none;white-space:nowrap}
-.ex.small button,.ex.small span{font-size:13px;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.14);color:#fff;font-weight:600;cursor:pointer;border:0}
+pre{border-radius:10px;padding:12px;font-size:12px;max-height:280px;overflow:auto;white-space:pre-wrap}
+.steps li{margin:6px 0}.warn{color:var(--acc);font-size:13px}
+.ex{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.ex button{border:1px solid var(--line);border-radius:999px;padding:8px 14px;background:transparent;color:var(--ink);font-weight:700;cursor:pointer}
+footer{text-align:center;font-size:13px;padding:0 16px 80px}
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:24px 0 6px;max-width:860px;counter-reset:s}
+.how div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:15px;text-align:left}
+.how b{display:inline-flex;width:26px;height:26px;border-radius:50%;background:var(--acc);color:#151922;align-items:center;justify-content:center;margin-right:8px;font-family:var(--display);font-size:13px}
+@media(max-width:700px){.how{grid-template-columns:1fr}}
+nav.links{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+nav.links a{color:var(--sub);font-weight:700;font-size:14px;border:1px solid var(--line);padding:7px 13px;border-radius:999px;text-decoration:none;white-space:nowrap}
+nav.links a:hover{color:var(--ink);border-color:var(--sub)}
+.ex.small{margin-top:10px}
+.ex.small button,.ex.small span{font-size:13px;padding:6px 12px;border-radius:999px;background:transparent;border:1px solid var(--line);color:var(--sub);font-weight:600;cursor:pointer}
 .stickyRun{display:none}
-header select#tpl{max-width:100%;display:inline-block;border-radius:999px!important;box-shadow:0 4px 14px rgba(76,29,149,.25)}
-@media(max-width:600px){nav.links{gap:6px}nav.links a{font-size:12.5px;padding:6px 10px}.how div{flex:1 1 100%;padding:8px 12px}}
-@media(max-width:900px){.stickyRun{display:block;position:fixed;left:12px;right:12px;bottom:12px;z-index:20;text-align:center;padding:14px;border-radius:14px;color:#fff;font-weight:800;text-decoration:none;background:linear-gradient(120deg,#7c3aed,#ec4899);box-shadow:0 8px 24px rgba(76,29,149,.35)}}
-.preset{border:0;border-radius:10px;padding:7px 12px;margin:6px 6px 0 0;background:linear-gradient(120deg,#ede9fe,#fce7f3);color:#4c1d95;font-weight:700;cursor:pointer}
+header select#tpl{max-width:100%;display:inline-block;border-radius:8px!important;background-color:var(--acc)!important;color:#151922!important;border:0!important;font-weight:700}
+@media(max-width:600px){nav.links{gap:6px}nav.links a{font-size:12.5px;padding:6px 10px}}
+@media(max-width:900px){.stickyRun{display:block;position:fixed;left:12px;right:12px;bottom:12px;z-index:20;text-align:center;padding:14px;border-radius:10px;color:#08130e;font-weight:800;text-decoration:none;background:var(--acc2);box-shadow:0 8px 24px rgba(0,0,0,.4)}}
+.preset{border:1px solid rgba(255,181,71,.5);border-radius:8px;padding:7px 12px;margin:6px 6px 0 0;background:rgba(255,181,71,.1);color:var(--acc);font-weight:700;cursor:pointer}
 </style>
 </head>
 <body>
 <header>
-  <h1>🧪 Test your business idea on AI customers</h1>
+<div class="brandbar"><a class="brand" href="index.html"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Founder Plus</a><a class="sibling" href="https://siddharthmehdiratta.github.io/creator-growth-studio/"><span class="long">Growing on Instagram? </span>Creator Growth Studio</a></div>
+<div class="inner">
+  <h1>Test your business idea on AI customers.</h1>
   <p>Pick the customers you want to sell to. They read your offer, react like real people, and Claude gives you a score, what to fix and what to say. Free.</p>
   <div class="how"><div><b>1</b>Choose your industry and customers</div><div><b>2</b>Tap <i>Run it in Claude</i> and paste</div><div><b>3</b>Get your score, fixes and sales replies</div></div>
   <div class="ex">
-    <select id="tpl" style="width:auto;border:0;border-radius:999px;padding:10px 16px;font-weight:700;color:#4c1d95"><option value="">🏭 Start: choose your industry…</option></select>
+    <select id="tpl" style="width:auto;padding:10px 38px 10px 16px"><option value="">🏭 Start: choose your industry…</option></select>
   </div>
   <nav class="links">
     <a href="how-to-use.html">📘 Beginner's guide</a><a href="example-report.html">📊 Sample: 4 countries</a><a href="example-report-india.html">📊 Sample: India city and income tiers</a><a href="feedback.html#pim">🛠️ Analyse your reviews</a><a href="feedback.html">💬 Give feedback</a>
@@ -72,6 +80,7 @@ header select#tpl{max-width:100%;display:inline-block;border-radius:999px!import
     <button id="exWorld">🌍 Example: 4 countries</button><button id="exBlank">✨ Start blank</button>
     <label style="margin:0;display:inline-flex"><input type="file" id="imp" accept=".json,application/json" style="display:none"><span>📂 Open a saved setup</span></label>
   </div>
+</div>
 </header>
 <a href="#run" class="stickyRun" id="stickyRun">⚡ Run it in Claude</a>
 <main>
