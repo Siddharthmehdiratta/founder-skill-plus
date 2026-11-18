@@ -9,11 +9,7 @@
 <link rel="preload" href="fonts/geist-sans-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="theme.css">
 <style>
-header{padding:0 0 40px}
-header .inner{max-width:1080px;margin:0 auto;padding:28px 16px 0}
-header h1{margin:0;font-size:clamp(30px,5vw,52px);max-width:16ch}
-header > .inner > p{margin:14px 0 0;max-width:62ch;font-size:19px}
-main{max-width:1080px;margin:28px auto 40px;padding:0 16px;display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start}
+main{max-width:1180px;margin:32px auto 48px;padding:0 16px;display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start}
 @media(max-width:900px){main{grid-template-columns:1fr}}
 main>div,.line>*{min-width:0}
 .card{padding:20px;margin-bottom:14px}
@@ -49,42 +45,89 @@ pre{border-radius:10px;padding:12px;font-size:12px;max-height:280px;overflow:aut
 .agelbl{font-weight:500;font-size:14px;color:var(--sub)}.colhead{margin:0 0 -2px}.colhead span{font-size:13px;color:var(--sub);font-weight:500}@media(max-width:640px){.colhead{display:none!important}}
 .ex{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
 .ex button{border:1px solid var(--line2);border-radius:8px;padding:8px 14px;background:#fff;color:var(--ink);font:inherit;font-size:14px;font-weight:500;cursor:pointer}
-footer{text-align:center;font-size:13px;padding:0 16px 80px}
-.how{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:24px 0 6px;max-width:860px;counter-reset:s}
-.how div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:15px;text-align:left}
-.how b{display:inline-flex;width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;align-items:center;justify-content:center;margin-right:8px;font-family:var(--display);font-size:13px}
-@media(max-width:700px){.how{grid-template-columns:1fr}}
-nav.links{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
-nav.links a{color:var(--sub);font-weight:500;font-size:14px;border:1px solid var(--line);padding:7px 13px;border-radius:999px;text-decoration:none;white-space:nowrap}
-nav.links a:hover{color:var(--ink);border-color:var(--sub)}
+footer:not(.fp-foot){text-align:center;font-size:13px;padding:0 16px 80px}
 .ex.small{margin-top:10px}
 .ex.small button,.ex.small span{font-size:13px;padding:6px 12px;border-radius:999px;background:transparent;border:1px solid var(--line);color:var(--sub);font-weight:600;cursor:pointer}
 .stickyRun{display:none}
-header select#tpl{max-width:100%;display:inline-block;border-radius:8px!important;background-color:var(--ink)!important;color:#fff!important;border:0!important;font-weight:600;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' d='m6 9 6 6 6-6'/%3E%3C/svg%3E")!important}
-@media(max-width:600px){nav.links{gap:6px}nav.links a{font-size:12.5px;padding:6px 10px}}
-@media(max-width:900px){.stickyRun{display:block;position:fixed;left:12px;right:12px;bottom:12px;z-index:20;text-align:center;padding:14px;border-radius:10px;color:#fff;font-weight:800;text-decoration:none;background:var(--acc2);box-shadow:0 8px 24px rgba(23,26,33,.25)}}
+@media(max-width:900px){.stickyRun.on{display:block;position:fixed;left:12px;right:12px;bottom:12px;z-index:20;text-align:center;padding:14px;border-radius:10px;color:#fff;font-weight:800;text-decoration:none;background:var(--acc2);box-shadow:0 8px 24px rgba(23,26,33,.25)}}
 .preset{border:1px solid var(--line2);border-radius:8px;padding:7px 12px;margin:6px 6px 0 0;background:#fff;color:var(--ink);font-weight:500;cursor:pointer;font:inherit;font-size:14px}.preset:hover{background:var(--card2)}
 </style>
 </head>
 <body>
-<header>
-<div class="brandbar"><a class="brand" href="index.html"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Founder Plus</a><a class="sibling" href="https://siddharthmehdiratta.github.io/creator-growth-studio/"><span class="long">Growing on Instagram? </span>Creator Growth Studio</a></div>
-<div class="inner">
-  <h1>Test your business idea on AI customers.</h1>
-  <p>Pick the customers you want to sell to. They read your offer, react like real people, and Claude gives you a score, what to fix and what to say. Free.</p>
-  <div class="how"><div><b>1</b>Choose your industry and customers</div><div><b>2</b>Tap <i>Run it in Claude</i> and paste</div><div><b>3</b>Get your score, fixes and sales replies</div></div>
-  <div class="ex">
-    <select id="tpl" style="width:auto;padding:10px 38px 10px 16px"><option value="">Start: choose your industry…</option></select>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="f-logo" viewBox="0 0 32 32"><defs><linearGradient id="fl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0EA47A"/><stop offset=".55" stop-color="#13A9C8"/><stop offset="1" stop-color="#3B6BFF"/></linearGradient></defs><rect width="32" height="32" rx="9" fill="url(#fl)"/><circle cx="12" cy="13" r="4" fill="none" stroke="#fff" stroke-width="2.6"/><circle cx="21" cy="13" r="4" fill="none" stroke="#fff" stroke-width="2.6" opacity=".75"/><path d="M7 24c1.2-3 3-4.5 5-4.5s3.8 1.5 5 4.5M16 24c1.2-3 3-4.5 5-4.5s3.8 1.5 5 4.5" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></symbol>
+  <symbol id="f-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="f-users" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M21.5 20a6.5 6.5 0 0 0-4-6"/></g></symbol>
+  <symbol id="f-chat" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M4 5h16v11H9l-5 4z"/></symbol>
+  <symbol id="f-gauge" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 17a8 8 0 1 1 16 0"/><path d="m12 17 4-5"/></g></symbol>
+  <symbol id="f-doc" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8zm0 0v5h5M8 13h8M8 17h6"/></symbol>
+</svg>
+<header class="fp-top">
+  <div class="wrap">
+    <a class="brand" href="index.html"><svg aria-hidden="true"><use href="#f-logo"/></svg>Founder Plus</a>
+    <nav aria-label="Main"><a href="#features">Features</a><a href="#how">How it works</a><a href="how-to-use.html">Guide</a><a href="example-report.html">Sample report</a><a href="feedback.html#pim">Analyse reviews</a></nav>
+    <div class="right"><a class="sibling" href="https://siddharthmehdiratta.github.io/creator-growth-studio/">Creator Growth Studio</a><a class="fbtn light sm" href="#build">Build my panel</a></div>
   </div>
-  <nav class="links">
-    <a href="how-to-use.html">Beginner's guide</a><a href="example-report.html">Sample: 4 countries</a><a href="example-report-india.html">Sample: India city and income tiers</a><a href="feedback.html#pim">Analyse your reviews</a><a href="feedback.html">Give feedback</a>
-  </nav>
-  <div class="ex small">
-    <button id="exWorld">Example: 4 countries</button><button id="exBlank">Start blank</button>
-    <label style="margin:0;display:inline-flex"><input type="file" id="imp" accept=".json,application/json" style="display:none"><span>Open a saved setup</span></label>
-  </div>
-</div>
 </header>
+
+<section class="fp-hero">
+  <div class="glow g1" aria-hidden="true"></div><div class="glow g2" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="eyebrow-pill"><span class="dot"></span>Free, runs in the Claude app you already use</span>
+      <h1>Test your business idea on AI customers before you spend money.</h1>
+      <p class="lead">Pick who you want to sell to. A panel of AI customers reads your offer, reacts like real people in their own words, and Claude gives you a score, what to fix, and what to say.</p>
+      <div class="cta-row"><a class="fbtn primary lg" href="#build">Build my panel</a><a class="fbtn ghost-light lg" href="example-report.html">See a sample report</a></div>
+      <div class="trust"><span><svg aria-hidden="true"><use href="#f-check"/></svg>Free and open source</span><span><svg aria-hidden="true"><use href="#f-check"/></svg>India, US, UK, Europe and more</span><span><svg aria-hidden="true"><use href="#f-check"/></svg>Answers in Hinglish, Hindi and more</span></div>
+    </div>
+    <div class="fp-visual" aria-label="Example panel from the sample report">
+      <div class="panel-card">
+        <div class="pc-head"><div class="ring" style="--v:34"><span>34</span></div><div><small>Example: FocusFlow, a $8 a month study app</small><b>Weak: most buyers would not act yet</b><span class="pc-sub">10 AI customers in India, USA, Europe and China</span></div></div>
+        <div class="pc-row"><span class="av a1">H</span><div><b>Harleen, 38, India</b><p>"$8 a month is about ₹700. Free blockers already exist."</p></div><em class="no">Not yet</em></div>
+        <div class="pc-row"><span class="av a2">K</span><div><b>Kavya, 18, India</b><p>"Agar ₹100-150 ho aur UPI se pay ho sake, toh use karungi."</p></div><em class="no">Not yet</em></div>
+        <div class="pc-row"><span class="av a3">A</span><div><b>Amanda, 43, USA</b><p>"I'd need a friend to tell me it worked through a deadline."</p></div><em class="maybe">Maybe</em></div>
+      </div>
+      <div class="fchip fc-a"><span class="ic"><svg><use href="#f-gauge"/></svg></span><span><small>Biggest blocker</small><b>Price, 5 of 10 buyers</b></span></div>
+      <div class="fchip fc-b"><span class="ic"><svg><use href="#f-chat"/></svg></span><span><small>Most asked question</small><b>Data and privacy, 7 of 10</b></span></div>
+    </div>
+  </div>
+</section>
+
+<section class="fp-strip"><div class="wrap"><span>Works with</span><b>Claude app</b><b>claude.ai</b><b>Claude Code</b><span class="sep"></span><span>Markets with official facts:</span><b>India</b><b>USA</b><b>UK</b><b>Europe</b><b>China</b><b>Japan</b></div></section>
+
+<section class="fp-section" id="features">
+  <div class="wrap">
+    <div class="fp-head"><span class="kicker">What you get</span><h2>Customer research in an afternoon, not a month</h2><p>Use it to find objections and pick between pitches before you spend on ads, stock or a shop. Then confirm with real people.</p></div>
+    <div class="fp-cards">
+      <div class="fc"><span class="fic c1"><svg aria-hidden="true"><use href="#f-users"/></svg></span><h3>Customers you choose</h3><p>Markets, cities, incomes, ages, genders, buying habits and well-studied biases, with real facts about how each market pays and saves.</p></div>
+      <div class="fc"><span class="fic c2"><svg aria-hidden="true"><use href="#f-chat"/></svg></span><h3>Reactions in their own words</h3><p>Each buyer says yes or no, why, what would change their mind, and the questions they'd ask, in English, Hinglish, Hindi and more.</p></div>
+      <div class="fc"><span class="fic c3"><svg aria-hidden="true"><use href="#f-gauge"/></svg></span><h3>A score and what to fix</h3><p>A 0 to 100 score from demand, price fit and trust, the groups that respond best, and the fixes ranked by how many buyers they'd win.</p></div>
+      <div class="fc"><span class="fic c4"><svg aria-hidden="true"><use href="#f-doc"/></svg></span><h3>A sales kit you can use</h3><p>Answers to the questions buyers ask most, price ranges they'd accept, and replies to their doubts, ready for your page or pitch.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="fp-section tint" id="how">
+  <div class="wrap">
+    <div class="fp-head"><span class="kicker">How it works</span><h2>Three steps, about ten minutes</h2></div>
+    <ol class="fp-steps">
+      <li><span class="n">1</span><h3>Pick your customers</h3><p>Start from your industry below, or build your panel from scratch. Every choice is a dropdown.</p></li>
+      <li><span class="n">2</span><h3>Copy one message</h3><p>Press Run it in Claude, then paste the message into the Claude app or claude.ai and send it.</p></li>
+      <li><span class="n">3</span><h3>Read your score</h3><p>Claude plays every customer and writes your score, the reasons, what to fix and your sales replies.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="build-intro" id="build">
+  <div class="wrap">
+    <div><span class="kicker">Build your panel</span><h2>Start from your industry</h2><p>A ready setup fills every field below. Change anything you like.</p></div>
+    <div class="bi-actions">
+      <select id="tpl"><option value="">Choose your industry…</option></select>
+      <div class="ex small"><button id="exWorld" type="button">Example: 4 countries</button><button id="exBlank" type="button">Start blank</button><label style="margin:0;display:inline-flex"><input type="file" id="imp" accept=".json,application/json" style="display:none"><span>Open a saved setup</span></label></div>
+    </div>
+  </div>
+</section>
+
 <a href="#run" class="stickyRun" id="stickyRun">Run it in Claude</a>
 <main>
 <div>
@@ -167,7 +210,8 @@ header select#tpl{max-width:100%;display:inline-block;border-radius:8px!importan
   <datalist id="roleList"><option value="Owner"><option value="Founder"><option value="Manager"><option value="Procurement"><option value="Finance"><option value="End user"><option value="IT"><option value="Marketing head"></datalist>
 </div>
 </main>
-<footer>Simulated buyers are research, not customers. Use them to find objections and pick between pitches, then test with real people. · <a href="https://github.com/Siddharthmehdiratta/founder-skill-plus">GitHub</a> · <a href="example-report.html">See an example report</a> · <a href="how-to-use.html">Beginner's guide</a> · <a href="feedback.html">Feedback</a></footer>
+<section class="fp-cta"><div class="wrap"><div><h2>Ready to hear what customers think?</h2><p>Free. No sign-up. Uses the Claude app you already have.</p></div><a class="fbtn light lg" href="#build">Build my panel</a></div></section>
+<footer class="fp-foot"><div class="wrap"><div><a class="brand" href="index.html"><svg aria-hidden="true"><use href="#f-logo"/></svg>Founder Plus</a><p>AI customers are research, not real customers. Use them to find objections and pick between pitches, then test with real people. Free and open source (MIT), made by Siddharth Mehdiratta.</p></div><div><b>Product</b><a href="how-to-use.html">Beginner's guide</a><a href="example-report.html">Sample: 4 countries</a><a href="example-report-india.html">Sample: India tiers</a><a href="feedback.html#pim">Analyse your reviews</a></div><div><b>Project</b><a href="https://github.com/Siddharthmehdiratta/founder-skill-plus">GitHub</a><a href="feedback.html">Give feedback</a><a href="https://siddharthmehdiratta.github.io/creator-growth-studio/">Creator Growth Studio</a></div></div></footer>
 
 <script>
 const REGIONS = {IN:["India","₹"],US:["United States","$"],UK:["United Kingdom","£"],EU:["Europe","€"],CN:["China","¥"],JP:["Japan","JP¥"],AE:["UAE","AED "],SG:["Singapore","S$"],AU:["Australia","A$"],BR:["Brazil","R$"]};
@@ -449,6 +493,12 @@ rowsHTML();
 window.__build = build; window.__load = x => { S = x === "world" ? exWorld() : x === "blank" ? blank() : exIndia(); rowsHTML(); };
 window.__fromCustomer = c => { S = fromCustomer(c); rowsHTML(); };
 window.__setPresets = d => { PRESETS = d; };
+</script>
+<script>
+(function(){ const b = document.getElementById("build"), run = document.getElementById("run"), st = document.getElementById("stickyRun"); if (!b || !st) return;
+  let pastBuild = false, runVisible = false; const upd = () => st.classList.toggle("on", pastBuild && !runVisible);
+  new IntersectionObserver(es => { es.forEach(e => { pastBuild = e.boundingClientRect.top < 0; }); upd(); }).observe(b);
+  if (run) new IntersectionObserver(es => { es.forEach(e => { runVisible = e.isIntersecting; }); upd(); }).observe(run); })();
 </script>
 </body>
 </html>
