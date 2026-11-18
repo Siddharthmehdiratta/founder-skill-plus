@@ -4,8 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Founder Plus · Feedback</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23171a21'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%238aa0ff' stroke-width='3'/%3E%3C/svg%3E">
 <meta name="description" content="Tell us what you think of Founder Plus, and analyse your own customer reviews with the Product Improvement Manager.">
-<link rel="preload" href="fonts/unbounded-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/geist-sans-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="theme.css">
 <style>
 header{padding:0 0 40px}
@@ -27,9 +28,10 @@ textarea{min-height:110px;resize:vertical}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:600px){.row{grid-template-columns:1fr}}
 .what{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:12px 0}
 .what div{border-radius:10px;padding:12px;color:var(--ink);font-weight:700;font-size:14px;background:var(--card2)!important;border:1px solid var(--line)}.what small{display:block;font-weight:400;color:var(--sub)}
-.note{background:rgba(255,181,71,.08);border:1px solid rgba(255,181,71,.35);border-radius:10px;padding:10px 14px;font-size:14px;margin-top:10px}
+.note{background:#fdf4dc;border:1px solid #f1dfa8;border-radius:10px;padding:10px 14px;font-size:14px;margin-top:10px}
 pre{border-radius:10px;padding:12px;font-size:13px;white-space:pre-wrap;max-height:220px;overflow:auto;display:none}
 footer{text-align:center;font-size:13px;padding:0 16px 30px}
+.tile{background:#fff!important;color:var(--ink)!important;border:1px solid var(--line);border-radius:12px;font-weight:600;box-shadow:none!important}.tile small{color:var(--sub)!important;opacity:1!important;font-weight:400}
 </style>
 </head>
 <body>
@@ -44,7 +46,7 @@ footer{text-align:center;font-size:13px;padding:0 16px 30px}
 <main>
 
 <div class="card" id="tool-feedback">
-  <h2>⭐ What do you think of Founder Plus?</h2>
+  <h2>What do you think of Founder Plus?</h2>
   <p class="hint">Two minutes. Your answers are turned into a short message you can send to the person who shared this with you, or post on GitHub. Nothing is stored on this page.</p>
   <label>How useful was it?</label>
   <div class="stars" id="stars"></div>
@@ -70,13 +72,13 @@ footer{text-align:center;font-size:13px;padding:0 16px 30px}
 </div>
 
 <div class="card" id="pim">
-  <h2>🛠️ Product Improvement Manager</h2>
+  <h2>Product Improvement Manager</h2>
   <p class="hint">Paste what your real customers say (reviews, survey answers, WhatsApp messages, complaints, compliments) and get a ranked plan in Claude. No installs.</p>
   <div class="what">
-    <div style="background:linear-gradient(135deg,#0f766e,#14b8a6)">Customer health score<small>out of 100</small></div>
-    <div style="background:linear-gradient(135deg,#ef4444,#f97316)">Fix now, next, later<small>ranked by impact and effort</small></div>
-    <div style="background:linear-gradient(135deg,#7c3aed,#a855f7)">Most requested<small>features and changes</small></div>
-    <div style="background:linear-gradient(135deg,#0ea5e9,#22c55e)">What they love<small>keep it, market it</small></div>
+    <div class="tile">Customer health score<small>out of 100</small></div>
+    <div class="tile">Fix now, next, later<small>ranked by impact and effort</small></div>
+    <div class="tile">Most requested<small>features and changes</small></div>
+    <div class="tile">What they love<small>keep it, market it</small></div>
   </div>
   <div class="row">
     <div><label>Your business, in one line</label><input id="pBiz" placeholder="e.g. cloud kitchen in Pune delivering lunch thalis"></div>
@@ -96,7 +98,7 @@ footer{text-align:center;font-size:13px;padding:0 16px 30px}
 <script>
 const $ = id => document.getElementById(id);
 let stars = 0;
-$("stars").innerHTML = [1,2,3,4,5].map(i => `<button type="button" data-s="${i}" aria-label="${i} stars">★</button>`).join("");
+$("stars").innerHTML = [1,2,3,4,5].map(i => `<button type="button" data-s="${i}" aria-label="${i} stars"></button>`).join("");
 $("stars").onclick = e => { const s = +e.target.dataset.s; if (!s) return; stars = s; [...$("stars").children].forEach((b,i) => b.classList.toggle("on", i < s)); };
 function feedbackText(){
   const used = [...document.querySelectorAll("#used input:checked")].map(x => x.value);
@@ -108,7 +110,7 @@ function feedbackText(){
     $("biz").value.trim() ? "Business tested: " + $("biz").value.trim() : "",
     "Would recommend: " + $("rec").value].filter(Boolean).join("\n");
 }
-async function copy(text, btn, label){ try { await navigator.clipboard.writeText(text); btn.textContent = "Copied ✓"; } catch (e) { const o = btn.id === "fbCopy" ? $("fbOut") : $("pOut"); o.style.display = "block"; o.textContent = text; btn.textContent = "Select the text below and copy"; } setTimeout(() => btn.textContent = label, 2500); }
+async function copy(text, btn, label){ try { await navigator.clipboard.writeText(text); btn.textContent = "Copied "; } catch (e) { const o = btn.id === "fbCopy" ? $("fbOut") : $("pOut"); o.style.display = "block"; o.textContent = text; btn.textContent = "Select the text below and copy"; } setTimeout(() => btn.textContent = label, 2500); }
 $("fbCopy").onclick = () => copy(feedbackText(), $("fbCopy"), "Copy my feedback");
 $("fbWhatsApp").onclick = () => { if (!$("improve").value.trim() && !$("liked").value.trim() && !stars) { alert("Add a rating or a few words first."); return; } window.open("https://wa.me/?text=" + encodeURIComponent(feedbackText()), "_blank", "noopener"); };
 

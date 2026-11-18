@@ -1,38 +1,40 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Buyer panel: FocusFlow (an example: a $8/month focus and study app)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23171a21'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%238aa0ff' stroke-width='3'/%3E%3C/svg%3E">
 <style>
-:root{--bg:#f4f1ff;--card:#fff;--ink:#1b1530;--sub:#5f5878;--line:#e7e2f5;--acc:#7c3aed;--acc2:#ec4899;--yes:#10b981;--no:#ef4444}
-*{box-sizing:border-box}body{margin:0;font:15px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
-header{background:linear-gradient(120deg,#4c1d95 0%,#7c3aed 45%,#ec4899 100%);color:#fff;padding:28px 20px 60px}
-header h1{margin:0;font-size:26px;letter-spacing:-.01em}header .sub{color:#f3e8ff;font-size:13px;margin-top:6px}
-main{max-width:1060px;margin:0 auto;padding:0 18px 40px}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:-40px 0 16px}
-.kpi{border-radius:16px;padding:16px;color:#fff;box-shadow:0 8px 24px rgba(76,29,149,.18)}
-.kpi:nth-child(1){background:linear-gradient(135deg,#7c3aed,#a855f7)}.kpi:nth-child(2){background:linear-gradient(135deg,#ec4899,#f97316)}
-.kpi:nth-child(3){background:linear-gradient(135deg,#0ea5e9,#22c55e)}.kpi:nth-child(4){background:linear-gradient(135deg,#f59e0b,#ef4444)}
-.kpi .l{font-size:12px;opacity:.9;text-transform:uppercase;letter-spacing:.06em}.kpi .v{font-size:32px;font-weight:800}.kpi .s{font-size:12px;opacity:.9}
-.note{background:#fff7d6;border:1px solid #fcd34d;border-radius:12px;padding:10px 14px;font-size:13px;margin-bottom:16px}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 16px;position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:5}
-.tabs button{border:0;background:#fff;border-radius:999px;padding:9px 16px;cursor:pointer;font:600 14px system-ui;color:var(--sub);box-shadow:0 1px 3px rgba(0,0,0,.08)}
-.tabs button.on{background:linear-gradient(120deg,var(--acc),var(--acc2));color:#fff}
-section{display:none;animation:fade .25s}section.on{display:block}@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1}}
-.box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:0 2px 6px rgba(76,29,149,.05)}
-.box h2{font-size:18px;margin:0 0 12px}.box h3{font-size:13px;margin:16px 0 6px;color:var(--acc);text-transform:uppercase;letter-spacing:.05em}
-.row{display:grid;grid-template-columns:minmax(130px,34%) 1fr 64px;gap:12px;align-items:center;padding:6px 8px;border-radius:10px;cursor:pointer}
-.row:hover{background:#f5f0ff}.bar{background:#efeaf9;border-radius:999px;height:16px;overflow:hidden}.fill{height:100%;border-radius:999px}
-.thin{color:#8f88a6;font-size:12px}.step{display:grid;grid-template-columns:38px 1fr;gap:12px;margin:12px 0;align-items:start}
-.num{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800}
+@font-face{font-family:"Geist";font-weight:400;font-display:swap;src:url(fonts/geist-sans-latin-400-normal.woff2) format("woff2")}@font-face{font-family:"Geist";font-weight:500;src:url(fonts/geist-sans-latin-500-normal.woff2) format("woff2")}@font-face{font-family:"Geist";font-weight:600;src:url(fonts/geist-sans-latin-600-normal.woff2) format("woff2")}@font-face{font-family:"Geist";font-weight:700;src:url(fonts/geist-sans-latin-700-normal.woff2) format("woff2")}
+:root{--bg:#f6f7f9;--card:#fff;--ink:#171a21;--sub:#5d6471;--line:#e4e7ec;--acc:#3451d1;--acc2:#3451d1;--yes:#0b7a66;--no:#b4441b}
+*{box-sizing:border-box}body{margin:0;font:15px/1.55 "Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+header{background:#fff;border-bottom:1px solid var(--line);color:var(--ink);padding:28px 20px 64px}
+header h1{margin:0 auto;max-width:1060px;font-size:clamp(22px,3vw,30px);letter-spacing:-.025em;line-height:1.2;font-weight:700}header .sub{color:var(--sub);font-size:14px;margin:8px auto 0;max-width:1060px}
+main{max-width:1100px;margin:0 auto;padding:0 18px 40px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:-40px 0 16px}
+.kpi{border-radius:14px;padding:16px 18px;background:#fff;border:1px solid var(--line);color:var(--ink);box-shadow:0 1px 2px rgba(23,26,33,.05)}
+.kpi:nth-child(1){border-top:3px solid var(--acc)}
+.kpi .l{font-size:13px;color:var(--sub);font-weight:500}.kpi .v{font-size:30px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}.kpi .s{font-size:13px;color:var(--sub)}
+.note{background:#fdf4dc;border:1px solid #f1dfa8;color:#5c4300;border-radius:10px;padding:10px 14px;font-size:14px;margin-bottom:16px}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;margin:8px 0 16px;position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:5;border-bottom:1px solid var(--line)}
+.tabs button{border:0;background:transparent;border-radius:8px;padding:8px 12px;cursor:pointer;font:500 14px inherit;font-family:inherit;color:var(--sub)}
+.tabs button:hover{color:var(--ink);background:#fff}
+.tabs button.on{background:var(--ink);color:#fff}
+section{display:none}section.on{display:block}
+.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:12px}
+.box h2{font-size:18px;margin:0 0 12px;letter-spacing:-.01em}.box h3{font-size:14px;margin:18px 0 6px;color:var(--ink);font-weight:600}
+.row{display:grid;grid-template-columns:minmax(130px,34%) 1fr 64px;gap:12px;align-items:center;padding:6px 8px;border-radius:8px;cursor:pointer}
+.row:hover{background:#f6f7f9}.bar{background:#eef0f3;border-radius:999px;height:12px;overflow:hidden}.fill{height:100%;border-radius:999px}
+.thin{color:#7d8390;font-size:12.5px}.step{display:grid;grid-template-columns:38px 1fr;gap:12px;margin:12px 0;align-items:start}
+.num{width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px}
 .filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
-select,input,button.sm{font:inherit;padding:7px 10px;border:1px solid var(--line);border-radius:10px;background:#fff}
-.buyer{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0;background:#fff}
+select,input,button.sm{font:inherit;padding:7px 10px;border:1px solid #d3d8df;border-radius:8px;background:#fff;color:var(--ink)}
+.buyer{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:8px 0;background:#fff}
 .buyer summary{cursor:pointer;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.tag{font-size:12px;border-radius:999px;padding:2px 10px;background:#f1edfb;color:#4c3a78}.tag.yes{background:#d1fae5;color:#065f46}.tag.no{background:#fee2e2;color:#991b1b}
-blockquote{margin:6px 0;padding:8px 12px;border-left:4px solid var(--acc2);background:#fdf4ff;border-radius:0 10px 10px 0;font-size:14px}
-table{border-collapse:collapse;width:100%;font-size:14px}td,th{border-bottom:1px solid var(--line);padding:7px;text-align:left;vertical-align:top}
-a{color:var(--acc)}.count{font-weight:800}.chip{display:inline-block;background:linear-gradient(120deg,#ede9fe,#fce7f3);border-radius:10px;padding:2px 10px;font-weight:700;font-size:13px}
-.price{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}.price div{border-radius:12px;padding:10px;text-align:center;color:#fff;font-weight:700}
-.price small{display:block;font-weight:500;opacity:.9}
+.tag{font-size:12.5px;border-radius:999px;padding:2px 10px;background:#f1f3f6;color:#3b414d}.tag.yes{background:#e5f3ef;color:#075a4b}.tag.no{background:#fbece5;color:#8f3414}
+blockquote{margin:6px 0;padding:8px 12px;border-left:3px solid #d3d8df;background:#f6f7f9;border-radius:0 8px 8px 0;font-size:14px}
+table{border-collapse:collapse;width:100%;font-size:14px}td,th{border-bottom:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}th{color:var(--sub);font-weight:500;font-size:13px}
+a{color:var(--acc);text-underline-offset:3px}.count{font-weight:700}.chip{display:inline-block;background:#eef1fd;color:#2a3fa8;border-radius:8px;padding:2px 10px;font-weight:600;font-size:13px}
+.price{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}.price div{border-radius:10px;padding:10px;text-align:center;color:#fff;font-weight:600}
+.price small{display:block;font-weight:400;opacity:.9}
 @media(max-width:600px){.row{grid-template-columns:1fr 70px}.row .bar{grid-column:1/3;grid-row:2}.price{grid-template-columns:repeat(2,1fr)}}
 </style></head><body>
 <header><h1>Buyer panel: FocusFlow (an example: a $8/month focus and study app)</h1><div class="sub">Seed 12 · simulated buyers, not customers · click any bar to filter the buyer list</div></header>
@@ -60,7 +62,7 @@ function kpis(){
   el("kpis").innerHTML = k.map(x => `<div class="kpi"><div class="l">${esc(x[0])}</div><div class="v">${esc(x[1])}</div><div class="s">${esc(x[2])}</div></div>`).join("");
 }
 
-const TABS = [["audit","🏆 Score & summary"],["plan","🚀 What to do next"],["who","🎯 Who buys"],["why","💬 Why not"],["faq","❓ Questions to answer"],["buyers","👥 Every buyer"],["price","💰 Price"],["facts","📚 Facts used"]];
+const TABS = [["audit"," Score & summary"],["plan"," What to do next"],["who"," Who buys"],["why"," Why not"],["faq"," Questions to answer"],["buyers"," Every buyer"],["price"," Price"],["facts"," Facts used"]];
 function tabs(){
   el("tabs").innerHTML = TABS.map(([id,t],i) => `<button data-t="${id}" class="${i? "":"on"}">${t}</button>`).join("");
   el("t-audit").classList.add("on");
@@ -73,13 +75,13 @@ function show(id){
 
 function audit(){
   const A = R.audit; if (!A) { el("t-audit").innerHTML = "<div class='box'>No audit in this report.</div>"; return; }
-  const col = A.score >= 80 ? "#10b981" : A.score >= 60 ? "#84cc16" : A.score >= 40 ? "#f59e0b" : "#ef4444";
+  const col = A.score >= 80 ? "#0b7a66" : A.score >= 60 ? "#4d7c0f" : A.score >= 40 ? "#b45309" : "#b4441b";
   const deg = Math.round(A.score * 3.6);
   let h = `<div class="box" style="display:grid;grid-template-columns:150px 1fr;gap:18px;align-items:center">
-    <div style="width:140px;height:140px;border-radius:50%;background:conic-gradient(${col} ${deg}deg,#efeaf9 0);display:flex;align-items:center;justify-content:center">
+    <div style="width:140px;height:140px;border-radius:50%;background:conic-gradient(${col} ${deg}deg,#eef0f3 0);display:flex;align-items:center;justify-content:center">
       <div style="width:108px;height:108px;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center"><div style="font-size:34px;font-weight:800;color:${col}">${A.score}</div><div class="thin">out of 100</div></div></div>
     <div><div class="chip" style="font-size:15px">${esc(A.grade)}</div><p style="font-size:17px;margin:8px 0">${esc(A.verdict)}</p><p class="thin">${esc(A.note)}</p></div></div>`;
-  if (R.content) { const C = R.content; h += `<div class="box"><h2>📱 Content results${C.platform?" · "+esc(C.platform):""}</h2><div class="price"><div style="background:#7c3aed"><small>Stop scrolling</small>${pct(C.stop_rate)}</div><div style="background:#ec4899"><small>Click through</small>${pct(C.click_rate)}</div>${Object.entries(C.engagement).filter(e => e[0] !== "none").sort((a,b) => b[1]-a[1]).slice(0,2).map(([k,v]) => `<div style="background:#0ea5e9"><small>${esc(k)}</small>${v}</div>`).join("")}</div></div>`; }
+  if (R.content) { const C = R.content; h += `<div class="box"><h2>Content results${C.platform?" · "+esc(C.platform):""}</h2><div class="price"><div style="background:#3451d1"><small>Stop scrolling</small>${pct(C.stop_rate)}</div><div style="background:#6b4fd8"><small>Click through</small>${pct(C.click_rate)}</div>${Object.entries(C.engagement).filter(e => e[0] !== "none").sort((a,b) => b[1]-a[1]).slice(0,2).map(([k,v]) => `<div style="background:#2563eb"><small>${esc(k)}</small>${v}</div>`).join("")}</div></div>`; }
   h += '<div class="box"><h2>In plain words</h2><ul>' + A.easy.map(x => `<li style="margin:6px 0">${esc(x)}</li>`).join("") + "</ul></div>";
   h += '<div class="box"><h2>How the score is made</h2>' + A.parts.map(p => `<div class="row" style="cursor:default"><div>${esc(p.name)} <span class="thin">${esc(p.why)}</span></div><div class="bar"><div class="fill" style="width:${Math.round(p.points/p.max*100)}%;background:${color(p.points/p.max)}"></div></div><div class="count">${p.points}/${p.max}</div></div>`).join("") + "</div>";
   h += '<div class="box"><h2>Detailed summary</h2>' + A.detailed.filter(s => s.title !== "Score breakdown").map(s => `<h3>${esc(s.title)}</h3><ul>` + s.lines.map(x => `<li>${esc(x)}</li>`).join("") + "</ul>").join("") + "</div>";
@@ -161,10 +163,10 @@ function verdict(p){
   if (R.price == null || p.currency !== R.price_currency) return "";
   const v = +R.price, f = x => p.currency + Math.round(x).toLocaleString();
   let msg, col;
-  if (p.too_expensive != null && v >= p.too_expensive) { msg = `Your price ${esc(R.price_txt)} is at or above where most buyers say "too expensive" (${f(p.too_expensive)}). Test a lower entry price.`; col = "#fee2e2"; }
-  else if (p.expensive != null && v > p.expensive) { msg = `Your price ${esc(R.price_txt)} feels expensive to most buyers (above ${f(p.expensive)}). It needs strong proof or a cheaper first step.`; col = "#fef3c7"; }
-  else if (p.too_cheap != null && v <= p.too_cheap) { msg = `Your price ${esc(R.price_txt)} looks too cheap to trust. Raising it may sell more.`; col = "#fef3c7"; }
-  else { msg = `Your price ${esc(R.price_txt)} sits inside the range buyers accept.`; col = "#d1fae5"; }
+  if (p.too_expensive != null && v >= p.too_expensive) { msg = `Your price ${esc(R.price_txt)} is at or above where most buyers say "too expensive" (${f(p.too_expensive)}). Test a lower entry price.`; col = "#fbece5"; }
+  else if (p.expensive != null && v > p.expensive) { msg = `Your price ${esc(R.price_txt)} feels expensive to most buyers (above ${f(p.expensive)}). It needs strong proof or a cheaper first step.`; col = "#fdf4dc"; }
+  else if (p.too_cheap != null && v <= p.too_cheap) { msg = `Your price ${esc(R.price_txt)} looks too cheap to trust. Raising it may sell more.`; col = "#fdf4dc"; }
+  else { msg = `Your price ${esc(R.price_txt)} sits inside the range buyers accept.`; col = "#e5f3ef"; }
   return `<p style="background:${col};border-radius:10px;padding:10px"><b>Verdict:</b> ${msg}</p>`;
 }
 
@@ -173,7 +175,7 @@ function price(){
   if (!P.length) h += "<p>No complete price answers.</p>";
   P.forEach(p => {
     const f = v => v == null ? "–" : p.currency + Math.round(v).toLocaleString();
-    h += `<p class="thin">Middle answer of ${p.answers} buyers, in ${esc(p.currency)}</p><div class="price"><div style="background:#94a3b8"><small>Too cheap to trust</small>${f(p.too_cheap)}</div><div style="background:#10b981"><small>A bargain</small>${f(p.bargain)}</div><div style="background:#f59e0b"><small>Getting expensive</small>${f(p.expensive)}</div><div style="background:#ef4444"><small>Too expensive</small>${f(p.too_expensive)}</div></div><p><b>Price to test:</b> between ${f(p.bargain)} and ${f(p.expensive)}. Above ${f(p.too_expensive)} most of these buyers walk away.</p>${verdict(p)}`;
+    h += `<p class="thin">Middle answer of ${p.answers} buyers, in ${esc(p.currency)}</p><div class="price"><div style="background:#94a3b8"><small>Too cheap to trust</small>${f(p.too_cheap)}</div><div style="background:#0b7a66"><small>A bargain</small>${f(p.bargain)}</div><div style="background:#b45309"><small>Getting expensive</small>${f(p.expensive)}</div><div style="background:#b4441b"><small>Too expensive</small>${f(p.too_expensive)}</div></div><p><b>Price to test:</b> between ${f(p.bargain)} and ${f(p.expensive)}. Above ${f(p.too_expensive)} most of these buyers walk away.</p>${verdict(p)}`;
   });
   h += '<p class="thin">For the full price analysis run founder-pricing\'s van_westendorp.py on the answers folder.</p></div>';
   el("t-price").innerHTML = h;
@@ -182,7 +184,7 @@ function price(){
 function facts(){
   let h = '<div class="box"><h2>Facts every buyer was shown</h2>';
   if (!R.sources.length) h += "<p>None. Add a market block or set a region to ground buyers in real data.</p>";
-  h += R.sources.map(s => `<p>${s.region?`<span class="tag">${esc(s.region)}</span> `:""}${esc(s.text)} ${s.source?`<a href="${esc(s.source)}" target="_blank" rel="noopener">source</a>`:'<b style="color:#dc2626">no source</b>'}</p>`).join("");
+  h += R.sources.map(s => `<p>${s.region?`<span class="tag">${esc(s.region)}</span> `:""}${esc(s.text)} ${s.source?`<a href="${esc(s.source)}" target="_blank" rel="noopener">source</a>`:'<b style="color:#b4441b">no source</b>'}</p>`).join("");
   el("t-facts").innerHTML = h + "</div>";
 }
 kpis(); tabs(); audit(); plan(); who(); why(); faq(); buyers(); price(); facts();
