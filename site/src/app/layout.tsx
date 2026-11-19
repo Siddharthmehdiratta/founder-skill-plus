@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -13,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={GeistSans.variable}>
+    <html lang="en">
       <head>
         {/* Fonts load from Fontshare (Indian Type Foundry, free for commercial use; files may not be redistributed). */}
         <link rel="preconnect" href="https://api.fontshare.com" />
@@ -21,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=zodiak@400,700&display=swap" />
         <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600&display=swap" />
       </head>
-      <body className="min-h-screen bg-background font-sans text-foreground antialiased" style={{ fontFamily: "'Switzer', var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif" }}>
+      <body className="min-h-screen bg-background font-sans text-foreground antialiased" style={{ fontFamily: "'Switzer', ui-sans-serif, system-ui, sans-serif" }}>
         {children}
       </body>
     </html>

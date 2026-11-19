@@ -29,7 +29,7 @@ export function ClaudeStudio() {
       <div className="mt-8 grid gap-4 md:grid-cols-2">
         {HELPERS.map((h) => (
           <div key={h.title} className="flex flex-col rounded-3xl border p-6">
-            <h3 className="text-lg font-semibold tracking-tight">{h.title}</h3>
+            <h2 className="text-lg font-semibold tracking-tight">{h.title}</h2>
             <p className="mt-1 mb-5 text-sm text-muted-foreground">{h.text}</p>
             <ClaudeButton className="mt-auto" label="Open in Claude" prompt={h.prompt(v)} />
           </div>

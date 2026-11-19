@@ -53,9 +53,9 @@ export default function Home() {
             <a href={href("/sample/")} className="hero-frame rise" style={{ "--i": 3 } as React.CSSProperties}>
               <span className="hero-frame-bar" aria-hidden><i /><i /><i /><b>Sample report</b></span>
               <picture>
-                <source media="(max-width: 640px)" type="image/webp" srcSet={href("/shots/report-phone.webp")} />
-                <source type="image/webp" srcSet={href("/shots/report.webp")} />
-                <img src={href("/shots/report.png")} alt="A sample report: 10 AI customers in four countries give a study app a score of 34 out of 100." loading="eager" decoding="async" className="block w-full" />
+                <source media="(max-width: 640px)" type="image/webp" srcSet={href("/shots/report-phone.webp")} width={780} height={1688} />
+                <source type="image/webp" srcSet={href("/shots/report.webp")} width={2560} height={1600} />
+                <img src={href("/shots/report.png")} width={2560} height={1600} alt="A sample report: 10 AI customers in four countries give a study app a score of 34 out of 100." loading="eager" fetchPriority="high" decoding="async" className="block h-auto w-full" />
               </picture>
             </a>
           </div>

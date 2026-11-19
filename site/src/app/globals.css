@@ -357,7 +357,7 @@ body { font-feature-settings: "ss01", "cv11"; text-rendering: optimizeLegibility
 /* Pages open instantly, like a normal website (no slide or fade between pages). */
 
 /* Fontshare display face for headings */
-h1, h2, h3, .font-display { font-family: 'Zodiak', 'Switzer', var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif; letter-spacing: -0.015em; }
+h1, h2, h3, .font-display { font-family: 'Zodiak', 'Switzer', ui-sans-serif, system-ui, sans-serif; letter-spacing: -0.015em; }
 
 /* ---- Design pass: motion tokens (Emil Kowalski's values), one load moment, themed browser surfaces ---- */
 :root { --ease-out: cubic-bezier(0.23, 1, 0.32, 1); }

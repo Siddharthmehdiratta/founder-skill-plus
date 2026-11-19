@@ -1,3 +1,4 @@
+import DIMS from "@/lib/shot-dims.json";
 import { SiteHeader } from "./header";
 import { SiteFooter } from "./footer";
 import { href } from "@/lib/site";
@@ -16,7 +17,7 @@ export function PageShell({ kicker, title, lead, group = "", crumb, children, ac
               <a href={href("/")} className="hover:text-foreground">Home</a><span className="mx-2">/</span>
               {group && <><span>{group}</span><span className="mx-2">/</span></>}<span className="text-foreground">{crumb ?? kicker}</span>
             </nav>
-            <h1 className="mt-6 max-w-3xl text-4xl font-semibold tracking-[-0.035em] text-balance sm:text-5xl">{title}</h1>
+            <h1 className="rise mt-6 max-w-4xl text-5xl leading-[0.98] font-bold tracking-[-0.04em] text-balance sm:text-7xl">{title}</h1>
             <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground text-pretty">{lead}</p>
             {actions && <div className="mt-8 flex flex-wrap gap-3">{actions}</div>}
           </div>
@@ -50,7 +51,7 @@ export function Src({ url, name }: { url: string; name: string }) {
 }
 
 export function Shot({ src, alt, className = "", eager = false }: { src: string; alt: string; className?: string; eager?: boolean }) {
-  return <picture><source type="image/webp" srcSet={href(src.replace(/\.png$/, ".webp"))} /><img src={href(src)} alt={alt} loading={eager ? "eager" : "lazy"} decoding="async" className={`block w-full ${className}`} /></picture>;
+  return <picture><source type="image/webp" srcSet={href(src.replace(/\.png$/, ".webp"))} /><img src={href(src)} alt={alt} width={(DIMS as Record<string, number[]>)[src]?.[0]} height={(DIMS as Record<string, number[]>)[src]?.[1]} loading={eager ? "eager" : "lazy"} decoding="async" className={`block h-auto w-full ${className}`} /></picture>;
 }
 
 export function CtaBand() {
