@@ -8,7 +8,7 @@ fails = []
 def check(c, m):
     print(("ok  " if c else "FAIL"), m)
     if not c: fails.append(m)
-PAGES = ["", "how-it-works/", "pricing/", "faq/", "help/", "contact/", "about/", "open-source/", "privacy/", "changelog/", "idea-checker/", "claude/", "sample/"]
+PAGES = ["", "how-it-works/", "pricing/", "faq/", "help/", "contact/", "about/", "open-source/", "privacy/", "changelog/", "terms/", "idea-checker/", "claude/", "sample/"]
 APPS = ["builder.html", "how-to-use.html", "feedback.html"]
 async def main():
     async with async_playwright() as p:

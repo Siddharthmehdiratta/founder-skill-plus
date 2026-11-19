@@ -11,7 +11,6 @@ export function PageShell({ kicker, title, lead, group = "", crumb, children, ac
       <SiteHeader active={group} />
       <main id="main" className="overflow-x-clip">
         <section className="relative isolate overflow-hidden border-b">
-          <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(50%_80%_at_80%_0%,#E3F4EE_0%,transparent_70%)]" />
           <div className="mx-auto max-w-7xl px-5 pt-14 pb-12 sm:pt-20 sm:pb-16 lg:px-8">
             <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground">
               <a href={href("/")} className="hover:text-foreground">Home</a><span className="mx-2">/</span>
@@ -40,8 +39,7 @@ export function Section({ children, tint = false, className = "" }: { children: 
 export function SectionHead({ eyebrow, title, text }: { eyebrow?: string; title: string; text?: string }) {
   return (
     <div className="max-w-2xl">
-      {eyebrow && <p className="text-sm font-medium text-primary">{eyebrow}</p>}
-      <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-balance sm:text-4xl">{title}</h2>
+            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-balance sm:text-4xl">{title}</h2>
       {text && <p className="mt-4 text-muted-foreground">{text}</p>}
     </div>
   );
@@ -52,14 +50,13 @@ export function Src({ url, name }: { url: string; name: string }) {
 }
 
 export function Shot({ src, alt, className = "", eager = false }: { src: string; alt: string; className?: string; eager?: boolean }) {
-  return <img src={href(src)} alt={alt} loading={eager ? "eager" : "lazy"} decoding="async" className={`block w-full ${className}`} />;
+  return <picture><source type="image/webp" srcSet={href(src.replace(/\.png$/, ".webp"))} /><img src={href(src)} alt={alt} loading={eager ? "eager" : "lazy"} decoding="async" className={`block w-full ${className}`} /></picture>;
 }
 
 export function CtaBand() {
   return (
     <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
       <div className="relative isolate overflow-hidden rounded-[2rem] bg-[#081C21] px-6 py-14 text-center text-white sm:px-16">
-        <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(60%_80%_at_50%_0%,#0B7A5C_0%,transparent_70%)] opacity-70" />
         <h2 className="mx-auto max-w-2xl text-3xl font-semibold tracking-[-0.03em] text-balance sm:text-4xl">Hear what customers think before you spend.</h2>
         <p className="mx-auto mt-4 max-w-lg text-white/70">Free. No sign-up. Uses the Claude app you already have.</p>
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">

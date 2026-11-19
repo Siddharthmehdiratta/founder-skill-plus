@@ -358,3 +358,26 @@ body { font-feature-settings: "ss01", "cv11"; text-rendering: optimizeLegibility
 
 /* Fontshare display face for headings */
 h1, h2, h3, .font-display { font-family: 'Zodiak', 'Switzer', var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif; letter-spacing: -0.015em; }
+
+/* ---- Design pass: motion tokens (Emil Kowalski's values), one load moment, themed browser surfaces ---- */
+:root { --ease-out: cubic-bezier(0.23, 1, 0.32, 1); }
+::selection { background: var(--primary); color: #fff; }
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+h1, h2, h3 { text-wrap: balance; scroll-margin-top: 6rem; }
+.hero-title { font-size: clamp(3rem, 11.5vw, 7.5rem); line-height: 0.92; letter-spacing: -0.04em; font-weight: 800; }
+/* The hero enters once on load. Content is visible by default; the animation only describes where it comes from. */
+@keyframes rise { from { opacity: 0; transform: translateY(18px); filter: blur(6px); } }
+@keyframes fade-in { from { opacity: 0; } }
+.rise { animation: rise 700ms var(--ease-out) both; animation-delay: calc(var(--i, 0) * 70ms); }
+@media (prefers-reduced-motion: reduce) { .rise { animation: fade-in 200ms ease both; } }
+/* Every button answers a press. Explicit properties, never transition: all. */
+[data-slot="button"] { transition-property: transform, background-color, color, border-color, box-shadow; transition-duration: 160ms; transition-timing-function: var(--ease-out); touch-action: manipulation; }
+[data-slot="button"]:active { transform: scale(0.97); }
+/* The product itself leads the page, in one frame that sits on the fold. */
+.hero-frame { display: block; overflow: hidden; max-height: min(64vh, 40rem); border: 1px solid var(--border); border-bottom: 0; border-radius: 1.25rem 1.25rem 0 0; background: #fff; box-shadow: 0 30px 80px -20px rgb(8 28 33 / 0.28); transition: transform 300ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .hero-frame:hover { transform: translateY(-6px); } }
+.hero-frame-bar { display: flex; align-items: center; gap: 0.4rem; height: 2.5rem; padding: 0 1rem; border-bottom: 1px solid var(--border); }
+.hero-frame-bar i { width: 0.6rem; height: 0.6rem; border-radius: 99px; background: var(--border); }
+.hero-frame-bar b { margin-left: 0.5rem; font-size: 0.8rem; font-weight: 500; color: var(--muted-foreground); }
+.tool-row { display: block; padding: 1.5rem 0; border-top: 1px solid color-mix(in srgb, var(--foreground) 15%, transparent); transition: border-color 200ms ease; }
+@media (hover: hover) and (pointer: fine) { .tool-row:hover { border-top-color: var(--foreground); } }

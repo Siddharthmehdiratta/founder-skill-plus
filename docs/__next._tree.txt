@@ -1,6 +1,6 @@
 :HL["/founder-skill-plus/_next/static/chunks/1ooob79udccao.css","style"]
-:HL["/founder-skill-plus/_next/static/chunks/2q5ug5pwt9i3-.css","style"]
+:HL["/founder-skill-plus/_next/static/chunks/0h2zicmnl1rgm.css","style"]
 :HL["/founder-skill-plus/_next/static/media/Geist_Variable-s.p.43azbxi7zpibd.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["https://api.fontshare.com/v2/css?f[]=zodiak@400,700&display=swap","style"]
 :HL["https://api.fontshare.com/v2/css?f[]=switzer@400,500,600&display=swap","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}},"staleTime":300,"buildId":"r6p4ah2smTkD5Fcs7GtmR"}
+0:{"tree":{"name":"","param":null,"prefetchHints":4112,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4224,"slots":null}}},"staleTime":300,"buildId":"phiMP_4C7GQ0cmfrXobUG"}

@@ -1,13 +1,10 @@
 import { ArrowRightIcon, CheckIcon, ClipboardListIcon, GaugeIcon, GlobeIcon, MessageSquareTextIcon, ShieldCheckIcon, TargetIcon, UsersIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { BorderBeam } from "@/components/velora/border-beam";
-import { BrowserMockup } from "@/components/velora/browser-mockup";
 import { SiteHeader } from "@/components/site/header";
 import { SiteFooter } from "@/components/site/footer";
 import { Shot } from "@/components/site/shell";
 import { SITE, href } from "@/lib/site";
-import { Hero3DLazy } from "@/components/site/hero-3d-lazy";
 import { IdeaChecker } from "@/components/site/idea-checker";
 import { Icon } from "@/components/site/icon";
 
@@ -30,77 +27,55 @@ export default function Home() {
       <SiteHeader />
       <main id="main" className="overflow-x-clip">
         {/* ---------------- hero ---------------- */}
-        <section className="relative isolate overflow-hidden">
-          <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(55%_60%_at_75%_10%,#E3F4EE_0%,transparent_70%)]" />
-          <div aria-hidden className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)] bg-size-[4rem_4rem] opacity-40 mask-[radial-gradient(ellipse_70%_60%_at_70%_0%,black,transparent_75%)]" />
-          <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 pt-14 pb-16 sm:pt-20 lg:grid-cols-[1.1fr_1fr] lg:px-8">
-            <div className="text-center lg:text-left">
-              <a href={href("/idea-checker/")} className="inline-flex items-center gap-2 rounded-full border bg-background/80 px-3 py-1 text-sm text-muted-foreground shadow-xs hover:text-foreground">
-                <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">New</span>
-                Check your idea in two minutes
-                <ArrowRightIcon className="size-3.5" />
-              </a>
-              <h1 className="mt-7 text-[3.4rem] leading-[0.95] font-bold tracking-[-0.045em] text-balance sm:text-7xl lg:text-[6.4rem]">
-                Test it before you build it.
-              </h1>
-              <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground text-pretty sm:text-xl lg:mx-0">
+        <section className="overflow-hidden border-b">
+          <div className="mx-auto max-w-7xl px-5 pt-14 sm:pt-20 lg:px-8 lg:pt-24">
+            <h1 className="hero-title rise">Test it before you build it.</h1>
+            <div className="mt-8 flex flex-col gap-8 lg:mt-10 lg:flex-row lg:items-end lg:justify-between">
+              <p className="rise max-w-xl text-lg leading-relaxed text-muted-foreground text-pretty sm:text-xl" style={{ "--i": 1 } as React.CSSProperties}>
                 A panel of AI customers reacts to your business idea in their own words. You get a score, what to fix, and what to say.
               </p>
-              <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
-                <Button size="lg" className="h-12 rounded-xl px-6 text-base shadow-lg shadow-primary/25" asChild>
-                  <a href={href(SITE.app)}>Build my panel<ArrowRightIcon /></a>
-                </Button>
-                <Button size="lg" variant="outline" className="h-12 rounded-xl px-6 text-base" asChild>
-                  <a href={href("/sample/")}>See a sample report</a>
-                </Button>
+              <div className="rise shrink-0" style={{ "--i": 2 } as React.CSSProperties}>
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <Button size="lg" className="h-12 rounded-xl px-6 text-base" asChild>
+                    <a href={href(SITE.app)}>Build my panel<ArrowRightIcon /></a>
+                  </Button>
+                  <Button size="lg" variant="outline" className="h-12 rounded-xl px-6 text-base" asChild>
+                    <a href={href("/sample/")}>See a sample report</a>
+                  </Button>
+                </div>
+                <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-sm text-muted-foreground">
+                  {["Free", "No sign-up", "Runs in Claude"].map((t) => <li key={t} className="flex items-center gap-1.5"><CheckIcon className="size-4 text-primary" />{t}</li>)}
+                </ul>
               </div>
-              <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground lg:justify-start">
-                {["Free", "No sign-up", "Runs in Claude"].map((t) => <li key={t} className="flex items-center gap-1.5"><CheckIcon className="size-4 text-primary" />{t}</li>)}
-              </ul>
             </div>
-            <div className="relative">
-              <div aria-hidden className="absolute inset-x-10 top-10 bottom-10 -z-10 rounded-full bg-[radial-gradient(closest-side,#BFE9D8,transparent)] blur-2xl" />
-              <Hero3DLazy fallback="/shots/report-phone.png" />
-              <p className="mt-3 text-center text-xs text-muted-foreground">Real report, example business.</p>
-            </div>
+          </div>
+          <div className="mx-auto mt-14 max-w-7xl px-5 lg:mt-20 lg:px-8">
+            <a href={href("/sample/")} className="hero-frame rise" style={{ "--i": 3 } as React.CSSProperties}>
+              <span className="hero-frame-bar" aria-hidden><i /><i /><i /><b>Sample report</b></span>
+              <picture>
+                <source media="(max-width: 640px)" type="image/webp" srcSet={href("/shots/report-phone.webp")} />
+                <source type="image/webp" srcSet={href("/shots/report.webp")} />
+                <img src={href("/shots/report.png")} alt="A sample report: 10 AI customers in four countries give a study app a score of 34 out of 100." loading="eager" decoding="async" className="block w-full" />
+              </picture>
+            </a>
           </div>
         </section>
 
-        <section className="mx-auto max-w-7xl px-5 pb-20 lg:px-8">
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {[["/builder.html", "Panel builder", "AI customers react to your offer.", "Users"], ["/idea-checker/", "Idea Checker", "Find the gaps in two minutes.", "ScanSearch"], ["/claude/", "Claude helpers", "Pitch, objections and pricing in one click.", "Sparkles"], ["/feedback.html#pim", "Review analysis", "Turn real reviews into a fix list.", "ClipboardList"]].map(([h, t, d, ic]) => (
-              <a key={t} href={href(h)} className="group rounded-3xl border bg-background p-6 transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
-                <span className="grid size-11 place-items-center rounded-xl bg-primary/10 text-primary"><Icon name={ic} className="size-5" /></span>
-                <h2 className="mt-5 text-lg font-semibold tracking-tight">{t}</h2>
-                <p className="mt-1 text-sm text-muted-foreground">{d}</p>
-                <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">Open<ArrowRightIcon className="size-3.5 transition-transform group-hover:translate-x-0.5" /></span>
+        {/* ---------------- free tools ---------------- */}
+        <section className="mx-auto max-w-7xl px-5 py-20 sm:py-28 lg:px-8">
+          <h2 className="text-3xl font-semibold tracking-[-0.03em] sm:text-5xl">Four free tools.</h2>
+          <div className="mt-10 grid gap-x-10 sm:grid-cols-2 lg:grid-cols-4">
+            {[["/builder.html", "Panel builder", "AI customers react to your offer.", "Users"], ["/idea-checker/", "Idea Checker", "Find the gaps in two minutes.", "ScanSearch"], ["/claude/", "Claude helpers", "Pitch, objections and pricing in one click.", "Sparkles"], ["/feedback.html#pim", "Review analysis", "Turn real reviews into a fix list.", "ClipboardList"]].map(([h, t, d]) => (
+              <a key={t} href={href(h)} className="tool-row group">
+                <span className="flex items-center justify-between text-xl font-semibold tracking-tight">{t}<ArrowRightIcon className="size-5 text-muted-foreground transition-transform duration-200 group-hover:translate-x-1 group-hover:text-foreground" /></span>
+                <span className="mt-2 block text-muted-foreground">{d}</span>
               </a>
             ))}
           </div>
         </section>
 
-        <section className="border-y bg-[#F7FAF9]">
-          <div className="mx-auto max-w-6xl px-5 py-20 lg:px-8">
-            <div className="mx-auto max-w-2xl text-center">
-              <p className="text-sm font-medium text-primary">Inside the report</p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] sm:text-5xl">A score, the reasons, and what to do next.</h2>
-            </div>
-            <div className="relative mt-12">
-              <BrowserMockup url="founder plus · sample report" className="relative overflow-hidden rounded-2xl shadow-2xl shadow-primary/10">
-                <Shot src="/shots/report.png" alt="A sample report: 10 AI customers in four countries give a study app a score of 34 out of 100." />
-                <BorderBeam size={260} duration={9} colorFrom="#0B7A5C" colorTo="#7FD6B4" />
-              </BrowserMockup>
-              <div className="mt-6 flex flex-wrap justify-center gap-3">
-                <Button className="h-11 rounded-xl px-5" asChild><a href={href("/sample/")}>See the sample report (PDF)</a></Button>
-                <Button variant="outline" className="h-11 rounded-xl px-5" asChild><a href={href(SITE.sample)}>Explore it live</a></Button>
-              </div>
-            </div>
-          </div>
-        </section>
-
         <section className="mx-auto max-w-7xl px-5 py-24 lg:px-8">
           <div className="max-w-2xl">
-            <p className="text-sm font-medium text-primary">Try it now</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] sm:text-5xl">Is your idea ready to test?</h2>
             <p className="mt-4 text-muted-foreground">Six quick questions. Each weak answer comes with the cheapest way to fix it.</p>
           </div>
@@ -131,7 +106,6 @@ export default function Home() {
         {/* ---------------- features ---------------- */}
         <section className="mx-auto max-w-7xl px-5 py-24 lg:px-8">
           <div className="max-w-2xl">
-            <p className="text-sm font-medium text-primary">What you get</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] sm:text-5xl">Customer research in an afternoon, not a month.</h2>
           </div>
           <div className="mt-14 grid gap-4 lg:grid-cols-6">
@@ -182,7 +156,6 @@ export default function Home() {
         <section className="border-y bg-[#F7FAF9]">
           <div className="mx-auto grid max-w-7xl items-center gap-14 px-5 py-24 lg:grid-cols-2 lg:px-8">
             <div>
-              <p className="text-sm font-medium text-primary">How it works</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] sm:text-5xl">Three steps. About ten minutes.</h2>
               <ol className="mt-10 grid gap-8">
                 {[["Pick your customers", "Start from your industry, or build your panel from scratch. Every choice is a dropdown."],
@@ -200,7 +173,6 @@ export default function Home() {
               </div>
             </div>
             <div className="relative mx-auto w-full max-w-sm">
-              <div aria-hidden className="absolute -inset-10 -z-10 rounded-full bg-[radial-gradient(closest-side,#CBEBDD,transparent)]" />
               <div className="overflow-hidden rounded-[2.4rem] border-8 border-[#081C21] bg-[#081C21] shadow-2xl">
                 <Shot src="/shots/builder-phone.png" alt="The panel builder on a phone." className="rounded-[1.8rem]" />
               </div>
@@ -211,7 +183,6 @@ export default function Home() {
         {/* ---------------- honest limits ---------------- */}
         <section className="mx-auto max-w-7xl px-5 py-24 lg:px-8">
           <div className="max-w-2xl">
-            <p className="text-sm font-medium text-primary">Honest by design</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] sm:text-5xl">What AI customers can, and can't, tell you.</h2>
           </div>
           <div className="mt-12 grid gap-px overflow-hidden rounded-3xl border bg-border md:grid-cols-3">
@@ -244,7 +215,6 @@ export default function Home() {
 
         <section className="mx-auto max-w-7xl px-5 py-24 lg:px-8">
           <div className="relative isolate overflow-hidden rounded-[2rem] bg-[#081C21] px-6 py-16 text-center text-white sm:px-16 sm:py-20">
-            <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(60%_80%_at_50%_0%,#0EA47A_0%,transparent_70%)] opacity-60" />
             <h2 className="mx-auto max-w-2xl text-3xl font-semibold tracking-[-0.03em] text-balance sm:text-5xl">Find your objections before your customers do.</h2>
             <p className="mx-auto mt-4 max-w-lg text-white/70">Free. No sign-up. Uses the Claude app you already have.</p>
             <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">

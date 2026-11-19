@@ -13,6 +13,7 @@ export default function Page() {
           ["Saved setups", "Download customer.json to keep a setup. It's a file on your device; we never see it."],
           ["Review analysis", "Reviews you paste are analysed in your Claude chat. Remove customer names and contact details before pasting."],
           ["No accounts, no tracking", "There is no sign-up, no database and no advertising tracker. GitHub Pages, which hosts this site, may keep standard server logs under GitHub's own privacy policy."],
+          ["Fonts", "The typefaces load from Fontshare, a free font service by Indian Type Foundry. Like any website request, your browser shares its IP address with Fontshare to fetch them. No cookies are set by this site."],
           ["Questions", "Ask anything about privacy on our contact page."]].map(([t, d]) => (
           <section key={t} className="border-b py-7 first:pt-0 last:border-b-0"><h2 className="text-xl font-semibold tracking-tight">{t}</h2><p className="mt-2 text-muted-foreground">{d}</p></section>
         ))}

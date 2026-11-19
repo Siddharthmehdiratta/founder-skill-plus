@@ -44,6 +44,7 @@ export const MENU: { name: string; items: Item[] }[] = [
     { title: "About", text: "Who makes this, and why", href: "/about/", icon: "Users" },
     { title: "Open source", text: "Code, licence and how to help", href: "/open-source/", icon: "Github" },
     { title: "Privacy", text: "What happens to your idea", href: "/privacy/", icon: "ShieldCheck" },
+    { title: "Terms", text: "The plain-English rules", href: "/terms/", icon: "FileText" },
     { title: "Creator Growth Studio", text: "Our sister project for creators", href: "https://siddharthmehdiratta.github.io/creator-growth-studio/", icon: "Sparkles" },
   ]},
 ];
