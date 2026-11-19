@@ -381,3 +381,13 @@ h1, h2, h3 { text-wrap: balance; scroll-margin-top: 6rem; }
 .hero-frame-bar b { margin-left: 0.5rem; font-size: 0.8rem; font-weight: 500; color: var(--muted-foreground); }
 .tool-row { display: block; padding: 1.5rem 0; border-top: 1px solid color-mix(in srgb, var(--foreground) 15%, transparent); transition: border-color 200ms ease; }
 @media (hover: hover) and (pointer: fine) { .tool-row:hover { border-top-color: var(--foreground); } }
+
+/* Showcase: one frame, fixed shape, so switching tabs never moves the page. */
+.show-tab { transition: color 200ms ease, border-color 200ms ease; cursor: pointer; }
+@media (hover: hover) and (pointer: fine) { .show-tab:hover { color: var(--foreground); } }
+.show-frame { aspect-ratio: 16 / 10.5; overflow: hidden; border: 1px solid var(--border); border-radius: 1.25rem; background: #fff; box-shadow: 0 30px 80px -30px rgb(8 28 33 / 0.25); }
+.show-img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top left; animation: fade-in 250ms var(--ease-out) both; }
+.goal-card { display: grid; align-content: space-between; gap: 2rem; min-height: 10rem; padding: 1.25rem; border: 1px solid rgb(255 255 255 / 0.18); border-radius: 1.25rem; transition: background-color 200ms ease, color 200ms ease, transform 160ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .goal-card:hover { background: #fff; color: #15131F; } .goal-card:hover .goal-sub { color: #5F5B70; } }
+.goal-card:active { transform: scale(0.98); }
+@media print { header, footer, nav[aria-label="Breadcrumb"] { display: none !important; } }

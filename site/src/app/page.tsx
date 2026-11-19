@@ -1,3 +1,4 @@
+import { Showcase } from "@/components/site/showcase";
 import { ArrowRightIcon, CheckIcon, ClipboardListIcon, GaugeIcon, GlobeIcon, MessageSquareTextIcon, ShieldCheckIcon, TargetIcon, UsersIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -65,7 +66,7 @@ export default function Home() {
         <section className="mx-auto max-w-7xl px-5 py-20 sm:py-28 lg:px-8">
           <h2 className="text-3xl font-semibold tracking-[-0.03em] sm:text-5xl">Four free tools.</h2>
           <div className="mt-10 grid gap-x-10 sm:grid-cols-2 lg:grid-cols-4">
-            {[["/builder.html", "Panel builder", "AI customers react to your offer.", "Users"], ["/idea-checker/", "Idea Checker", "Find the gaps in two minutes.", "ScanSearch"], ["/claude/", "Claude helpers", "Pitch, objections and pricing in one click.", "Sparkles"], ["/feedback.html#pim", "Review analysis", "Turn real reviews into a fix list.", "ClipboardList"]].map(([h, t, d]) => (
+            {[["/builder.html", "Panel builder", "AI customers react to your offer.", "Users"], ["/idea-checker/", "Idea Checker", "Find the gaps in three minutes.", "ScanSearch"], ["/claude/", "Claude helpers", "Pitch, objections and pricing in one click.", "Sparkles"], ["/feedback.html#pim", "Review analysis", "Turn real reviews into a fix list.", "ClipboardList"]].map(([h, t, d]) => (
               <a key={t} href={href(h)} className="tool-row group">
                 <span className="flex items-center justify-between text-xl font-semibold tracking-tight">{t}<ArrowRightIcon className="size-5 text-muted-foreground transition-transform duration-200 group-hover:translate-x-1 group-hover:text-foreground" /></span>
                 <span className="mt-2 block text-muted-foreground">{d}</span>
@@ -77,7 +78,7 @@ export default function Home() {
         <section className="mx-auto max-w-7xl px-5 py-24 lg:px-8">
           <div className="max-w-2xl">
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] sm:text-5xl">Is your idea ready to test?</h2>
-            <p className="mt-4 text-muted-foreground">Six quick questions. Each weak answer comes with the cheapest way to fix it.</p>
+            <p className="mt-4 text-muted-foreground">Ten quick questions, or write your own answers. Each weak answer comes with the cheapest way to fix it.</p>
           </div>
           <div className="mt-12"><IdeaChecker /></div>
         </section>
@@ -103,78 +104,38 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ---------------- features ---------------- */}
+        {/* ---------------- inside the product ---------------- */}
         <section className="mx-auto max-w-7xl px-5 py-24 lg:px-8">
-          <div className="max-w-2xl">
-            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] sm:text-5xl">Customer research in an afternoon, not a month.</h2>
+          <h2 className="max-w-3xl text-3xl font-semibold tracking-[-0.03em] sm:text-5xl">Customer research in an afternoon, not a month.</h2>
+          <div className="mt-12">
+            <Showcase label="Parts of the report" items={[
+              { title: "Customers you choose", text: "Markets, cities, incomes, ages, genders, buying habits and well-studied biases. Every choice is a dropdown, built on published facts.", shot: "/shots/builder.png", alt: "The panel builder: pick markets, cities, incomes and ages from dropdowns." },
+              { title: "A score out of 100", text: "Demand, price fit and trust, so you can compare two versions of your idea on the same panel.", shot: "/shots/tab-summary.png", alt: "The score and summary tab of a sample report." },
+              { title: "What to fix first", text: "The top reasons people pass, each with a practical fix, and the group to sell to first.", shot: "/shots/tab-next.png", alt: "The what to do next tab: the top reasons buyers pass, each with a fix." },
+              { title: "A sales kit you can use", text: "Answers to the questions buyers ask most, price ranges they'd accept, and replies to their doubts, ready for your page or pitch.", shot: "/shots/tab-questions.png", alt: "The questions to answer tab: what buyers ask most, with replies." },
+            ]} />
           </div>
-          <div className="mt-14 grid gap-4 lg:grid-cols-6">
-            <article className="overflow-hidden rounded-3xl border bg-background lg:col-span-4">
-              <div className="p-7 pb-0 sm:p-9 sm:pb-0">
-                <UsersIcon className="size-5 text-primary" />
-                <h3 className="mt-4 text-xl font-semibold tracking-tight">Customers you choose</h3>
-                <p className="mt-2 max-w-md text-muted-foreground">Markets, cities, incomes, ages, genders, buying habits and well-studied biases. Every choice is a dropdown, built on published facts.</p>
-              </div>
-              <div className="mt-8 ml-7 overflow-hidden rounded-tl-xl border-t border-l shadow-sm sm:ml-9"><Shot src="/shots/builder.png" alt="The panel builder: business, pitch, price and markets." /></div>
-            </article>
-            <article className="overflow-hidden rounded-3xl border bg-linear-to-b from-[#EEF8F4] to-background lg:col-span-2">
-              <div className="p-7 sm:p-9">
-                <GaugeIcon className="size-5 text-primary" />
-                <h3 className="mt-4 text-xl font-semibold tracking-tight">A score out of 100</h3>
-                <p className="mt-2 text-muted-foreground">Demand, price fit and trust, so you can compare two versions of your idea on the same panel.</p>
-              </div>
-              <div className="mx-7 overflow-hidden rounded-t-xl border border-b-0 shadow-sm sm:mx-9"><Shot src="/shots/report2-phone.png" alt="Score breakdown on a phone." /></div>
-            </article>
-            <article className="overflow-hidden rounded-3xl border bg-background lg:col-span-2">
-              <div className="p-7 sm:p-9">
-                <TargetIcon className="size-5 text-primary" />
-                <h3 className="mt-4 text-xl font-semibold tracking-tight">What to fix first</h3>
-                <p className="mt-2 text-muted-foreground">The top reasons people pass, each with a practical fix, and the group to sell to first.</p>
-              </div>
-              <div className="mx-7 overflow-hidden rounded-t-xl border border-b-0 shadow-sm sm:mx-9"><Shot src="/shots/india-phone.png" alt="The India tiers sample report on a phone." /></div>
-            </article>
-            <article className="overflow-hidden rounded-3xl border bg-background lg:col-span-4">
-              <div className="grid gap-8 p-7 sm:p-9 md:grid-cols-2">
-                <div>
-                  <MessageSquareTextIcon className="size-5 text-primary" />
-                  <h3 className="mt-4 text-xl font-semibold tracking-tight">A sales kit you can use</h3>
-                  <p className="mt-2 text-muted-foreground">Answers to the questions buyers ask most, price ranges they'd accept, and replies to their doubts, ready for your page or pitch.</p>
-                  <ul className="mt-6 grid gap-3 text-sm">
-                    {[[GlobeIcon, "India, USA, UK, Europe, China and Japan with official facts"], [ClipboardListIcon, "Turn real customer reviews into a fix list"], [ShieldCheckIcon, "Honest limits, printed on every report"]].map(([I, t]) => {
-                      const C = I as typeof CheckIcon;
-                      return <li key={t as string} className="flex items-center gap-2.5"><C className="size-4 text-primary" />{t as string}</li>;
-                    })}
-                  </ul>
-                </div>
-                <div className="overflow-hidden rounded-xl border shadow-sm"><Shot src="/shots/report3.png" alt="Questions buyers need answered, from the sample report." /></div>
-              </div>
-            </article>
-          </div>
+
         </section>
 
         {/* ---------------- how it works ---------------- */}
         <section className="border-y bg-[#F7FAF9]">
-          <div className="mx-auto grid max-w-7xl items-center gap-14 px-5 py-24 lg:grid-cols-2 lg:px-8">
+          <div className="mx-auto max-w-7xl px-5 py-24 lg:px-8">
             <div>
               <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] sm:text-5xl">Three steps. About ten minutes.</h2>
-              <ol className="mt-10 grid gap-8">
+              <ol className="mt-12 grid gap-x-10 gap-y-8 md:grid-cols-3">
                 {[["Pick your customers", "Start from your industry, or build your panel from scratch. Every choice is a dropdown."],
                   ["Copy one message", "Press Copy the message for Claude, paste it into the Claude app or claude.ai, and send it."],
                   ["Read your score", "Claude plays every customer, then writes your score, the reasons, what to fix and your sales replies."]].map(([t, d], i) => (
-                  <li key={t} className="flex gap-5">
-                    <span className="grid size-10 shrink-0 place-items-center rounded-full border bg-background text-sm font-semibold text-primary shadow-xs">{i + 1}</span>
-                    <div><h3 className="text-lg font-semibold tracking-tight">{t}</h3><p className="mt-1 text-muted-foreground">{d}</p></div>
+                  <li key={t} className="border-t border-foreground/15 pt-6">
+                    <span aria-hidden className="font-display block text-7xl leading-none font-bold tracking-[-0.05em] text-foreground/15 tabular-nums">{i + 1}</span>
+                    <h3 className="mt-5 text-xl font-semibold tracking-tight">{t}</h3><p className="mt-2 text-muted-foreground">{d}</p>
                   </li>
                 ))}
               </ol>
               <div className="mt-10 flex flex-wrap gap-3">
                 <Button className="h-11 rounded-xl px-5" asChild><a href={href(SITE.app)}>Build my panel</a></Button>
                 <Button variant="ghost" className="h-11 rounded-xl px-5" asChild><a href={href("/how-to-use.html")}>Read the beginner's guide</a></Button>
-              </div>
-            </div>
-            <div className="relative mx-auto w-full max-w-sm">
-              <div className="overflow-hidden rounded-[2.4rem] border-8 border-[#081C21] bg-[#081C21] shadow-2xl">
-                <Shot src="/shots/builder-phone.png" alt="The panel builder on a phone." className="rounded-[1.8rem]" />
               </div>
             </div>
           </div>
