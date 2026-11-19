@@ -8,4 +8,4 @@
 :HL["/founder-skill-plus/sample/page-5.png","image"]
 :HL["/founder-skill-plus/sample/page-6.png","image"]
 :HL["/founder-skill-plus/sample/page-7.png","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":4112,"slots":{"children":{"name":"sample","param":null,"prefetchHints":4160,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}},"staleTime":300,"buildId":"2lXz3cFKQ9nQzVALXn6fF"}
+0:{"tree":{"name":"","param":null,"prefetchHints":4112,"slots":{"children":{"name":"sample","param":null,"prefetchHints":4160,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}},"staleTime":300,"buildId":"Ei7b5Sohh48FTFOpwqBQ7"}

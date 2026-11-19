@@ -22,7 +22,7 @@ ${IDEA_QS.map((q) => `- ${q.q} ${said(q.id)}`).join("\n")}
 Give me: 1) the single biggest risk, 2) the cheapest test I can run this week to check it, with exact steps, 3) what result would mean go or stop, 4) anything in my own words that changes your view. Keep it under 220 words.`;
   return (
     <div className="grid grid-cols-1 gap-6 [&>*]:min-w-0 lg:grid-cols-[1.2fr_1fr]">
-      <form className="grid gap-7 rounded-3xl border bg-[#F7FAF9] p-6 sm:p-8" onSubmit={(e) => e.preventDefault()}>
+      <form className="grid content-start gap-7 rounded-3xl border bg-[#F7FAF9] p-6 sm:p-8" onSubmit={(e) => e.preventDefault()}>
         <label className="grid gap-2 text-base font-semibold tracking-tight">Your idea in one line
           <input value={idea} onChange={(e) => setIdea(e.target.value)} placeholder="Home-style thalis delivered for lunch, ₹149" className={`${input} font-normal`} autoComplete="off" /></label>
         {IDEA_QS.map((q, i) => (
