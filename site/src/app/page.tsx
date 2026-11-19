@@ -59,10 +59,10 @@ export default function Home() {
             <div className="relative">
               <div aria-hidden className="absolute -inset-x-10 -top-10 -bottom-4 -z-10 rounded-[3rem] bg-[radial-gradient(50%_60%_at_50%_40%,#A9E2CB_0%,transparent_70%)] opacity-60 blur-2xl" />
               <div className="mx-auto w-full max-w-[19rem] overflow-hidden rounded-[2.4rem] border-8 border-[#081C21] bg-[#081C21] shadow-2xl sm:hidden">
-                <Shot src="/shots/report-phone.png" alt="A sample report on a phone: score 34 out of 100." className="rounded-[1.8rem]" />
+                <Shot eager src="/shots/report-phone.png" alt="A sample report on a phone: score 34 out of 100." className="rounded-[1.8rem]" />
               </div>
               <BrowserMockup url="founder plus · sample report" className="relative hidden overflow-hidden rounded-2xl shadow-2xl shadow-primary/10 sm:block">
-                <Shot src="/shots/report.png" alt="A sample report: 10 AI customers in four countries give a study app a score of 34 out of 100." />
+                <Shot eager src="/shots/report.png" alt="A sample report: 10 AI customers in four countries give a study app a score of 34 out of 100." />
                 <BorderBeam size={260} duration={9} colorFrom="#0B7A5C" colorTo="#7FD6B4" />
               </BrowserMockup>
               <p className="mt-4 text-center text-xs text-muted-foreground">Real report, example business.</p>

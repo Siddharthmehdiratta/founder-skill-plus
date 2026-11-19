@@ -51,8 +51,8 @@ export function Src({ url, name }: { url: string; name: string }) {
   return <a href={url} target="_blank" rel="noopener" className="ml-1 inline-flex rounded-full bg-primary/8 px-2 py-0.5 align-middle text-xs font-medium text-primary hover:bg-primary/15">{name}</a>;
 }
 
-export function Shot({ src, alt, className = "" }: { src: string; alt: string; className?: string }) {
-  return <img src={href(src)} alt={alt} loading="lazy" className={`block w-full ${className}`} />;
+export function Shot({ src, alt, className = "", eager = false }: { src: string; alt: string; className?: string; eager?: boolean }) {
+  return <img src={href(src)} alt={alt} loading={eager ? "eager" : "lazy"} decoding="async" className={`block w-full ${className}`} />;
 }
 
 export function CtaBand() {

@@ -354,13 +354,4 @@
 html { scroll-behavior: smooth; }
 body { font-feature-settings: "ss01", "cv11"; text-rendering: optimizeLegibility; }
 ::selection { background: #CDEEDF; }
-/* Pages slide left and right when you move between them */
-@view-transition { navigation: auto; }
-@keyframes vt-out { to { opacity: 0; transform: translateX(-40px); } }
-@keyframes vt-in { from { opacity: 0; transform: translateX(40px); } }
-::view-transition-old(main) { animation: 240ms cubic-bezier(.4,0,.2,1) both vt-out; }
-::view-transition-new(main) { animation: 320ms cubic-bezier(.2,0,0,1) both vt-in; }
-::view-transition-old(root), ::view-transition-new(root) { animation: none; }
-main#main { view-transition-name: main; }
-header.site-header { view-transition-name: site-header; }
-@media (prefers-reduced-motion: reduce) { @view-transition { navigation: none; } }
+/* Pages open instantly, like a normal website (no slide or fade between pages). */
