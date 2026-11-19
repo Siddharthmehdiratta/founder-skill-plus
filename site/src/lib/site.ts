@@ -21,6 +21,7 @@ export const MENU: { name: string; items: Item[] }[] = [
   { name: "Product", items: [
     { title: "Build my panel", text: "Pick customers, get your score", href: "/builder.html", icon: "Rocket" },
     { title: "Idea Checker", text: "Ten questions, three minutes, the gaps to fix", href: "/idea-checker/", icon: "ScanSearch" },
+    { title: "Assumption tests", text: "Turn the gaps into tests you run this week", href: "/assumption-tests/", icon: "FlaskConical" },
     { title: "Claude helpers", text: "Pitch, objections, pricing and more in one click", href: "/claude/", icon: "Sparkles" },
     { title: "Sample report (PDF)", text: "A designed 7-page example", href: "/sample/", icon: "FileText" },
     { title: "Live sample: 4 countries", text: "A study app tested in 4 markets", href: "/example-report.html", icon: "Globe" },

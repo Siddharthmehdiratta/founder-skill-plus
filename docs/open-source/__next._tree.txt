@@ -1,4 +1,4 @@
-:HL["/founder-skill-plus/_next/static/chunks/3k82yhvrh_mka.css","style"]
+:HL["/founder-skill-plus/_next/static/chunks/3q6u-5ttrq2kx.css","style"]
 :HL["https://api.fontshare.com/v2/css?f[]=zodiak@400,700&display=swap","style"]
 :HL["https://api.fontshare.com/v2/css?f[]=switzer@400,500,600&display=swap","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":4112,"slots":{"children":{"name":"open-source","param":null,"prefetchHints":4160,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}},"staleTime":300,"buildId":"Ei7b5Sohh48FTFOpwqBQ7"}
+0:{"tree":{"name":"","param":null,"prefetchHints":4112,"slots":{"children":{"name":"open-source","param":null,"prefetchHints":4160,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}},"staleTime":300,"buildId":"BZDVieQPo_PExil0NC7ay"}

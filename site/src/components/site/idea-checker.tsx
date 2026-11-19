@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CheckCircle2Icon, CircleAlertIcon, PencilLineIcon } from "lucide-react";
 import { href } from "@/lib/site";
 import { ClaudeButton } from "./claude-button";
@@ -13,6 +13,19 @@ export function IdeaChecker() {
   const [own, setOwn] = useState<Record<string, string>>({});
   const [idea, setIdea] = useState("");
   const [picked, setPicked] = useState<Record<string, number>>({});
+  const [ready, setReady] = useState(false);
+  // Answers stay in this browser, and survive a refresh. The Assumption Tests page reads them from here.
+  useEffect(() => {
+    try {
+      const s = JSON.parse(localStorage.getItem("fp-idea") || "null");
+      if (s && typeof s === "object") { setA(s.a || {}); setOwn(s.own || {}); setIdea(s.idea || ""); setPicked(s.picked || {}); }
+    } catch {}
+    setReady(true);
+  }, []);
+  useEffect(() => {
+    if (!ready) return;
+    try { localStorage.setItem("fp-idea", JSON.stringify({ a, own, idea, picked })); } catch {}
+  }, [a, own, idea, picked, ready]);
   const r = useMemo(() => scoreIdea(a), [a]);
   const said = (id: string) => { const q = IDEA_QS.find((x) => x.id === id)!; return a[id] === "other" ? `(my own words) ${own[id] || ""}` : picked[id] !== undefined ? q.opts[picked[id]][0] : "not answered"; };
   const prompt = `You are a blunt but kind startup advisor. Never invent numbers.
