@@ -14,7 +14,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         {/* Fonts load from Fontshare (Indian Type Foundry, free for commercial use; files may not be redistributed). */}
         <link rel="preconnect" href="https://api.fontshare.com" />
-        <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=zodiak@400,700&f[]=switzer@400,500,600&display=swap" />
+        {/* One link per font: the Fontshare API reads only the first font in a link. */}
+        <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=zodiak@400,700&display=swap" />
+        <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600&display=swap" />
       </head>
       <body className="min-h-screen bg-background font-sans text-foreground antialiased" style={{ fontFamily: "'Switzer', var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif" }}>
         {children}
