@@ -1,0 +1,108 @@
+{
+  "_title": "Retail & fashion: online D2C brand",
+  "_pitch": "Kora: everyday cotton kurtas and shirts, made in India, sold on Instagram and our website.\n₹1,299 each, 2 for ₹2,299. Free delivery, cash on delivery available.\nEasy 7-day returns and size exchange. Order on our website or DM us on Instagram.",
+  "business": "Online clothing brand selling on Instagram (template)",
+  "target": "Young adults in Indian cities who shop for clothes online",
+  "where": "Indian metro and tier-2 cities",
+  "region": "IN",
+  "price": 1299,
+  "segments": [
+    {
+      "name": "College student",
+      "share": 0.25,
+      "income": [
+        0,
+        300000
+      ],
+      "age": [
+        18,
+        23
+      ]
+    },
+    {
+      "name": "Young professional",
+      "share": 0.5,
+      "income": [
+        400000,
+        1800000
+      ],
+      "age": [
+        22,
+        32
+      ]
+    },
+    {
+      "name": "Established professional",
+      "share": 0.25,
+      "income": [
+        1800000,
+        5000000
+      ],
+      "age": [
+        30,
+        45
+      ]
+    }
+  ],
+  "genders": [
+    {
+      "name": "female",
+      "share": 0.6
+    },
+    {
+      "name": "male",
+      "share": 0.4
+    }
+  ],
+  "dimensions": [
+    {
+      "name": "city",
+      "values": [
+        {
+          "name": "metro",
+          "share": 0.6
+        },
+        {
+          "name": "tier-2 city",
+          "share": 0.4
+        }
+      ]
+    }
+  ],
+  "behaviours": [
+    {
+      "name": "Instagram shopper",
+      "share": 0.3,
+      "how": "Buys from brands seen on Instagram reels."
+    },
+    {
+      "name": "Marketplace loyalist",
+      "share": 0.3,
+      "how": "Buys on Myntra or Amazon for easy returns."
+    },
+    {
+      "name": "Reads every review",
+      "share": 0.2,
+      "how": "Checks reviews and size charts carefully."
+    },
+    {
+      "name": "Sale shopper",
+      "share": 0.2,
+      "how": "Waits for sales and coupon codes."
+    }
+  ],
+  "objections": [
+    "Instagram brands can be scams",
+    "Size and fit might be wrong",
+    "Returns are a hassle",
+    "Myntra has better prices",
+    "Colour may look different in real life"
+  ],
+  "habits": [
+    "you scroll Instagram at night",
+    "you buy outfits for weddings and festivals",
+    "you follow fashion creators"
+  ],
+  "_note": "TEMPLATE: realistic starting numbers, not research. Change the shares, incomes and ages to match your own customers.",
+  "biases": true
+}

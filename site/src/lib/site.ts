@@ -1,0 +1,45 @@
+/* Everything the whole site shares: names, links and the menu. */
+export const BASE = process.env.NEXT_PUBLIC_BASE ?? "";
+export const href = (p: string) => (p.startsWith("http") || p.startsWith("#") ? p : BASE + p);
+
+export const SITE = {
+  name: "Founder Plus",
+  cta: "Build my panel",
+  blurb: "Test a business idea on a panel of AI customers before you spend money. Free and open source. AI customers are research, not real customers.",
+  disclaimer: "AI customers are research, not real customers. Confirm with real people.",
+  repo: "https://github.com/Siddharthmehdiratta/founder-skill-plus",
+  ask: "https://github.com/Siddharthmehdiratta/founder-skill-plus/discussions/new?category=q-a",
+  issue: "https://github.com/Siddharthmehdiratta/founder-skill-plus/issues/new",
+  sister: "https://siddharthmehdiratta.github.io/creator-growth-studio/",
+  app: "/builder.html",
+  sample: "/example-report.html",
+};
+
+export type Item = { title: string; text: string; href: string; icon: string };
+export const MENU: { name: string; items: Item[] }[] = [
+  { name: "Product", items: [
+    { title: "Build my panel", text: "Pick customers, get your score", href: "/builder.html", icon: "Rocket" },
+    { title: "How it works", text: "The panel, the score, the limits", href: "/how-it-works/", icon: "Workflow" },
+    { title: "Sample: 4 countries", text: "A study app tested in 4 markets", href: "/example-report.html", icon: "Globe" },
+    { title: "Sample: India tiers", text: "Tier 1 metros to Tier 4 towns", href: "/example-report-india.html", icon: "MapPin" },
+    { title: "Analyse your reviews", text: "Turn reviews into a fix list", href: "/feedback.html#pim", icon: "ClipboardList" },
+    { title: "Pricing", text: "Free, and open source", href: "/pricing/", icon: "BadgeCheck" },
+  ]},
+  { name: "Learn", items: [
+    { title: "Beginner's guide", text: "Your first panel, step by step", href: "/how-to-use.html", icon: "BookOpen" },
+    { title: "FAQ", text: "Quick answers, searchable", href: "/faq/", icon: "Search" },
+    { title: "Changelog", text: "What's new, and when", href: "/changelog/", icon: "History" },
+  ]},
+  { name: "Help", items: [
+    { title: "Help centre", text: "Every way to get help", href: "/help/", icon: "LifeBuoy" },
+    { title: "Contact", text: "Questions, problems and ideas", href: "/contact/", icon: "Mail" },
+    { title: "Report a problem", text: "Tell us what broke", href: "/contact/#report", icon: "Bug" },
+    { title: "Give feedback", text: "What to keep, what to change", href: "/contact/#feedback", icon: "MessageSquareHeart" },
+  ]},
+  { name: "Company", items: [
+    { title: "About", text: "Who makes this, and why", href: "/about/", icon: "Users" },
+    { title: "Open source", text: "Code, licence and how to help", href: "/open-source/", icon: "Github" },
+    { title: "Privacy", text: "What happens to your idea", href: "/privacy/", icon: "ShieldCheck" },
+    { title: "Creator Growth Studio", text: "Our sister project for creators", href: "https://siddharthmehdiratta.github.io/creator-growth-studio/", icon: "Sparkles" },
+  ]},
+];

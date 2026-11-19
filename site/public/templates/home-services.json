@@ -1,0 +1,93 @@
+{
+  "_title": "Home services: cleaning, repairs, pest control",
+  "_pitch": "FixRight: trained, verified technicians for AC service, plumbing, electrical and deep cleaning at home.\nAC service ₹599, deep cleaning from ₹2,999. Fixed prices, no surprise charges.\n30-day service warranty. Book on WhatsApp, technician within 24 hours.",
+  "business": "Home services company (template)",
+  "target": "Households in Pune who need home repairs and cleaning",
+  "where": "Pune, India",
+  "region": "IN",
+  "price": 599,
+  "segments": [
+    {
+      "name": "Tenant in a flat",
+      "share": 0.35,
+      "income": [
+        500000,
+        1800000
+      ],
+      "age": [
+        23,
+        38
+      ]
+    },
+    {
+      "name": "Family in own flat",
+      "share": 0.45,
+      "income": [
+        1200000,
+        4000000
+      ],
+      "age": [
+        30,
+        55
+      ]
+    },
+    {
+      "name": "Senior citizen household",
+      "share": 0.2,
+      "income": [
+        400000,
+        2000000
+      ],
+      "age": [
+        60,
+        78
+      ]
+    }
+  ],
+  "genders": [
+    {
+      "name": "female",
+      "share": 0.5
+    },
+    {
+      "name": "male",
+      "share": 0.5
+    }
+  ],
+  "behaviours": [
+    {
+      "name": "Uses Urban Company",
+      "share": 0.3,
+      "how": "Books home services on apps."
+    },
+    {
+      "name": "Local contact",
+      "share": 0.35,
+      "how": "Calls the same local plumber or electrician."
+    },
+    {
+      "name": "Safety-first",
+      "share": 0.2,
+      "how": "Worried about strangers entering the home."
+    },
+    {
+      "name": "Price comparer",
+      "share": 0.15,
+      "how": "Asks around for the cheapest option."
+    }
+  ],
+  "objections": [
+    "Will they charge extra once they arrive?",
+    "Are the technicians verified?",
+    "My local guy is cheaper",
+    "What if the problem comes back?",
+    "They might not turn up on time"
+  ],
+  "habits": [
+    "you live in a housing society",
+    "you work from home some days",
+    "the AC runs all summer"
+  ],
+  "_note": "TEMPLATE: realistic starting numbers, not research. Change the shares, incomes and ages to match your own customers.",
+  "biases": true
+}

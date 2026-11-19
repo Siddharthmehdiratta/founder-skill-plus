@@ -542,3 +542,23 @@ pre.code { background: var(--night); color: #E9E5FF; border-radius: 14px; paddin
   #s-how .fp-head p { display: none; }
 }
 .nums li, .tree span { overflow-wrap: anywhere; }
+
+/* simple light bar used on the app pages (matches the website) */
+.site-bar { position: sticky; top: 0; z-index: 30; background: rgba(255,255,255,.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+.site-bar .wrap { display: flex; align-items: center; gap: 22px; height: 64px; }
+.site-bar .brand { display: flex; align-items: center; gap: 10px; font-weight: 650; color: var(--ink); text-decoration: none; white-space: nowrap; }
+.site-bar .brand svg { width: 28px; height: 28px; }
+.bar-nav { display: flex; gap: 2px; }
+.bar-nav a { color: var(--sub); text-decoration: none; font-size: 14.5px; font-weight: 500; padding: 6px 10px; border-radius: 8px; }
+.bar-nav a:hover { color: var(--ink); background: var(--bg); }
+.bar-right { margin-left: auto; display: flex; gap: 8px; }
+.bar-btn { display: inline-flex; align-items: center; min-height: 38px; padding: 0 14px; border-radius: 10px; border: 1px solid var(--line2); color: var(--ink); text-decoration: none; font-size: 14px; font-weight: 600; background: #fff; }
+.bar-btn.ghost { border-color: transparent; background: transparent; }
+.bar-btn:first-child { display: none; }
+.bar-foot { border-top: 1px solid var(--line); padding: 24px 0 32px; font-size: 13.5px; color: var(--sub); background: #fff; }
+.bar-foot .wrap { display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; }
+.bar-foot nav { display: flex; gap: 18px; }
+.bar-foot a { color: var(--sub); }
+@media (max-width: 860px) { .bar-nav { display: none; } .bar-btn:first-child { display: inline-flex; } .bar-btn.ghost { display: none; } }
+body { padding-bottom: 0 !important; }
+.tabbar, .sheet { display: none !important; }

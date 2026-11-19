@@ -70,7 +70,7 @@ panel wrong.
 - Group facts: any segment, or any value of a `dimensions` group, can carry
   `"facts": [{"text": "...", "source": "https://..."}]`. Each buyer in that
   group sees them ("About where you live and how people like you spend").
-- Ready-made presets with published sources, in `docs/presets.json` and one tap
+- Ready-made presets with published sources, in `site/public/presets.json` and one tap
   in the panel builder: India city tiers (Tier 1 metro to Tier 4 village, from
   the government's X/Y/Z city classes and MoSPI's spending survey), India
   household income tiers (Tier 1 rich to Tier 4 low income, from the PRICE
@@ -100,7 +100,7 @@ panel wrong.
   role.
 - Industry templates: 11 ready-made starting profiles (automotive, food, retail,
   apps, home services, real estate, education, fitness, photo and video, Security
-  and CCTV (B2B), software for small businesses (B2B)) live in `docs/templates/`
+  and CCTV (B2B), software for small businesses (B2B)) live in `site/public/templates/`
   and load in one click in the panel builder. Each has a sample pitch in
   `_pitch`. They are starting numbers, not research: adjust them.
 - `markets`: buyers from several places in one panel, e.g. 40 India, 30 USA,

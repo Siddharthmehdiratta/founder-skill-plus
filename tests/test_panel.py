@@ -651,11 +651,11 @@ class B2BAndTemplates(unittest.TestCase):
     ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     def template(self, name):
-        with open(os.path.join(self.ROOT, "docs", "templates", name + ".json"), encoding="utf-8") as fh:
+        with open(os.path.join(self.ROOT, "site", "public", "templates", name + ".json"), encoding="utf-8") as fh:
             return json.load(fh)
 
     def test_every_template_deals_and_is_listed(self):
-        with open(os.path.join(self.ROOT, "docs", "templates", "index.json"), encoding="utf-8") as fh:
+        with open(os.path.join(self.ROOT, "site", "public", "templates", "index.json"), encoding="utf-8") as fh:
             index = json.load(fh)
         self.assertGreaterEqual(len(index), 10)
         for t in index:
@@ -706,7 +706,7 @@ class B2BAndTemplates(unittest.TestCase):
 class SegmentRoles(unittest.TestCase):
     def test_roles_follow_the_business_type(self):
         root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        with open(os.path.join(root, "docs", "templates", "security-cctv.json"), encoding="utf-8") as fh:
+        with open(os.path.join(root, "site", "public", "templates", "security-cctv.json"), encoding="utf-8") as fh:
             c = json.load(fh)
         allowed = {sg["name"]: {r["name"] for r in sg["roles"]} for sg in c["segments"]}
         cards = panel.deal(c, 200, 3)
@@ -778,7 +778,7 @@ class AuditContentSalesKit(unittest.TestCase):
 class WebsiteDataInSync(unittest.TestCase):
     def test_builder_data_matches_the_tool(self):
         root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        with open(os.path.join(root, "docs", "panel-data.json"), encoding="utf-8") as fh:
+        with open(os.path.join(root, "site", "public", "panel-data.json"), encoding="utf-8") as fh:
             d = json.load(fh)
         self.assertEqual(d["facts"], panel.REGION_FACTS)
         self.assertEqual(d["biases"], panel.BIASES)
@@ -790,7 +790,7 @@ class TiersAndAfterPurchase(unittest.TestCase):
     ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     def presets(self):
-        with open(os.path.join(self.ROOT, "docs", "presets.json"), encoding="utf-8") as fh:
+        with open(os.path.join(self.ROOT, "site", "public", "presets.json"), encoding="utf-8") as fh:
             return json.load(fh)
 
     def test_presets_are_sourced_and_deal(self):
@@ -854,7 +854,7 @@ class TiersAndAfterPurchase(unittest.TestCase):
 class PresetNamesWorkInTheBuilder(unittest.TestCase):
     def test_no_commas_in_group_value_names(self):
         root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        with open(os.path.join(root, "docs", "presets.json"), encoding="utf-8") as fh:
+        with open(os.path.join(root, "site", "public", "presets.json"), encoding="utf-8") as fh:
             P = json.load(fh)
         for key in ("india_city_tiers", "uk_london"):
             for v in P[key]["dimension"]["values"]:
@@ -891,7 +891,7 @@ class IndependentReviewFixes(unittest.TestCase):
 
     def test_shared_fact_lists_every_group(self):
         root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        with open(os.path.join(root, "docs", "presets.json"), encoding="utf-8") as fh:
+        with open(os.path.join(root, "site", "public", "presets.json"), encoding="utf-8") as fh:
             P = json.load(fh)
         c = customer()
         c["region"] = "IN"

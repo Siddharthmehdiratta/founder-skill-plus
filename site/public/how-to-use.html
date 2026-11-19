@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Founder Plus · How to use it (beginner's guide)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23171a21'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%238aa0ff' stroke-width='3'/%3E%3C/svg%3E">
+<meta name="description" content="Step-by-step beginner's guide to testing your business idea on AI customers with Founder Plus and Claude.">
+<link rel="preload" href="fonts/plus-jakarta-sans-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="theme.css">
+<style>
+main{max-width:780px;margin:28px auto 40px;padding:0 14px}
+.card{padding:22px;margin-bottom:14px}
+.card h2{margin:0 0 8px;font-size:20px}
+.need{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.need div{border-radius:12px;padding:14px;color:var(--ink);font-weight:700;background:var(--card2)!important;border:1px solid var(--line)}
+.need div small{display:block;font-weight:400;color:var(--sub);margin-top:4px}
+.step{display:grid;grid-template-columns:46px 1fr;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
+.step:last-child{border-bottom:0}
+.num{width:40px;height:40px;border-radius:50%;background:var(--acc);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:16px}
+.step h3{margin:6px 0 6px;font-size:17px}.step p{margin:4px 0}.time{font-size:13px;color:var(--faint);font-weight:700}
+code,.copy{font:14px ui-monospace,Consolas,monospace;border-radius:8px;padding:10px 12px;display:block;margin:8px 0;white-space:pre-wrap;word-break:break-word}
+.copy{cursor:pointer;position:relative}.copy::after{content:"Tap to copy";position:absolute;right:10px;top:-10px;background:var(--acc);color:#fff;font:700 11px var(--text);padding:2px 8px;border-radius:999px}
+.copy.done::after{content:"Copied";background:var(--acc2)}
+.btn{display:inline-block;text-decoration:none;font-weight:700;padding:11px 18px;margin:6px 6px 0 0}
+.tip{background:#fdf4dc;border:1px solid #f1dfa8;border-radius:10px;padding:10px 14px;font-size:15px;margin-top:8px}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.tools div{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:12px;font-size:14px}.tools b{display:block;font-family:ui-monospace,Consolas,monospace;color:var(--acc)}
+details{padding:10px 14px;margin:8px 0}summary{cursor:pointer;font-weight:700}
+footer{text-align:center;font-size:13px;padding:0 16px 30px}
+.tile{background:#fff!important;color:var(--ink)!important;border:1px solid var(--line);border-radius:12px;font-weight:600;box-shadow:none!important}.tile small{color:var(--sub)!important;opacity:1!important;font-weight:400}
+</style>
+</head>
+<body>
+<!--HEADER-->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="f-logo" viewBox="0 0 32 32"><defs><linearGradient id="fl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0EA47A"/><stop offset=".55" stop-color="#13A9C8"/><stop offset="1" stop-color="#3B6BFF"/></linearGradient></defs><rect width="32" height="32" rx="9" fill="url(#fl)"/><circle cx="12" cy="13" r="4" fill="none" stroke="#fff" stroke-width="2.6"/><circle cx="21" cy="13" r="4" fill="none" stroke="#fff" stroke-width="2.6" opacity=".75"/><path d="M7 24c1.2-3 3-4.5 5-4.5s3.8 1.5 5 4.5M16 24c1.2-3 3-4.5 5-4.5s3.8 1.5 5 4.5" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></symbol>
+  <symbol id="f-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="f-users" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M21.5 20a6.5 6.5 0 0 0-4-6"/></g></symbol>
+  <symbol id="f-chat" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M4 5h16v11H9l-5 4z"/></symbol>
+  <symbol id="f-gauge" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 17a8 8 0 1 1 16 0"/><path d="m12 17 4-5"/></g></symbol>
+  <symbol id="f-doc" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8zm0 0v5h5M8 13h8M8 17h6"/></symbol>
+  <symbol id="f-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></g></symbol>
+  <symbol id="f-help" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17h.01"/></g></symbol>
+  <symbol id="f-shield" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6z"/></symbol>
+  <symbol id="f-globe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></g></symbol>
+  <symbol id="f-home" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M3 11 12 4l9 7M5 9.5V20h5v-6h4v6h5V9.5"/></symbol>
+  <symbol id="f-menu" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/></symbol>
+  <symbol id="f-rocket" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 15c-1.5 1.5-2 5-2 5s3.5-.5 5-2M9 12a17 17 0 0 1 9-9c1 0 3 2 3 3a17 17 0 0 1-9 9zM9 12l-4-1 3-4h4M12 15l1 4 4-3v-4M15 9h.01"/></symbol>
+  <symbol id="f-book" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 21V5M8 7h7"/></symbol>
+  <symbol id="f-flag" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 21V4h11l-2 4 2 4H5"/></symbol>
+  <symbol id="f-heart" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></symbol>
+  <symbol id="f-code" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m8 8-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/></symbol>
+  <symbol id="f-gh" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.4 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5a3.9 3.9 0 0 1 1-2.7 3.6 3.6 0 0 1 .1-2.7s.8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .6 1.4.2 2.4.1 2.7a3.9 3.9 0 0 1 1 2.7c0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9V21c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></symbol>
+  <symbol id="f-x" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="f-down-c" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="f-back" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m0 0 6-6m-6 6 6 6"/></symbol>
+  <symbol id="f-next" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m0 0-6-6m6 6-6 6"/></symbol>
+  <symbol id="f-info" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></g></symbol>
+  <symbol id="f-star" viewBox="0 0 20 20"><path d="M10 1.8l2.4 5 5.4.7-4 3.8 1 5.4L10 14.1l-4.8 2.6 1-5.4-4-3.8 5.4-.7z"/></symbol>
+  <symbol id="f-target" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></g></symbol>
+  <symbol id="f-msg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M4 5h16v11H9l-5 4z"/></symbol>
+  <symbol id="f-sliders" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M4 7h10M18 7h2M4 17h4M12 17h8M16 5v4M10 15v4"/></symbol>
+  <symbol id="f-chart" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 20V4M4 20h16M8 16v-4M12 16V8M16 16v-6"/></symbol>
+  <symbol id="f-up" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 16V4m0 0L7 9m5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></symbol>
+  <symbol id="f-lock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></g></symbol>
+  <symbol id="f-spark" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-bar">
+  <div class="wrap">
+    <a class="brand" href="./"><svg aria-hidden="true"><use href="#f-logo"/></svg>Founder Plus</a>
+    <nav class="bar-nav" aria-label="Main"><a href="builder.html">Build my panel</a><a href="how-it-works/">How it works</a><a href="how-to-use.html">Beginner's guide</a><a href="help/">Help</a><a href="contact/">Contact</a></nav>
+    <div class="bar-right"><a class="bar-btn" href="help/">Help</a><a class="bar-btn ghost" href="./">Back to site</a></div>
+  </div>
+</header>
+<!--/HEADER-->
+<section class="fp-page-hero"><div class="wrap"><p class="crumbs"><a href="index.html">Home</a><span>/</span>Guide</p><h1>How to use Founder Plus</h1><p class="lead">A beginner's guide. No coding needed. About 20 minutes the first time, 5 minutes after that.</p></div></section>
+<main>
+
+<div class="card">
+  <h2>What it does, in one line</h2>
+  <p>You describe your business idea and pick the customers you want to sell to. AI customers react to it like real people would, and you get a report on who would buy, what holds people back, the questions they'd ask, and the price that feels right.</p>
+  <a class="btn" href="builder.html">Open the customer builder</a><a class="btn alt" href="example-report.html">See a sample report (4 countries)</a> <a class="btn alt" href="example-report-india.html">See a sample report (India tiers)</a>
+</div>
+
+<div class="card" style="border:2px solid var(--acc)">
+  <h2>The quick way: no installs (5 minutes)</h2>
+  <div class="step"><div class="num">1</div><div><h3>Pick your customers</h3><p>Open the <a href="builder.html">customer builder</a>. Choose your industry from the menu at the top, then change the pitch and customers to match yours.</p></div></div>
+  <div class="step"><div class="num">2</div><div><h3>Copy the message</h3><p>In the <b>Run it in Claude</b> box, choose how many customers (20 is best) and press <b>Copy the message for Claude</b>.</p></div></div>
+  <div class="step"><div class="num">3</div><div><h3>Paste it into Claude</h3><p>Open the Claude app or <a href="https://claude.ai/new" target="_blank" rel="noopener">claude.ai</a>, paste, and send. In a few minutes you get every customer's answer, a <b>score out of 100</b>, a plain summary, a detailed summary and a <b>sales answer kit</b> (WhatsApp replies, FAQ and a sales call script).</p></div></div>
+  <div class="tip">The quick way works on Claude's free plan too, though long answers may hit the free limits: 10 customers is safer there. For bigger panels, separate AI customers and the full interactive report, use the full way below.</div>
+</div>
+
+<div class="card">
+  <h2>What you need for the full way</h2>
+  <div class="need">
+    <div class="tile">A computer<small>Windows or Mac</small></div>
+    <div class="tile">A paid Claude plan<small>Pro or above. It includes Claude Code.</small></div>
+    <div class="tile">The Claude Desktop app<small>Free download from claude.ai</small></div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>The full way: step by step</h2>
+
+  <div class="step"><div class="num">1</div><div><div class="time">3 minutes</div>
+    <h3>Pick your customers</h3>
+    <p>Open the <a href="builder.html">customer builder</a>. Tip: choose your industry from the <b>Start from your industry</b> menu at the top to fill everything in for you. Then type your idea and price, then choose who your customers are: where they live, age, gender, income and how they shop. Add as many groups as you like. Selling across India or the UK? One tap adds city tiers (Tier 1 metros to Tier 4 villages), household income tiers (Tier 1 to Tier 4) or London vs the rest of the UK, with published, linked facts on how each group spends.</p>
+    <p>Press <b>Download customer.json</b> and <b>Download pitch.md</b>. You now have 2 files.</p>
+  </div></div>
+
+  <div class="step"><div class="num">2</div><div><div class="time">1 minute</div>
+    <h3>Make a folder for your idea</h3>
+    <p>On your computer, make a new folder, for example <b>my-idea</b>. Inside it, make another folder called <b>founder</b>. Move your 2 downloaded files into the <b>founder</b> folder.</p>
+    <code>my-idea
+└─ founder
+   ├─ customer.json
+   └─ pitch.md</code>
+  </div></div>
+
+  <div class="step"><div class="num">3</div><div><div class="time">5 minutes</div>
+    <h3>Open Claude Desktop in "Code"</h3>
+    <p>Download and install the Claude Desktop app from <a href="https://claude.ai/download" target="_blank" rel="noopener">claude.ai/download</a>. Sign in with your Pro (or higher) plan.</p>
+    <p>Open the <b>Code</b> tab and choose your <b>my-idea</b> folder.</p>
+  </div></div>
+
+  <div class="step"><div class="num">4</div><div><div class="time">2 minutes, only the first time</div>
+    <h3>Install Founder Plus</h3>
+    <p>Copy this message, paste it into Claude and press Enter:</p>
+    <div class="copy">Install this skill pack for me: https://github.com/Siddharthmehdiratta/founder-skill-plus</div>
+    <p>Say yes when Claude asks for permission. When it says it is done, close and reopen the Code tab.</p>
+  </div></div>
+
+  <div class="step"><div class="num">5</div><div><div class="time">5 to 10 minutes</div>
+    <h3>Run your customer test</h3>
+    <p>Copy this message, paste it into Claude and press Enter:</p>
+    <div class="copy">/founder-consumer --size small
+Use founder/customer.json and founder/pitch.md.</div>
+    <p>Claude will show your idea to 20 AI customers, a few at a time. Approve when it asks to save their answers.</p>
+    <div class="tip"><b>Tip:</b> each AI customer uses some of your Claude plan's usage. Start with 20. Go bigger (<b>--size medium</b> = 100) once you like the setup.</div>
+  </div></div>
+
+  <div class="step"><div class="num">6</div><div><div class="time">As long as you like</div>
+    <h3>Open your report</h3>
+    <p>Open your <b>my-idea</b> folder, then <b>founder</b> → <b>panel</b>, and double-click <b>results.html</b>. It opens in your browser.</p>
+    <p>Start with the <b>Score &amp; summary</b> tab, then <b>What to do next</b>. Your score, plain summary and detailed summary are also saved as <b>audit.md</b>; ask Claude to "write the sales kit" for WhatsApp replies, an FAQ and a call script. The <b>Reviews they'd leave</b> tab shows the stars, reviews and recommendation score (NPS) buyers expect to give. Then check <b>Questions to answer</b>: those are the questions real buyers will ask you.</p>
+  </div></div>
+</div>
+
+<div class="card">
+  <h2>Go further: the full toolkit</h2>
+  <p>Founder Plus also includes 11 more tools. Type any of these in Claude, in the same folder:</p>
+  <div class="tools">
+    <div><b>/founder-board</b>A board of advisers scores your idea and votes</div>
+    <div><b>/founder-competitors</b>Your competitors, their prices and what their customers complain about</div>
+    <div><b>/founder-pricing</b>The price range to test</div>
+    <div><b>/founder-offer</b>Bonuses, guarantee and offer that answer the objections</div>
+    <div><b>/founder-cfo</b>Your margins, break-even and cash needed</div>
+    <div><b>/founder-marketing</b>Where your buyers are, a 30-day campaign and 10 hooks</div>
+    <div><b>/founder-brand</b>Names, voice and look</div>
+    <div><b>/founder-ops</b>Suppliers, staff, routines and risks</div>
+    <div><b>/founder-launch</b>A cheap real-world test, then a dated launch plan</div>
+    <div><b>/founder-plan</b>Everything in one business plan, with a verdict</div>
+    <div><b>/founder-product</b>Product Improvement Manager: turns real customer reviews into a fix-now, next, later plan (also <a href="feedback.html#pim">on the website</a>)</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>If something goes wrong</h2>
+  <details><summary>Claude says "/founder-consumer" is not a command</summary><p>The install did not finish, or the Code tab needs a restart. Repeat step 4, then close and reopen the Code tab. If you installed it as a plugin, the command is <b>/founder-skill:founder-consumer</b>.</p></details>
+  <details><summary>Claude says Python is missing</summary><p>Install Python 3 from <a href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org</a>. On Windows, tick <b>"Add python.exe to PATH"</b> during install. Then try again. If Claude says <b>python3</b> is not found, tell it: "use python instead of python3".</p></details>
+  <details><summary>It keeps asking me to approve every file</summary><p>That is normal: each AI customer saves one answer file. You can switch Claude to accept edits automatically for this folder while the test runs.</p></details>
+  <details><summary>I hit my usage limit</summary><p>Wait for the limit to reset, then type the same command again. It only runs the customers who have not answered yet.</p></details>
+  <details><summary>Is this a real forecast of sales?</summary><p>No. These are AI customers, not real ones. They are very good at finding objections, missing information and the questions buyers will ask. Before you spend real money, test the improved offer with 10 real people.</p></details>
+</div>
+
+</main>
+<!--FOOTER-->
+<footer class="bar-foot"><div class="wrap"><span>Founder Plus. Free and open source (MIT). AI customers are research, not real customers.</span><nav aria-label="Footer"><a href="./">Home</a><a href="faq/">FAQ</a><a href="contact/#report">Report a problem</a><a href="privacy/">Privacy</a></nav></div></footer>
+<script src="site.js"></script>
+<!--/FOOTER-->
+<script>
+document.querySelectorAll(".copy").forEach(el => el.onclick = async () => {
+  try { await navigator.clipboard.writeText(el.textContent); el.classList.add("done"); setTimeout(() => el.classList.remove("done"), 1600); } catch (e) {}
+});
+</script>
+</body>
+</html>

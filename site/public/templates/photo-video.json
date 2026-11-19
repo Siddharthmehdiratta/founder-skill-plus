@@ -1,0 +1,93 @@
+{
+  "_title": "Creative services: photography and video",
+  "_pitch": "Frame & Story: professional photos and short videos for weddings, events and brands in Pune.\nPre-wedding shoot from ₹35,000. Brand photo + reel package from ₹25,000.\nEdited photos in 7 days, raw files included. See our work on Instagram.",
+  "business": "Photography and video studio (template)",
+  "target": "Couples and small brands in Pune who need professional photos and videos",
+  "where": "Pune, India",
+  "region": "IN",
+  "price": 35000,
+  "segments": [
+    {
+      "name": "Engaged couple",
+      "share": 0.5,
+      "income": [
+        800000,
+        4000000
+      ],
+      "age": [
+        24,
+        34
+      ]
+    },
+    {
+      "name": "Small brand or cafe owner",
+      "share": 0.3,
+      "income": [
+        1000000,
+        6000000
+      ],
+      "age": [
+        25,
+        45
+      ]
+    },
+    {
+      "name": "Family event host",
+      "share": 0.2,
+      "income": [
+        1200000,
+        5000000
+      ],
+      "age": [
+        30,
+        60
+      ]
+    }
+  ],
+  "genders": [
+    {
+      "name": "female",
+      "share": 0.55
+    },
+    {
+      "name": "male",
+      "share": 0.45
+    }
+  ],
+  "behaviours": [
+    {
+      "name": "Instagram browser",
+      "share": 0.35,
+      "how": "Finds photographers on Instagram."
+    },
+    {
+      "name": "Referral only",
+      "share": 0.3,
+      "how": "Books whoever friends recommend."
+    },
+    {
+      "name": "Budget comparer",
+      "share": 0.2,
+      "how": "Gets many quotes, picks the cheapest."
+    },
+    {
+      "name": "Premium seeker",
+      "share": 0.15,
+      "how": "Pays more for a famous name."
+    }
+  ],
+  "objections": [
+    "My friend with a good camera can do it",
+    "₹35,000 is a lot for photos",
+    "Will the photos look like the samples?",
+    "Delivery always gets delayed",
+    "I need to see more of your work"
+  ],
+  "habits": [
+    "you save wedding photo ideas on Instagram",
+    "your family has strong opinions on the event",
+    "you plan everything on WhatsApp groups"
+  ],
+  "_note": "TEMPLATE: realistic starting numbers, not research. Change the shares, incomes and ages to match your own customers.",
+  "biases": true
+}

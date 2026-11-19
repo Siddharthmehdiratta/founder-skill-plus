@@ -1,14 +1,28 @@
-# 🧪 Founder Plus: test your business on AI buyers from anywhere in the world
+<div align="center">
 
-> Sister project: **[Creator Growth Studio](https://github.com/Siddharthmehdiratta/creator-growth-studio)**, a free Instagram, YouTube and Twitch growth studio with an AI boardroom.
+# Founder Plus
 
-**Build a panel of AI buyers** (30 from India, 20 from Europe, 10 from the US, any genders, ages, incomes and habits you choose), show them your pitch, and get back who would buy, who would not, why, what to fix first, and what price to test. Free. Runs in Claude.
+**Test your business idea on AI customers before you spend.**<br>
+Pick who you want to sell to. A panel of AI customers reads your offer and reacts in their own words. You get a score out of 100, what to fix first, and a sales answer kit. Free. Runs in Claude.
 
-### [Open the panel builder](https://siddharthmehdiratta.github.io/founder-skill-plus/builder.html) · [How it works](https://siddharthmehdiratta.github.io/founder-skill-plus/how-it-works.html) · [Sample report](https://siddharthmehdiratta.github.io/founder-skill-plus/example-report.html) · [India tiers sample](https://siddharthmehdiratta.github.io/founder-skill-plus/example-report-india.html) · [Guide](https://siddharthmehdiratta.github.io/founder-skill-plus/how-to-use.html) · [FAQ](https://siddharthmehdiratta.github.io/founder-skill-plus/faq.html)
+[![Live site](https://img.shields.io/badge/Live_site-open-0B7A5C?style=flat-square)](https://siddharthmehdiratta.github.io/founder-skill-plus/)
+[![Licence: MIT](https://img.shields.io/badge/Licence-MIT-081C21?style=flat-square)](LICENSE)
+[![Runs in Claude](https://img.shields.io/badge/Runs_in-Claude-13A9C8?style=flat-square)](https://siddharthmehdiratta.github.io/founder-skill-plus/how-it-works/)
+[![GitHub stars](https://img.shields.io/github/stars/Siddharthmehdiratta/founder-skill-plus?style=flat-square&color=0B7A5C)](https://github.com/Siddharthmehdiratta/founder-skill-plus/stargazers)
 
-A fork of [Jakeschincariol/founder-skill](https://github.com/Jakeschincariol/founder-skill) (MIT) with a rebuilt consumer panel. The other ten skills (board, CFO, marketing, launch...) are the original's, plus a new twelfth, the Product Improvement Manager; the original README is below the line. **Its install steps install the original edition, without these upgrades: use the ones above.**
+### [Build my panel](https://siddharthmehdiratta.github.io/founder-skill-plus/builder.html) · [See a sample report](https://siddharthmehdiratta.github.io/founder-skill-plus/example-report.html) · [Beginner's guide](https://siddharthmehdiratta.github.io/founder-skill-plus/how-to-use.html)
 
-## ⚡ Quick way: no installs
+<img src="docs/shots/report.png" alt="A sample report: 10 AI customers in four countries give a study app a score of 34 out of 100" width="860">
+
+</div>
+
+> Sister project: **[Creator Growth Studio](https://github.com/Siddharthmehdiratta/creator-growth-studio)**, a free Instagram, YouTube and Twitch growth report.
+
+A fork of [Jakeschincariol/founder-skill](https://github.com/Jakeschincariol/founder-skill) (MIT) with a rebuilt consumer panel. The other ten skills (board, CFO, marketing, launch...) are the original's, plus a new twelfth, the Product Improvement Manager; the original README is below the line. **Its install steps install the original edition, without these upgrades: use the ones below.**
+
+**Honest limits:** AI customers are research, not real customers. They lean agreeable, so read the buy rate as a ceiling and confirm with real people next.
+
+## Quick way: no installs
 
 Open the [builder](https://siddharthmehdiratta.github.io/founder-skill-plus/builder.html), pick your industry and customers, press **Copy the message for Claude**, and paste it into the normal Claude app. You get every customer's answer, a score out of 100, a plain and a detailed summary, and a sales answer kit.
 
@@ -247,6 +261,9 @@ skills/founder-ops/          SKILL.md
 skills/founder-launch/       SKILL.md
 skills/founder-plan/         SKILL.md, compile.py
 tests/                       the tests for every tool
+site/                        the website: Next.js + Tailwind, based on the free Velora UI template (MIT)
+site/public/                 the panel builder, guide, review analysis and sample reports (plain HTML)
+docs/                        the built website for GitHub Pages; rebuild with sh tools/build_site.sh
 ```
 
 Your own files live in `founder/` in your project. The skills read each other's.

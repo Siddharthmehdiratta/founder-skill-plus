@@ -3,3 +3,8 @@ __pycache__/
 *.pyc
 .venv/
 *.tmp
+site/node_modules/
+site/.next/
+site/out/
+site/AGENTS.md
+site/CLAUDE.md

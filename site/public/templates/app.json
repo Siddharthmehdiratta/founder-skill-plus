@@ -1,0 +1,93 @@
+{
+  "_title": "Apps & software for people (subscription)",
+  "_pitch": "Budgetly: an app that tracks your spending from your SMS and bank alerts and tells you where your money goes.\nFree for basic tracking. Premium ₹99 a month or ₹799 a year: budgets, bill reminders, savings goals.\nYour data stays on your phone. Works on Android and iPhone.",
+  "business": "Personal finance app with a premium plan (template)",
+  "target": "Young earners in India who want to control their spending",
+  "where": "India",
+  "region": "IN",
+  "price": 99,
+  "segments": [
+    {
+      "name": "Student",
+      "share": 0.25,
+      "income": [
+        0,
+        300000
+      ],
+      "age": [
+        18,
+        24
+      ]
+    },
+    {
+      "name": "First-job earner",
+      "share": 0.45,
+      "income": [
+        350000,
+        1200000
+      ],
+      "age": [
+        21,
+        30
+      ]
+    },
+    {
+      "name": "Mid-career earner",
+      "share": 0.3,
+      "income": [
+        1200000,
+        4000000
+      ],
+      "age": [
+        28,
+        42
+      ]
+    }
+  ],
+  "genders": [
+    {
+      "name": "male",
+      "share": 0.55
+    },
+    {
+      "name": "female",
+      "share": 0.45
+    }
+  ],
+  "behaviours": [
+    {
+      "name": "Free-app forever",
+      "share": 0.35,
+      "how": "Rarely pays for any app."
+    },
+    {
+      "name": "Tries everything",
+      "share": 0.2,
+      "how": "Downloads new apps often, deletes fast."
+    },
+    {
+      "name": "Pays for tools",
+      "share": 0.2,
+      "how": "Already pays for apps that save time or money."
+    },
+    {
+      "name": "Privacy-careful",
+      "share": 0.25,
+      "how": "Reads permissions, avoids apps that ask too much."
+    }
+  ],
+  "objections": [
+    "I don't want an app reading my SMS",
+    "Free apps do this already",
+    "I'll stop using it in a week",
+    "₹99 a month adds up",
+    "Is my bank data safe?"
+  ],
+  "habits": [
+    "you get paid on the first of the month",
+    "you pay for everything by UPI",
+    "you often wonder where your salary went"
+  ],
+  "_note": "TEMPLATE: realistic starting numbers, not research. Change the shares, incomes and ages to match your own customers.",
+  "biases": true
+}

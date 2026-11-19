@@ -1,0 +1,103 @@
+{
+  "_title": "Social post, reel or ad (content test)",
+  "test": "content",
+  "platform": "Instagram reel",
+  "_pitch": "POV: you check your bank app on the 25th and your salary is already gone.\nBudgetly shows you exactly where your money went, in 10 seconds.\nFree on Android and iPhone. Link in bio.",
+  "business": "Instagram reel for a money-tracking app (template: replace with your post)",
+  "target": "Young earners in Indian cities who scroll Instagram daily",
+  "where": "Indian metro cities",
+  "region": "IN",
+  "languages": [
+    {
+      "name": "English",
+      "share": 0.5
+    },
+    {
+      "name": "Hinglish (Hindi mixed with English)",
+      "share": 0.5
+    }
+  ],
+  "segments": [
+    {
+      "name": "College student",
+      "share": 0.3,
+      "income": [
+        0,
+        300000
+      ],
+      "age": [
+        18,
+        23
+      ]
+    },
+    {
+      "name": "First-job earner",
+      "share": 0.45,
+      "income": [
+        350000,
+        1200000
+      ],
+      "age": [
+        21,
+        29
+      ]
+    },
+    {
+      "name": "Young professional",
+      "share": 0.25,
+      "income": [
+        1200000,
+        3500000
+      ],
+      "age": [
+        27,
+        38
+      ]
+    }
+  ],
+  "genders": [
+    {
+      "name": "female",
+      "share": 0.5
+    },
+    {
+      "name": "male",
+      "share": 0.5
+    }
+  ],
+  "behaviours": [
+    {
+      "name": "Fast scroller",
+      "share": 0.4,
+      "how": "Scrolls past almost everything in under a second."
+    },
+    {
+      "name": "Saver of tips",
+      "share": 0.2,
+      "how": "Saves useful posts to read later."
+    },
+    {
+      "name": "Comment and share",
+      "share": 0.15,
+      "how": "Tags friends in relatable posts."
+    },
+    {
+      "name": "Ad-blind",
+      "share": 0.25,
+      "how": "Ignores anything that looks like an ad."
+    }
+  ],
+  "objections": [
+    "This is just another ad",
+    "I've seen this POV format a hundred times",
+    "Free apps always have a catch",
+    "I don't want an app reading my bank SMS"
+  ],
+  "habits": [
+    "you scroll Instagram before sleeping",
+    "you follow finance creators",
+    "your salary comes on the 1st"
+  ],
+  "_note": "TEMPLATE: realistic starting numbers, not research. Change the shares, incomes and ages to match your own audience.",
+  "biases": true
+}

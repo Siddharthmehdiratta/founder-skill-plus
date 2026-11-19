@@ -1,0 +1,93 @@
+{
+  "_title": "Real estate: flats and homes",
+  "_pitch": "Skyline Residences, Wakad: 2 and 3 BHK flats, possession in 2028.\n2 BHK from ₹85 lakh, 3 BHK from ₹1.25 crore. RERA registered.\nClubhouse, pool, gym. Home loans from major banks. Site visits every weekend.",
+  "business": "New residential project (template)",
+  "target": "Families and professionals looking to buy their first or second home in Pune",
+  "where": "Pune, India",
+  "region": "IN",
+  "price": 8500000,
+  "segments": [
+    {
+      "name": "First-time buyer, young couple",
+      "share": 0.45,
+      "income": [
+        1500000,
+        4000000
+      ],
+      "age": [
+        27,
+        36
+      ]
+    },
+    {
+      "name": "Upgrading family",
+      "share": 0.35,
+      "income": [
+        3000000,
+        8000000
+      ],
+      "age": [
+        34,
+        50
+      ]
+    },
+    {
+      "name": "Investor",
+      "share": 0.2,
+      "income": [
+        5000000,
+        20000000
+      ],
+      "age": [
+        35,
+        60
+      ]
+    }
+  ],
+  "genders": [
+    {
+      "name": "male",
+      "share": 0.6
+    },
+    {
+      "name": "female",
+      "share": 0.4
+    }
+  ],
+  "behaviours": [
+    {
+      "name": "Careful researcher",
+      "share": 0.35,
+      "how": "Visits many sites, compares builders for months."
+    },
+    {
+      "name": "Family decides together",
+      "share": 0.3,
+      "how": "Parents and spouse must all agree."
+    },
+    {
+      "name": "Loan-dependent",
+      "share": 0.25,
+      "how": "Decides based on EMI and loan approval."
+    },
+    {
+      "name": "Investor mindset",
+      "share": 0.1,
+      "how": "Thinks about rental yield and resale."
+    }
+  ],
+  "objections": [
+    "Under-construction projects get delayed",
+    "The builder's track record is unknown",
+    "EMI will be too high",
+    "Hidden charges at registration",
+    "Too far from my office"
+  ],
+  "habits": [
+    "you pay rent today",
+    "you check property prices online",
+    "your parents want you to buy a home"
+  ],
+  "_note": "TEMPLATE: realistic starting numbers, not research. Change the shares, incomes and ages to match your own customers.",
+  "biases": true
+}

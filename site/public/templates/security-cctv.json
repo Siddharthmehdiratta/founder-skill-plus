@@ -1,0 +1,181 @@
+{
+  "_title": "Security & CCTV for businesses and societies (B2B)",
+  "mode": "b2b",
+  "_pitch": "SecureView: HD CCTV cameras installed for shops, offices, factories and housing societies.\n4-camera kit with 30 days of recording from ₹24,999 installed. Watch live on your phone.\n2-year warranty, 1-year free service, then an annual maintenance contract (AMC) from ₹2,999.\nFree site survey and quotation within 48 hours. GST invoice provided.",
+  "business": "CCTV and security camera installer (template)",
+  "target": "Businesses and housing societies in Pune that need security cameras",
+  "where": "Pune, India",
+  "region": "IN",
+  "price": 24999,
+  "segments": [
+    {
+      "name": "Small shop or showroom",
+      "share": 0.35,
+      "budget": [
+        15000,
+        80000
+      ],
+      "age": [
+        25,
+        60
+      ],
+      "roles": [
+        {
+          "name": "Owner",
+          "share": 0.85
+        },
+        {
+          "name": "Admin or facility manager",
+          "share": 0.15
+        }
+      ]
+    },
+    {
+      "name": "Office or clinic",
+      "share": 0.25,
+      "budget": [
+        40000,
+        250000
+      ],
+      "age": [
+        28,
+        58
+      ],
+      "roles": [
+        {
+          "name": "Owner",
+          "share": 0.4
+        },
+        {
+          "name": "Admin or facility manager",
+          "share": 0.4
+        },
+        {
+          "name": "Accounts or finance person",
+          "share": 0.2
+        }
+      ]
+    },
+    {
+      "name": "Housing society",
+      "share": 0.25,
+      "budget": [
+        80000,
+        500000
+      ],
+      "age": [
+        35,
+        70
+      ],
+      "roles": [
+        {
+          "name": "Society secretary",
+          "share": 0.65
+        },
+        {
+          "name": "Society treasurer",
+          "share": 0.35
+        }
+      ]
+    },
+    {
+      "name": "Factory or warehouse",
+      "share": 0.15,
+      "budget": [
+        150000,
+        1500000
+      ],
+      "age": [
+        30,
+        60
+      ],
+      "roles": [
+        {
+          "name": "Owner",
+          "share": 0.3
+        },
+        {
+          "name": "Admin or facility manager",
+          "share": 0.4
+        },
+        {
+          "name": "Accounts or finance person",
+          "share": 0.3
+        }
+      ]
+    }
+  ],
+  "roles": [
+    {
+      "name": "Owner",
+      "share": 0.35,
+      "cares": "cost, theft and staff watching, and seeing the place from my phone"
+    },
+    {
+      "name": "Admin or facility manager",
+      "share": 0.25,
+      "cares": "a reliable setup, quick service when something breaks, and no headaches"
+    },
+    {
+      "name": "Society secretary",
+      "share": 0.15,
+      "cares": "residents' safety, getting the committee to agree, and a fair price for the society fund"
+    },
+    {
+      "name": "Society treasurer",
+      "share": 0.05,
+      "cares": "spending the society fund carefully, proper quotations and invoices"
+    },
+    {
+      "name": "Accounts or finance person",
+      "share": 0.2,
+      "cares": "total cost, payment terms, GST invoice and no surprise AMC charges"
+    }
+  ],
+  "genders": [
+    {
+      "name": "male",
+      "share": 0.75
+    },
+    {
+      "name": "female",
+      "share": 0.25
+    }
+  ],
+  "behaviours": [
+    {
+      "name": "Gets three quotes",
+      "share": 0.35,
+      "how": "Always compares at least three vendors before buying."
+    },
+    {
+      "name": "Buys from a known local dealer",
+      "share": 0.25,
+      "how": "Trusts a dealer they or a friend already know."
+    },
+    {
+      "name": "Buys after a scare",
+      "share": 0.2,
+      "how": "Acts only after a theft or incident nearby."
+    },
+    {
+      "name": "Tender or committee process",
+      "share": 0.2,
+      "how": "Needs written quotations and approval from others."
+    }
+  ],
+  "objections": [
+    "A cheaper local installer can do it",
+    "What happens when a camera stops working?",
+    "Will the recording be clear at night?",
+    "AMC charges will keep going up",
+    "The committee will take months to approve"
+  ],
+  "habits": [
+    "there was a theft in your area recently",
+    "you are away from the premises most of the day",
+    "you already have 1 or 2 old cameras that don't work well"
+  ],
+  "_note": "TEMPLATE: realistic starting numbers, not research. Change the shares, incomes and ages to match your own customers.",
+  "biases": true
+}

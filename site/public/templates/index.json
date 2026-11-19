@@ -1,0 +1,62 @@
+[
+  {
+    "id": "automotive",
+    "title": "Automotive: car care, accessories, detailing",
+    "mode": "b2c"
+  },
+  {
+    "id": "food",
+    "title": "Food: restaurant, cloud kitchen, meal plans",
+    "mode": "b2c"
+  },
+  {
+    "id": "retail",
+    "title": "Retail & fashion: online D2C brand",
+    "mode": "b2c"
+  },
+  {
+    "id": "app",
+    "title": "Apps & software for people (subscription)",
+    "mode": "b2c"
+  },
+  {
+    "id": "home-services",
+    "title": "Home services: cleaning, repairs, pest control",
+    "mode": "b2c"
+  },
+  {
+    "id": "real-estate",
+    "title": "Real estate: flats and homes",
+    "mode": "b2c"
+  },
+  {
+    "id": "education",
+    "title": "Education: coaching and online courses",
+    "mode": "b2c"
+  },
+  {
+    "id": "fitness",
+    "title": "Health & fitness: gym, studio, coaching",
+    "mode": "b2c"
+  },
+  {
+    "id": "security-cctv",
+    "title": "Security & CCTV for businesses and societies (B2B)",
+    "mode": "b2b"
+  },
+  {
+    "id": "b2b-software",
+    "title": "Software or services for small businesses (B2B)",
+    "mode": "b2b"
+  },
+  {
+    "id": "photo-video",
+    "title": "Creative services: photography and video",
+    "mode": "b2c"
+  },
+  {
+    "id": "social-post",
+    "title": "Social post, reel or ad (content test)",
+    "mode": "b2c"
+  }
+]

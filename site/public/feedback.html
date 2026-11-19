@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Founder Plus · Feedback</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23171a21'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%238aa0ff' stroke-width='3'/%3E%3C/svg%3E">
+<meta name="description" content="Tell us what you think of Founder Plus, and analyse your own customer reviews with the Product Improvement Manager.">
+<link rel="preload" href="fonts/plus-jakarta-sans-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="theme.css">
+<style>
+main{max-width:860px;margin:28px auto 40px;padding:0 14px}
+.card{padding:22px;margin-bottom:16px}
+.card h2{margin:0 0 6px;font-size:21px}.hint{color:var(--sub);font-size:15px;margin:0 0 12px}
+label{display:block;font-size:14px;margin:12px 0 4px}
+input,textarea,select{width:100%;padding:10px 12px}
+textarea{min-height:110px;resize:vertical}
+.stars{display:flex;gap:6px}.stars button{font-size:30px;border:0;background:none;cursor:pointer;color:#3a4357;padding:0 2px}.stars button.on{color:var(--acc)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.chips label{display:flex;align-items:center;gap:6px;margin:0;border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--ink);cursor:pointer;font-size:14px;font-weight:400}
+.chips label:has(input:checked){border-color:var(--cyan);background:rgba(76,201,240,.1)}
+.chips input{width:auto}
+.btn{display:block;width:100%;border:0;padding:12px 16px;font-weight:700;font-size:16px;cursor:pointer;margin-top:12px;text-align:center;text-decoration:none}
+.btn.teal{background:var(--cyan);color:#08131a}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:600px){.row{grid-template-columns:1fr}}
+.what{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:12px 0}
+.what div{border-radius:10px;padding:12px;color:var(--ink);font-weight:700;font-size:14px;background:var(--card2)!important;border:1px solid var(--line)}.what small{display:block;font-weight:400;color:var(--sub)}
+.note{background:#fdf4dc;border:1px solid #f1dfa8;border-radius:10px;padding:10px 14px;font-size:14px;margin-top:10px}
+pre{border-radius:10px;padding:12px;font-size:13px;white-space:pre-wrap;max-height:220px;overflow:auto;display:none}
+footer{text-align:center;font-size:13px;padding:0 16px 30px}
+.tile{background:#fff!important;color:var(--ink)!important;border:1px solid var(--line);border-radius:12px;font-weight:600;box-shadow:none!important}.tile small{color:var(--sub)!important;opacity:1!important;font-weight:400}
+</style>
+</head>
+<body>
+<!--HEADER-->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="f-logo" viewBox="0 0 32 32"><defs><linearGradient id="fl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0EA47A"/><stop offset=".55" stop-color="#13A9C8"/><stop offset="1" stop-color="#3B6BFF"/></linearGradient></defs><rect width="32" height="32" rx="9" fill="url(#fl)"/><circle cx="12" cy="13" r="4" fill="none" stroke="#fff" stroke-width="2.6"/><circle cx="21" cy="13" r="4" fill="none" stroke="#fff" stroke-width="2.6" opacity=".75"/><path d="M7 24c1.2-3 3-4.5 5-4.5s3.8 1.5 5 4.5M16 24c1.2-3 3-4.5 5-4.5s3.8 1.5 5 4.5" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></symbol>
+  <symbol id="f-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="f-users" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M21.5 20a6.5 6.5 0 0 0-4-6"/></g></symbol>
+  <symbol id="f-chat" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M4 5h16v11H9l-5 4z"/></symbol>
+  <symbol id="f-gauge" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 17a8 8 0 1 1 16 0"/><path d="m12 17 4-5"/></g></symbol>
+  <symbol id="f-doc" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8zm0 0v5h5M8 13h8M8 17h6"/></symbol>
+  <symbol id="f-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></g></symbol>
+  <symbol id="f-help" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17h.01"/></g></symbol>
+  <symbol id="f-shield" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6z"/></symbol>
+  <symbol id="f-globe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></g></symbol>
+  <symbol id="f-home" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M3 11 12 4l9 7M5 9.5V20h5v-6h4v6h5V9.5"/></symbol>
+  <symbol id="f-menu" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/></symbol>
+  <symbol id="f-rocket" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 15c-1.5 1.5-2 5-2 5s3.5-.5 5-2M9 12a17 17 0 0 1 9-9c1 0 3 2 3 3a17 17 0 0 1-9 9zM9 12l-4-1 3-4h4M12 15l1 4 4-3v-4M15 9h.01"/></symbol>
+  <symbol id="f-book" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 21V5M8 7h7"/></symbol>
+  <symbol id="f-flag" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 21V4h11l-2 4 2 4H5"/></symbol>
+  <symbol id="f-heart" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></symbol>
+  <symbol id="f-code" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m8 8-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/></symbol>
+  <symbol id="f-gh" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.4 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5a3.9 3.9 0 0 1 1-2.7 3.6 3.6 0 0 1 .1-2.7s.8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .6 1.4.2 2.4.1 2.7a3.9 3.9 0 0 1 1 2.7c0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9V21c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></symbol>
+  <symbol id="f-x" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="f-down-c" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="f-back" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m0 0 6-6m-6 6 6 6"/></symbol>
+  <symbol id="f-next" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m0 0-6-6m6 6-6 6"/></symbol>
+  <symbol id="f-info" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></g></symbol>
+  <symbol id="f-star" viewBox="0 0 20 20"><path d="M10 1.8l2.4 5 5.4.7-4 3.8 1 5.4L10 14.1l-4.8 2.6 1-5.4-4-3.8 5.4-.7z"/></symbol>
+  <symbol id="f-target" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></g></symbol>
+  <symbol id="f-msg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M4 5h16v11H9l-5 4z"/></symbol>
+  <symbol id="f-sliders" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M4 7h10M18 7h2M4 17h4M12 17h8M16 5v4M10 15v4"/></symbol>
+  <symbol id="f-chart" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 20V4M4 20h16M8 16v-4M12 16V8M16 16v-6"/></symbol>
+  <symbol id="f-up" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 16V4m0 0L7 9m5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></symbol>
+  <symbol id="f-lock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></g></symbol>
+  <symbol id="f-spark" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-bar">
+  <div class="wrap">
+    <a class="brand" href="./"><svg aria-hidden="true"><use href="#f-logo"/></svg>Founder Plus</a>
+    <nav class="bar-nav" aria-label="Main"><a href="builder.html">Build my panel</a><a href="how-it-works/">How it works</a><a href="how-to-use.html">Beginner's guide</a><a href="help/">Help</a><a href="contact/">Contact</a></nav>
+    <div class="bar-right"><a class="bar-btn" href="help/">Help</a><a class="bar-btn ghost" href="./">Back to site</a></div>
+  </div>
+</header>
+<!--/HEADER-->
+<section class="fp-page-hero"><div class="wrap"><p class="crumbs"><a href="index.html">Home</a><span>/</span>Feedback</p><h1>Feedback and review analysis</h1><p class="lead">Tell us what you think of Founder Plus, and turn your own customers' reviews into a clear improvement plan.</p></div></section>
+<main>
+
+<div class="card" id="tool-feedback">
+  <h2>What do you think of Founder Plus?</h2>
+  <p class="hint">Two minutes. Your answers are turned into a short message you can send to the person who shared this with you, or post on GitHub. Nothing is stored on this page.</p>
+  <label>How useful was it?</label>
+  <div class="stars" id="stars"></div>
+  <label>What did you use?</label>
+  <div class="chips" id="used">
+    <label><input type="checkbox" value="Customer builder"> Customer builder</label>
+    <label><input type="checkbox" value="Run it in Claude"> Run it in Claude</label>
+    <label><input type="checkbox" value="Claude Code (full way)"> Claude Code</label>
+    <label><input type="checkbox" value="Product Improvement Manager"> Product Improvement Manager</label>
+    <label><input type="checkbox" value="Only the sample report"> Only the sample report</label>
+  </div>
+  <label>What did you like?</label><textarea id="liked" placeholder="e.g. the questions customers would ask were spot on"></textarea>
+  <label>What was confusing, broken or missing?</label><textarea id="improve" placeholder="e.g. I didn't know where to paste the message"></textarea>
+  <div class="row">
+    <div><label>What kind of business did you test? (optional)</label><input id="biz" placeholder="e.g. bakery, CCTV, app"></div>
+    <div><label>Would you recommend it?</label><select id="rec"><option>Yes</option><option>Maybe</option><option>No</option></select></div>
+  </div>
+  <button class="btn" id="fbWhatsApp">Send on WhatsApp</button>
+  <button class="btn alt" id="fbCopy">Copy my feedback</button>
+  <a class="btn alt" href="https://github.com/Siddharthmehdiratta/founder-skill-plus/issues/new?template=feedback.yml" target="_blank" rel="noopener">Post it on GitHub instead</a>
+  <p class="hint" style="margin-top:10px">WhatsApp opens with your message ready: pick the friend who sent you the link.</p>
+  <pre id="fbOut"></pre>
+</div>
+
+<div class="card" id="pim">
+  <h2>Product Improvement Manager</h2>
+  <p class="hint">Paste what your real customers say (reviews, survey answers, WhatsApp messages, complaints, compliments) and get a ranked plan in Claude. No installs.</p>
+  <div class="what">
+    <div class="tile">Customer health score<small>out of 100</small></div>
+    <div class="tile">Fix now, next, later<small>ranked by impact and effort</small></div>
+    <div class="tile">Most requested<small>features and changes</small></div>
+    <div class="tile">What they love<small>keep it, market it</small></div>
+  </div>
+  <div class="row">
+    <div><label>Your business, in one line</label><input id="pBiz" placeholder="e.g. cloud kitchen in Pune delivering lunch thalis"></div>
+    <div><label>Where the feedback is from</label><input id="pSrc" placeholder="e.g. Google reviews, Zomato, WhatsApp"></div>
+  </div>
+  <label>Paste the feedback, one per line or paragraph (ratings are fine, e.g. "2 stars: delivery was late")</label>
+  <textarea id="pText" style="min-height:180px" placeholder="Food was great but came 40 minutes late&#10;5 stars, best dal I've had outside home&#10;Too expensive for daily lunch"></textarea>
+  <p class="hint" id="pCount"></p>
+  <button class="btn teal" id="pCopy">Copy the message for Claude</button>
+  <a class="btn alt" href="https://claude.ai/new" target="_blank" rel="noopener">Open Claude</a>
+  <div class="note">Use your own customers' words: copy them from your own pages, exports or messages. Don't paste other people's private details (phone numbers, addresses). For hundreds of reviews and a saved, colourful report, use <b>/founder-product</b> in Claude Code (see the <a href="how-to-use.html">guide</a>).</div>
+  <pre id="pOut"></pre>
+</div>
+
+</main>
+<!--FOOTER-->
+<footer class="bar-foot"><div class="wrap"><span>Founder Plus. Free and open source (MIT). AI customers are research, not real customers.</span><nav aria-label="Footer"><a href="./">Home</a><a href="faq/">FAQ</a><a href="contact/#report">Report a problem</a><a href="privacy/">Privacy</a></nav></div></footer>
+<script src="site.js"></script>
+<!--/FOOTER-->
+<script>
+const $ = id => document.getElementById(id);
+let stars = 0;
+$("stars").innerHTML = [1,2,3,4,5].map(i => `<button type="button" data-s="${i}" aria-label="${i} stars"></button>`).join("");
+$("stars").onclick = e => { const s = +e.target.dataset.s; if (!s) return; stars = s; [...$("stars").children].forEach((b,i) => b.classList.toggle("on", i < s)); };
+function feedbackText(){
+  const used = [...document.querySelectorAll("#used input:checked")].map(x => x.value);
+  return ["Feedback on Founder Plus",
+    "Rating: " + (stars ? stars + "/5" : "not given"),
+    used.length ? "Used: " + used.join(", ") : "",
+    $("liked").value.trim() ? "Liked: " + $("liked").value.trim() : "",
+    $("improve").value.trim() ? "To improve: " + $("improve").value.trim() : "",
+    $("biz").value.trim() ? "Business tested: " + $("biz").value.trim() : "",
+    "Would recommend: " + $("rec").value].filter(Boolean).join("\n");
+}
+async function copy(text, btn, label){ try { await navigator.clipboard.writeText(text); btn.textContent = "Copied "; } catch (e) { const o = btn.id === "fbCopy" ? $("fbOut") : $("pOut"); o.style.display = "block"; o.textContent = text; btn.textContent = "Select the text below and copy"; } setTimeout(() => btn.textContent = label, 2500); }
+$("fbCopy").onclick = () => copy(feedbackText(), $("fbCopy"), "Copy my feedback");
+$("fbWhatsApp").onclick = () => { if (!$("improve").value.trim() && !$("liked").value.trim() && !stars) { alert("Add a rating or a few words first."); return; } window.open("https://wa.me/?text=" + encodeURIComponent(feedbackText()), "_blank", "noopener"); };
+
+function items(){ const t = $("pText").value.replace(/\r\n/g, "\n").trim(); if (!t) return []; const parts = t.includes("\n\n") ? t.split(/\n\s*\n/) : t.split("\n"); return parts.map(x => x.trim()).filter(Boolean); }
+$("pText").oninput = () => { const n = items().length; $("pCount").textContent = n ? n + " piece" + (n === 1 ? "" : "s") + " of feedback" + (n > 150 ? " (that's a lot for one chat: use /founder-product in Claude Code for big batches)" : "") : ""; };
+function pimPrompt(){
+  const it = items(); const list = it.map((x,i) => `F${String(i+1).padStart(3,"0")}: ${x}`).join("\n");
+  return `Act as my Product Improvement Manager. Below is real feedback from my customers${$("pSrc").value.trim() ? " (" + $("pSrc").value.trim() + ")" : ""}. My business: ${$("pBiz").value.trim() || "[not given]"}.
+
+Rules: use only what customers actually said. Never invent problems, praise, facts about my business or numbers. Where you would need a fact I haven't given, write [fill in].
+
+STEP 1. TAG every item in a table (for a mixed item like "tasty, but late", tag the complaint as negative and also list the praised theme as a separate positive mention, so praise is never counted as a complaint): ID | theme (reuse the same 5 to 12 short theme names so they can be counted) | sentiment (positive/neutral/negative) | type (bug/complaint/feature_request/question/pricing/service/usability/praise) | severity (1 minor, 2 hurts the experience, 3 loses the customer or money) | effort to fix (1 days, 2 weeks, 3 months, 0 for praise).
+
+STEP 2. COUNT, showing the numbers:
+A) CUSTOMER HEALTH SCORE = 50 + 50 × (positive − negative) ÷ total. Show the maths. (50 means as many happy as unhappy.)
+B) A theme table: mentions, negative, positive, average severity, average effort.
+C) PRIORITY for each mostly-negative theme = (mentions ÷ total) × average severity × (negative ÷ mentions) ÷ effort × 100. Rank them.
+   Lanes: NOW = priority 15+; NEXT = priority 8+; LATER = the rest.
+D) Themes customers mostly praise (more positive than negative) are strengths to keep, not problems.
+
+STEP 3. THE PLAN
+1. In plain words: 5 short bullet points a 12-year-old could follow.
+2. Fix now / next / later: each problem with one concrete fix in one sentence, and how I'll know it worked (which complaint should drop or rating rise).
+3. Most requested features, and whether each fits the business.
+4. What customers love: keep it, and 3 lines of marketing copy using their words.
+5. A 30-day improvement plan, week by week, starting with the NOW lane.
+6. 5 short, honest public replies to the most important negative reviews: thank them, own what went wrong, say what is changing, invite them back. Never argue.
+7. 3 questions to ask customers next, to learn what this feedback leaves unclear.
+
+End with one line: "This plan is only as good as the feedback in it: a few loud reviews can outweigh many quiet customers."
+
+THE FEEDBACK (${it.length} items):
+${list}`;
+}
+$("pCopy").onclick = () => { if (!items().length) { alert("Paste some customer feedback first."); return; } copy(pimPrompt(), $("pCopy"), "Copy the message for Claude"); };
+window.__fb = { feedbackText, pimPrompt, items, setStars: s => { stars = s; } };
+</script>
+</body>
+</html>
