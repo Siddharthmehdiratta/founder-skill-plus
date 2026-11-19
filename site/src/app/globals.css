@@ -355,3 +355,6 @@ html { scroll-behavior: smooth; }
 body { font-feature-settings: "ss01", "cv11"; text-rendering: optimizeLegibility; }
 ::selection { background: #CDEEDF; }
 /* Pages open instantly, like a normal website (no slide or fade between pages). */
+
+/* Fontshare display face for headings */
+h1, h2, h3, .font-display { font-family: 'Zodiak', 'Switzer', var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif; letter-spacing: -0.015em; }

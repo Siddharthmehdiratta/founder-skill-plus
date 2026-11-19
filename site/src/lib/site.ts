@@ -13,16 +13,20 @@ export const SITE = {
   sister: "https://siddharthmehdiratta.github.io/creator-growth-studio/",
   app: "/builder.html",
   sample: "/example-report.html",
+  samplePdf: "/sample/",
 };
 
 export type Item = { title: string; text: string; href: string; icon: string };
 export const MENU: { name: string; items: Item[] }[] = [
   { name: "Product", items: [
     { title: "Build my panel", text: "Pick customers, get your score", href: "/builder.html", icon: "Rocket" },
-    { title: "How it works", text: "The panel, the score, the limits", href: "/how-it-works/", icon: "Workflow" },
-    { title: "Sample: 4 countries", text: "A study app tested in 4 markets", href: "/example-report.html", icon: "Globe" },
-    { title: "Sample: India tiers", text: "Tier 1 metros to Tier 4 towns", href: "/example-report-india.html", icon: "MapPin" },
+    { title: "Idea Checker", text: "Six questions, two minutes, the gaps to fix", href: "/idea-checker/", icon: "ScanSearch" },
+    { title: "Claude helpers", text: "Pitch, objections, pricing and more in one click", href: "/claude/", icon: "Sparkles" },
+    { title: "Sample report (PDF)", text: "A designed 7-page example", href: "/sample/", icon: "FileText" },
+    { title: "Live sample: 4 countries", text: "A study app tested in 4 markets", href: "/example-report.html", icon: "Globe" },
+    { title: "Live sample: India tiers", text: "Tier 1 metros to Tier 4 towns", href: "/example-report-india.html", icon: "MapPin" },
     { title: "Analyse your reviews", text: "Turn reviews into a fix list", href: "/feedback.html#pim", icon: "ClipboardList" },
+    { title: "How it works", text: "The panel, the score, the limits", href: "/how-it-works/", icon: "Workflow" },
     { title: "Pricing", text: "Free, and open source", href: "/pricing/", icon: "BadgeCheck" },
   ]},
   { name: "Learn", items: [

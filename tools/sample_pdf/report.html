@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Sample report: Founder Plus</title><style>
+@font-face { font-family: G; src: url(../../site/node_modules/geist/dist/fonts/geist-sans/Geist-Variable.woff2); font-weight: 100 900; }
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: G, Arial, sans-serif; color: #081C21; background: #E9E7F0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.page { width: 210mm; height: 297mm; background: #fff; position: relative; overflow: hidden; padding: 18mm 16mm 16mm; page-break-after: always; margin: 0 auto 10mm; }
+@media print { body { background: #fff; } .page { margin: 0; } }
+.top { display: flex; align-items: center; justify-content: space-between; font-size: 9pt; color: #56656C; margin-bottom: 10mm; }
+.logo { display: flex; gap: 6px; align-items: center; font-weight: 600; color: #081C21; } .logo i { width: 18px; height: 18px; border-radius: 5px; background: linear-gradient(135deg,#0EA47A,#13A9C8); display: inline-block; }
+h1 { font-size: 30pt; letter-spacing: -1px; line-height: 1.05; margin: 0 0 6mm; } h2 { font-size: 20pt; letter-spacing: -0.5px; margin: 0 0 3mm; }
+.kick { color: #0B7A5C; font-weight: 600; font-size: 10pt; margin-bottom: 2mm; } p { font-size: 10.5pt; line-height: 1.55; color: #26363B; margin: 0 0 3mm; }
+.shot { border: 1px solid #D8E3DF; border-radius: 10px; overflow: hidden; box-shadow: 0 12px 30px -16px rgba(4,40,48,.35); margin: 5mm 0; }
+.shot img { display: block; width: 100%; } .two { display: grid; grid-template-columns: 1fr 62mm; gap: 8mm; align-items: start; }
+.phone { border: 6px solid #081C21; border-radius: 22px; overflow: hidden; } .phone img { display: block; width: 100%; }
+.read { background: #EEF6F3; border-radius: 10px; padding: 5mm 6mm; margin-top: 4mm; } .read > b { display: block; font-size: 10pt; margin-bottom: 2mm; }
+.read ul { margin: 0; padding-left: 5mm; font-size: 10pt; line-height: 1.6; color: #26363B; }
+.foot { position: absolute; left: 16mm; right: 16mm; bottom: 9mm; display: flex; justify-content: space-between; font-size: 8pt; color: #7C8A90; }
+.cover { background: radial-gradient(120% 70% at 80% 0%, #0B4A52 0%, #081C21 60%); color: #fff; }
+.cover p { color: rgba(255,255,255,.75); } .cover .top { color: rgba(255,255,255,.6); } .cover .logo { color: #fff; }
+.kpis { display: grid; grid-template-columns: repeat(4,1fr); gap: 4mm; margin-top: 12mm; } .kpis div { border: 1px solid rgba(255,255,255,.15); border-radius: 10px; padding: 5mm; }
+.kpis b { display: block; font-size: 20pt; } .kpis span { font-size: 9pt; color: rgba(255,255,255,.65); }
+.toc { margin-top: 14mm; font-size: 11pt; line-height: 2; color: rgba(255,255,255,.85); } .toc span { color: #7FD6B4; margin-right: 4mm; }
+.tag { display: inline-block; background: rgba(255,255,255,.12); border-radius: 99px; padding: 1.5mm 4mm; font-size: 9pt; margin-bottom: 8mm; }
+.cta { background: #081C21; color: #fff; border-radius: 14px; padding: 9mm; margin-top: 8mm; } .cta p { color: rgba(255,255,255,.75); }
+.ways { display: grid; grid-template-columns: repeat(3,1fr); gap: 4mm; margin-top: 6mm; } .ways div { border: 1px solid #D8E3DF; border-radius: 10px; padding: 5mm; font-size: 9.5pt; line-height: 1.5; } .ways b { display: block; font-size: 11pt; margin-bottom: 1.5mm; }
+</style></head><body>
+<section class="page cover">
+  <div class="top"><span class="logo"><i></i>Founder Plus</span><span>Sample report · example business</span></div>
+  <div style="margin-top:30mm"><span class="tag">10 AI customers · India, USA, Europe, China</span>
+  <h1 style="font-size:36pt">FocusFlow<br>Buyer panel report</h1>
+  <p style="font-size:12pt;max-width:145mm">An example study app at $8 a month, tested on 10 AI customers in four countries by the real tool. This is exactly what you get for your own idea, free.</p></div>
+  <div class="kpis"><div><b>34</b><span>Score out of 100</span></div><div><b>0 of 10</b><span>Would buy now</span></div><div><b>$2 to $5</b><span>Price to test</span></div><div><b>Price</b><span>Biggest blocker</span></div></div>
+  <div class="toc"><div><span>1</span>Score and summary</div><div><span>2</span>What to fix first</div><div><span>3</span>Why they pass, in their words</div><div><span>4</span>Questions to answer</div><div><span>5</span>What they would pay</div><div><span>6</span>Get your own report</div></div>
+  <div class="foot" style="color:rgba(255,255,255,.5)"><span>siddharthmehdiratta.github.io/founder-skill-plus</span><span>AI customers are research, not real customers</span></div>
+</section>
+<section class="page">
+  <div class="top"><span class="logo"><i></i>Founder Plus</span><span>1 · Score</span></div>
+  <p class="kick">1 · Score and summary</p><h2>A score out of 100, and the reasons</h2>
+  <p>Demand (60 points), price fit (20) and trust (20). Use it to compare two versions of your idea on the same panel, not as a sales forecast.</p>
+  <div class="shot"><img src="../../site/public/shots/report.png" alt=""></div>
+  <div class="read"><b>How to read it</b><ul><li><b>34, Weak</b>: most buyers would not act yet. Rethink the idea, the customer or the price.</li><li>The yellow note is printed on every report: AI buyers lean agreeable, so read the buy rate as a ceiling.</li></ul></div>
+  <div class="foot"><span>Sample report · example business, AI customers</span><span>2</span></div>
+</section>
+<section class="page">
+  <div class="top"><span class="logo"><i></i>Founder Plus</span><span>2 · Fix first</span></div>
+  <p class="kick">2 · What to fix first</p><h2>The top reasons people pass, with a fix for each</h2>
+  <p>Ranked by how many buyers each fix would win back, and the group to sell to first.</p>
+  <div class="shot"><img src="../../site/public/shots/tab-next.png" alt=""></div>
+  <div class="read"><b>What this example says</b><ul><li><b>Price</b> (5 of 10 buyers): test a lower entry point or a first-month offer.</li><li><b>Habit</b> (4 of 10): give one easy reason to switch.</li><li><b>Trust</b> (1 of 10): add proof before asking for money.</li></ul></div>
+  <div class="foot"><span>Sample report · example business, AI customers</span><span>3</span></div>
+</section>
+<section class="page">
+  <div class="top"><span class="logo"><i></i>Founder Plus</span><span>3 · Why not</span></div>
+  <p class="kick">3 · Why they pass</p><h2>Every reason, in the customer's own words</h2>
+  <p>Answers come back in the language you set per market, here English and Hinglish, with a translation.</p>
+  <div class="shot"><img src="../../site/public/shots/tab-whynot.png" alt=""></div>
+  <div class="read"><b>Why this matters</b><ul><li>The exact words customers use make the best headlines, FAQ answers and ad copy.</li></ul></div>
+  <div class="foot"><span>Sample report · example business, AI customers</span><span>4</span></div>
+</section>
+<section class="page">
+  <div class="top"><span class="logo"><i></i>Founder Plus</span><span>4 · Questions</span></div>
+  <p class="kick">4 · Questions to answer</p><h2>What buyers need to know before paying</h2>
+  <p>Sorted by topic: data and privacy, price and discounts, refunds and trials. This is your FAQ and checkout fix list.</p>
+  <div class="shot"><img src="../../site/public/shots/tab-questions.png" alt=""></div>
+  <div class="read"><b>Use it</b><ul><li>Answer the top 3 questions on your page before you spend on ads.</li></ul></div>
+  <div class="foot"><span>Sample report · example business, AI customers</span><span>5</span></div>
+</section>
+<section class="page">
+  <div class="top"><span class="logo"><i></i>Founder Plus</span><span>5 · Price</span></div>
+  <p class="kick">5 · What they would pay</p><h2>The price range to test</h2>
+  <p>Each buyer names too cheap, a bargain, getting expensive and too expensive. The middle answers give the range to test.</p>
+  <div class="shot"><img src="../../site/public/shots/tab-price.png" alt=""></div>
+  <div class="read"><b>What this example says</b><ul><li>Test between $2 and $5. At $8, most of these buyers walk away.</li></ul></div>
+  <div class="foot"><span>Sample report · example business, AI customers</span><span>6</span></div>
+</section>
+<section class="page">
+  <div class="top"><span class="logo"><i></i>Founder Plus</span><span>6 · Get yours</span></div>
+  <p class="kick">6 · Get your own report</p><h2>Free, in about ten minutes</h2>
+  <p>No sign-up. It runs in the Claude app you already have.</p>
+  <div class="ways"><div><b>1. Pick your customers</b>Start from your industry, or build your panel from scratch. Every choice is a dropdown.</div><div><b>2. Copy one message</b>Press Copy the message for Claude and paste it into the Claude app or claude.ai.</div><div><b>3. Read your score</b>Claude plays every customer, then writes your score, the reasons and your sales replies.</div></div>
+  <div class="cta"><h2 style="color:#fff">siddharthmehdiratta.github.io/founder-skill-plus</h2><p>AI customers are research, not real customers. Use them to find objections and pick between pitches, then confirm with real people: a waitlist, a pre-sale or a price on a page.</p></div>
+  <p style="margin-top:8mm;font-size:9pt;color:#7C8A90">FocusFlow is an example business. The buyers in this report are AI customers built from published facts about each market, not real people.</p>
+  <div class="foot"><span>Sample report · example business, AI customers</span><span>7</span></div>
+</section>
+</body></html>
